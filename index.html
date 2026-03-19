@@ -2,451 +2,1147 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>App Bébé 👶</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f1a; color: #ccd6f6; min-height: 100vh; }
 
-    body {
-      font-family: -apple-system, sans-serif;
-      background: #f0f4f8;
-      color: #1a1a2e;
-      min-height: 100vh;
-    }
+    header { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); padding: 48px 24px 28px; text-align: center; }
+    header .label { font-size:11px; color:#8892b0; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:12px; }
+    header h1 { font-size:26px; font-weight:700; color:#ccd6f6; line-height:1.3; margin-bottom:8px; }
+    header h1 span { color:#7f91e8; }
+    header .subtitle { font-size:13px; color:#8892b0; margin-bottom:16px; }
+    header .date-pill { display:inline-block; background:rgba(100,120,220,0.12); border:1px solid rgba(100,120,220,0.25); border-radius:20px; padding:5px 16px; font-size:12px; color:#8892b0; }
 
-    header {
-      background: #6c63ff;
-      color: white;
-      text-align: center;
-      padding: 24px 16px 16px;
-    }
-    header h1 { font-size: 26px; margin-bottom: 4px; }
-    header p  { font-size: 14px; opacity: 0.85; }
+    #accueil { display:block; }
+    .accueil-wrap { padding:28px 20px 60px; max-width:600px; margin:0 auto; }
+    .sec-label { font-size:10px; color:#8892b0; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
+    .sec-divider { height:1px; background:rgba(255,255,255,0.07); margin:24px 0; }
 
-    nav {
-      display: flex;
-      overflow-x: auto;
-      background: white;
-      border-bottom: 2px solid #e2e8f0;
-      padding: 0 8px;
-    }
-    nav button {
-      flex-shrink: 0;
-      background: none;
-      border: none;
-      padding: 14px 18px;
-      font-size: 14px;
-      cursor: pointer;
-      color: #666;
-      border-bottom: 3px solid transparent;
-      transition: all 0.2s;
-    }
-    nav button.active {
-      color: #6c63ff;
-      border-bottom-color: #6c63ff;
-      font-weight: 600;
-    }
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .grid-card { border-radius:20px; padding:20px 16px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; cursor:pointer; border:1px solid rgba(255,255,255,0.06); transition:transform 0.15s,opacity 0.15s; }
+    .grid-card:active { transform:scale(0.97); opacity:0.85; }
+    .grid-card .card-icon { font-size:28px; line-height:1; }
+    .grid-card .card-name { font-size:14px; font-weight:700; }
+    .grid-card .card-sub  { font-size:11px; opacity:0.5; }
+    .grid-card.full { grid-column:span 2; flex-direction:row; align-items:center; gap:16px; }
+    .grid-card.full .card-text { display:flex; flex-direction:column; gap:4px; }
 
-    .section { display: none; padding: 20px 16px; max-width: 700px; margin: 0 auto; }
-    .section.active { display: block; }
+    .c-mindmap   { background:linear-gradient(135deg,#1e1432,#2a1e4a); } .c-mindmap .card-name   { color:#c8b4f0; }
+    .c-repas     { background:linear-gradient(135deg,#1a2a4a,#1e3a5f); } .c-repas .card-name     { color:#90cdf4; }
+    .c-sommeil   { background:linear-gradient(135deg,#1a2e2a,#1e3d35); } .c-sommeil .card-name   { color:#9ae6b4; }
+    .c-sante     { background:linear-gradient(135deg,#2e1a2e,#3d1e3d); } .c-sante .card-name     { color:#d6bcfa; }
+    .c-courses   { background:linear-gradient(135deg,#2e2a1a,#3d351e); } .c-courses .card-name   { color:#fbd38d; }
+    .c-rdv       { background:linear-gradient(135deg,#2e1a1a,#3d2020); } .c-rdv .card-name       { color:#feb2b2; }
+    .c-mobilier  { background:linear-gradient(135deg,#1a2a1a,#1e3a1e); } .c-mobilier .card-name  { color:#b7e4b7; }
+    .c-pieces    { background:linear-gradient(135deg,#1a1e2e,#1e2e4a); } .c-pieces .card-name    { color:#a0c4ff; }
+    .c-vetements { background:linear-gradient(135deg,#2e1a2a,#3d1e38); } .c-vetements .card-name { color:#f0b4e8; }
+    .c-admin     { background:linear-gradient(135deg,#2e2e1a,#3d3d1e); } .c-admin .card-name     { color:#f0e68c; }
+    .c-maternite { background:linear-gradient(135deg,#2e1a1e,#3d1e2a); } .c-maternite .card-name { color:#ffb3c1; }
+    .c-events    { background:linear-gradient(135deg,#1e1a2e,#2a1e3d); } .c-events .card-name    { color:#c8b4f0; }
 
-    .card {
-      background: white;
-      border-radius: 16px;
-      padding: 20px;
-      margin-bottom: 16px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-    }
-    .card h2 { font-size: 18px; margin-bottom: 14px; color: #333; }
+    .section { display:none; max-width:700px; margin:0 auto; }
+    .section.active { display:block; }
+    .back-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:12px; padding:8px 16px; font-size:13px; cursor:pointer; margin:20px 20px 0; transition:background 0.15s; }
+    .back-btn:hover { background:rgba(255,255,255,0.1); }
+    .section-inner { padding:16px 20px 80px; }
 
-    label { display: block; font-size: 14px; color: #555; margin-bottom: 4px; margin-top: 12px; }
-    input, select, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1.5px solid #dde1e7;
-      border-radius: 10px;
-      font-size: 15px;
-      background: #fafafa;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    input:focus, select:focus, textarea:focus { border-color: #6c63ff; background: white; }
-    textarea { min-height: 80px; resize: vertical; }
+    .card { background:#16213e; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:22px; margin-bottom:16px; }
+    .card h2 { font-size:17px; font-weight:700; color:#ccd6f6; margin-bottom:16px; }
+    label { display:block; font-size:12px; color:#8892b0; margin-bottom:5px; margin-top:14px; font-weight:500; letter-spacing:0.5px; }
+    input, select, textarea { width:100%; padding:11px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:12px; font-size:14px; background:rgba(255,255,255,0.05); color:#ccd6f6; outline:none; transition:border-color 0.2s; }
+    input:focus, select:focus, textarea:focus { border-color:rgba(127,145,232,0.6); background:rgba(255,255,255,0.08); }
+    select option { background:#16213e; color:#ccd6f6; }
+    textarea { min-height:80px; resize:vertical; }
+    .btn { display:block; margin-top:18px; padding:14px 24px; background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:14px; font-size:15px; cursor:pointer; width:100%; font-weight:700; transition:opacity 0.15s; }
+    .btn:active { opacity:0.8; }
+    .entry-list { margin-top:4px; }
+    .entry { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-start; font-size:13px; color:#a8b2d8; line-height:1.6; }
+    .entry button { background:none; border:none; color:#e74c3c; font-size:20px; cursor:pointer; margin-left:10px; flex-shrink:0; opacity:0.6; }
+    .badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; margin-bottom:4px; }
+    .badge-blue   { background:rgba(144,205,244,0.15); color:#90cdf4; }
+    .badge-teal   { background:rgba(154,230,180,0.15); color:#9ae6b4; }
+    .badge-purple { background:rgba(214,188,250,0.15); color:#d6bcfa; }
+    .badge-amber  { background:rgba(251,211,141,0.15); color:#fbd38d; }
+    .badge-red    { background:rgba(254,178,178,0.15); color:#feb2b2; }
+    .badge-green  { background:rgba(183,228,183,0.15); color:#b7e4b7; }
+    .badge-pink   { background:rgba(240,180,232,0.15); color:#f0b4e8; }
+    .badge-yellow { background:rgba(240,230,140,0.15); color:#f0e68c; }
+    .badge-rose   { background:rgba(255,179,193,0.15); color:#ffb3c1; }
+    .badge-violet { background:rgba(200,180,240,0.15); color:#c8b4f0; }
+    .badge-sky    { background:rgba(160,196,255,0.15); color:#a0c4ff; }
+    .checklist-item { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; color:#a8b2d8; }
+    .checklist-item input[type="checkbox"] { width:18px; height:18px; accent-color:#7f91e8; flex-shrink:0; }
+    .checklist-item label { margin:0; cursor:pointer; flex:1; }
+    .checklist-item.checked label { text-decoration:line-through; color:#4a5568; }
+    .checklist-item button { background:none; border:none; color:#e74c3c; font-size:18px; cursor:pointer; opacity:0.5; }
 
-    .btn {
-      display: inline-block;
-      margin-top: 16px;
-      padding: 12px 24px;
-      background: #6c63ff;
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 15px;
-      cursor: pointer;
-      width: 100%;
-      font-weight: 600;
-    }
-    .btn:active { opacity: 0.85; }
+    /* CARTES MENTALES */
+    .mm-list { padding:16px 20px 80px; max-width:700px; margin:0 auto; }
+    .mm-header-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+    .mm-header-row h2 { font-size:18px; font-weight:700; color:#ccd6f6; }
+    .mm-new-btn { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:12px; padding:10px 18px; font-size:13px; font-weight:700; cursor:pointer; }
+    .mm-card { background:linear-gradient(135deg,#1e1432,#2a1e4a); border:1px solid rgba(200,180,240,0.15); border-radius:18px; padding:18px; margin-bottom:14px; cursor:pointer; transition:transform 0.15s; }
+    .mm-card:active { transform:scale(0.98); }
+    .mm-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
+    .mm-card-title { font-size:16px; font-weight:700; color:#c8b4f0; }
+    .mm-card-meta  { font-size:11px; color:#8892b0; margin-top:3px; }
+    .mm-card-del { background:none; border:none; color:#e74c3c; font-size:18px; cursor:pointer; opacity:0.5; padding:0 4px; }
+    .mm-bubbles { display:flex; gap:6px; flex-wrap:wrap; }
+    .mm-bubble-pill { background:rgba(200,180,240,0.12); border:1px solid rgba(200,180,240,0.25); color:#c8b4f0; border-radius:20px; padding:3px 10px; font-size:11px; font-weight:600; }
+    .mm-empty { text-align:center; padding:60px 20px; color:#4a5568; font-size:14px; }
+    .mm-empty .mm-empty-icon { font-size:48px; margin-bottom:12px; }
+    .mm-editor-header { background:linear-gradient(135deg,#1e1432,#2a1e4a); padding:20px; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; gap:12px; }
+    .mm-editor-header h3 { font-size:17px; font-weight:700; color:#c8b4f0; flex:1; }
+    .mm-edit-title-btn { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:10px; padding:6px 12px; font-size:12px; cursor:pointer; }
+    .mm-canvas-wrap { position:relative; background:#0d0d18; overflow:hidden; touch-action:none; }
+    #mm-svg { display:block; cursor:grab; }
+    #mm-svg:active { cursor:grabbing; }
+    .mm-toolbar { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); border-bottom:1px solid rgba(255,255,255,0.07); padding:12px 20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .mm-tool-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ccd6f6; border-radius:10px; padding:8px 14px; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; transition:background 0.15s; }
+    .mm-tool-btn:hover { background:rgba(255,255,255,0.12); }
+    .mm-tool-sep { width:1px; height:28px; background:rgba(255,255,255,0.1); }
+    .mm-zoom-label { font-size:12px; color:#8892b0; margin-left:auto; }
+    .mm-add-panel { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); padding:16px 20px; display:none; }
+    .mm-add-panel.open { display:block; }
+    .mm-add-panel h4 { font-size:13px; font-weight:700; color:#ccd6f6; margin-bottom:12px; }
+    .mm-add-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+    .mm-add-row input, .mm-add-row select { flex:1; min-width:140px; padding:10px 12px; border:1px solid rgba(255,255,255,0.1); border-radius:10px; font-size:13px; background:rgba(255,255,255,0.05); color:#ccd6f6; outline:none; }
+    .mm-add-row input:focus { border-color:rgba(127,145,232,0.6); }
+    .mm-add-row select option { background:#16213e; }
+    .mm-confirm-btn { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:10px; padding:10px 18px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
+    .mm-cancel-btn  { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:10px; padding:10px 14px; font-size:13px; cursor:pointer; }
+    .mm-node-panel { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); padding:14px 20px; display:none; align-items:center; gap:10px; flex-wrap:wrap; }
+    .mm-node-panel.open { display:flex; }
+    .mm-node-panel span { font-size:13px; color:#ccd6f6; font-weight:600; flex:1; }
+    .mm-node-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ccd6f6; border-radius:10px; padding:8px 14px; font-size:12px; cursor:pointer; }
+    .mm-node-del-btn { background:rgba(231,76,60,0.15); border:1px solid rgba(231,76,60,0.3); color:#e74c3c; border-radius:10px; padding:8px 14px; font-size:12px; cursor:pointer; }
+    .mm-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center; padding:20px; }
+    .mm-modal-bg.open { display:flex; }
+    .mm-modal { background:#16213e; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:24px; width:100%; max-width:360px; }
+    .mm-modal h3 { font-size:16px; font-weight:700; color:#ccd6f6; margin-bottom:16px; }
+    .mm-modal input { width:100%; padding:12px 14px; border:1px solid rgba(255,255,255,0.15); border-radius:12px; font-size:15px; background:rgba(255,255,255,0.07); color:#ccd6f6; outline:none; margin-bottom:8px; }
+    .mm-modal input:focus { border-color:rgba(127,145,232,0.6); }
+    .mm-modal p { font-size:12px; color:#8892b0; margin-bottom:16px; }
+    .mm-modal-btns { display:flex; gap:10px; }
+    .mm-modal-btns button { flex:1; padding:12px; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; }
+    .mm-modal-ok  { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; }
+    .mm-modal-cancel { background:rgba(255,255,255,0.07); color:#8892b0; }
 
-    .entry-list { margin-top: 16px; }
-    .entry {
-      background: #f7f8fc;
-      border-radius: 12px;
-      padding: 12px 16px;
-      margin-bottom: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      font-size: 14px;
-    }
-    .entry span { color: #444; line-height: 1.5; }
-    .entry button {
-      background: none;
-      border: none;
-      color: #e74c3c;
-      font-size: 18px;
-      cursor: pointer;
-      margin-left: 10px;
-      flex-shrink: 0;
-    }
-
-    .badge {
-      display: inline-block;
-      padding: 2px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    .badge-teal   { background: #e0f7f1; color: #0f7a5a; }
-    .badge-blue   { background: #e8f0fe; color: #1a56db; }
-    .badge-coral  { background: #fde8e8; color: #c0392b; }
-    .badge-amber  { background: #fef3cd; color: #9a6700; }
-    .badge-purple { background: #ede9fe; color: #5b21b6; }
-
-    .checklist-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 10px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-    .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #6c63ff; }
-    .checklist-item label { margin: 0; color: #333; cursor: pointer; font-size: 14px; }
-    .checklist-item.checked label { text-decoration: line-through; color: #aaa; }
+    /* MOBILIER MAISON */
+    .maison-wrap { background:linear-gradient(180deg,#0a1628 0%,#0d1f3c 60%,#0a1200 100%); border-radius:16px; padding:12px; margin-bottom:16px; }
+    .maison-info { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px 16px; min-height:60px; display:flex; align-items:center; gap:12px; margin-bottom:16px; }
+    .mob-add-form { background:#16213e; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:18px; margin-bottom:12px; display:none; }
+    .mob-add-form.open { display:block; }
+    .mob-add-form h3 { font-size:14px; font-weight:700; color:#ccd6f6; margin-bottom:12px; }
   </style>
 </head>
 <body>
 
 <header>
-  <h1>👶 App Bébé</h1>
-  <p id="date-header"></p>
+  <div class="label">Votre espace famille</div>
+  <h1>Bienvenue <span>Guillaume</span><br>& <span>Estelle</span> 👶</h1>
+  <div class="subtitle">Tout pour organiser l'arrivée de bébé</div>
+  <div class="date-pill" id="date-header"></div>
 </header>
 
-<nav>
-  <button class="active" onclick="showSection('repas', this)">🍼 Repas</button>
-  <button onclick="showSection('sommeil', this)">😴 Sommeil</button>
-  <button onclick="showSection('sante', this)">🏥 Santé</button>
-  <button onclick="showSection('courses', this)">🛒 Courses</button>
-  <button onclick="showSection('rdv', this)">📅 Rendez-vous</button>
-</nav>
+<!-- ACCUEIL -->
+<div id="accueil">
+  <div class="accueil-wrap">
+    <div class="sec-label">Idées & organisation</div>
+    <div class="grid">
+      <div class="grid-card c-mindmap full" onclick="ouvrirSection('mindmap')">
+        <span class="card-icon">🧠</span>
+        <div class="card-text"><span class="card-name">Cartes mentales</span><span class="card-sub">Visualisez vos idées en bulles connectées</span></div>
+      </div>
+    </div>
+    <div class="sec-label">Finances</div>
+<div class="grid">
+  <div class="grid-card full" onclick="ouvrirSection('budget');setTimeout(majBudget,100)" style="background:linear-gradient(135deg,#1a2e1a,#1e3d1e)">
+    <span class="card-icon">💰</span>
+    <div class="card-text">
+      <span class="card-name" style="color:#9ae6b4">Budget</span>
+      <span class="card-sub">Graphiques · suivi des dépenses</span>
+    </div>
+  </div>
+</div>
+<div class="sec-divider"></div>
+    <div class="sec-divider"></div>
+    <div class="sec-label">Quotidien bébé</div>
+    <div class="grid">
+      <div class="grid-card c-repas"   onclick="ouvrirSection('repas')"><span class="card-icon">🍼</span><span class="card-name">Repas</span><span class="card-sub">Tétées & biberons</span></div>
+      <div class="grid-card c-sommeil" onclick="ouvrirSection('sommeil')"><span class="card-icon">😴</span><span class="card-name">Sommeil</span><span class="card-sub">Siestes & nuits</span></div>
+      <div class="grid-card c-sante"   onclick="ouvrirSection('sante')"><span class="card-icon">🏥</span><span class="card-name">Santé</span><span class="card-sub">Vaccins & notes</span></div>
+      <div class="grid-card c-courses" onclick="ouvrirSection('courses')"><span class="card-icon">🛒</span><span class="card-name">Courses</span><span class="card-sub">Liste & layette</span></div>
+      <div class="grid-card c-rdv full" onclick="ouvrirSection('rdv')"><span class="card-icon">📅</span><div class="card-text"><span class="card-name">Rendez-vous</span><span class="card-sub">Agenda médical</span></div></div>
+    </div>
+    <div class="sec-divider"></div>
+    <div class="sec-label">Avant l'accouchement</div>
+    <div class="grid">
+      <div class="grid-card c-mobilier full" onclick="ouvrirSection('mobilier')"><span class="card-icon">🏠</span><div class="card-text"><span class="card-name">Mobilier par pièce</span><span class="card-sub">Cliquez sur une pièce de la maison</span></div></div>
+      <div class="grid-card c-vetements" onclick="ouvrirSection('vetements')"><span class="card-icon">👕</span><span class="card-name">Vêtements</span><span class="card-sub">Layette par taille</span></div>
+      <div class="grid-card c-maternite" onclick="ouvrirSection('maternite')"><span class="card-icon">🏥</span><span class="card-name">Maternité</span><span class="card-sub">Valise & check-list</span></div>
+      <div class="grid-card c-admin"     onclick="ouvrirSection('admin')"><span class="card-icon">📋</span><span class="card-name">Administratif</span><span class="card-sub">CAF, congé, mutuelle</span></div>
+      <div class="grid-card c-events full" onclick="ouvrirSection('events')"><span class="card-icon">🎉</span><div class="card-text"><span class="card-name">Événements</span><span class="card-sub">Baby shower, échographies</span></div></div>
+    </div>
+  </div>
+</div>
 
+<!-- CARTES MENTALES -->
+<div id="mindmap" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div id="mm-list-view">
+    <div class="mm-list">
+      <div class="mm-header-row">
+        <h2>🧠 Cartes mentales</h2>
+        <button class="mm-new-btn" onclick="ouvrirModalNouvelleCarte()">+ Nouvelle carte</button>
+      </div>
+      <div id="mm-cards-list"></div>
+    </div>
+  </div>
+  <div id="mm-editor" style="display:none">
+    <div class="mm-editor-header">
+      <button class="back-btn" style="margin:0" onclick="retourListeCartes()">← Cartes</button>
+      <h3 id="mm-editor-title">Ma carte</h3>
+      <button class="mm-edit-title-btn" onclick="renommerCarte()">✏️ Renommer</button>
+    </div>
+    <div class="mm-toolbar">
+      <button class="mm-tool-btn" onclick="togglePanelAjout()">＋ Ajouter une bulle</button>
+      <div class="mm-tool-sep"></div>
+      <button class="mm-tool-btn" onclick="zoomIn()">＋ Zoom</button>
+      <button class="mm-tool-btn" onclick="zoomOut()">－ Zoom</button>
+      <button class="mm-tool-btn" onclick="centrerVue()">⊙ Centrer</button>
+      <span class="mm-zoom-label" id="zoom-label">100%</span>
+    </div>
+    <div class="mm-canvas-wrap" id="mm-canvas-wrap">
+      <svg id="mm-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+    <div class="mm-add-panel" id="mm-add-panel">
+      <h4 id="mm-add-title">Nouvelle bulle</h4>
+      <div class="mm-add-row">
+        <input type="text" id="mm-new-label" placeholder="Texte de la bulle...">
+        <select id="mm-new-color">
+          <option value="#90cdf4">Bleu</option><option value="#9ae6b4">Vert</option>
+          <option value="#d6bcfa">Violet</option><option value="#fbd38d">Ambre</option>
+          <option value="#feb2b2">Rose</option><option value="#a0c4ff">Ciel</option>
+          <option value="#f0b4e8">Mauve</option><option value="#f0e68c">Jaune</option>
+        </select>
+      </div>
+      <div class="mm-add-row" style="margin-top:10px">
+        <button class="mm-confirm-btn" onclick="confirmerAjoutBulle()">Ajouter</button>
+        <button class="mm-cancel-btn" onclick="fermerPanelAjout()">Annuler</button>
+      </div>
+    </div>
+    <div class="mm-node-panel" id="mm-node-panel">
+      <span id="mm-node-label-display">Nœud sélectionné</span>
+      <button class="mm-node-btn" onclick="ajouterSousBulle()">＋ Sous-bulle</button>
+      <button class="mm-node-del-btn" onclick="supprimerNoeud()">🗑 Supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="mm-modal-bg" id="mm-modal">
+  <div class="mm-modal">
+    <h3>🧠 Nouvelle carte mentale</h3>
+    <input type="text" id="mm-modal-title" placeholder="Titre (ex : Prénoms bébé)">
+    <input type="text" id="mm-modal-center" placeholder="Idée centrale (ex : Notre bébé)">
+    <p>L'idée centrale sera la bulle principale au centre.</p>
+    <div class="mm-modal-btns">
+      <button class="mm-modal-ok" onclick="creerCarte()">Créer</button>
+      <button class="mm-modal-cancel" onclick="fermerModal()">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILIER PAR PIÈCE -->
+<div id="mobilier" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="section-inner">
+    <div class="maison-wrap">
+      <svg width="100%" viewBox="0 0 500 530" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="msky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#1a2a4a"/></linearGradient>
+          <linearGradient id="mgrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a0a"/><stop offset="100%" stop-color="#0a1a04"/></linearGradient>
+          <linearGradient id="mroof1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a2a1a"/><stop offset="100%" stop-color="#2a1a0a"/></linearGradient>
+          <linearGradient id="mroof2" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a3a2a"/><stop offset="100%" stop-color="#2a1a0a"/></linearGradient>
+          <linearGradient id="mwall" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2a2a3a"/><stop offset="100%" stop-color="#1e1e2e"/></linearGradient>
+        </defs>
+        <rect x="0" y="0" width="500" height="530" fill="url(#msky)"/>
+        <circle cx="40" cy="20" r="1" fill="#fff" opacity="0.6"/><circle cx="120" cy="35" r="0.8" fill="#fff" opacity="0.5"/>
+        <circle cx="200" cy="15" r="1.2" fill="#fff" opacity="0.7"/><circle cx="320" cy="28" r="0.9" fill="#fff" opacity="0.5"/>
+        <circle cx="420" cy="18" r="1" fill="#fff" opacity="0.6"/><circle cx="80" cy="50" r="0.8" fill="#fff" opacity="0.3"/>
+        <circle cx="380" cy="12" r="1.1" fill="#fff" opacity="0.6"/>
+        <circle cx="450" cy="35" r="18" fill="#2a3a5a"/><circle cx="440" cy="28" r="16" fill="#0a1628"/><circle cx="458" cy="32" r="14" fill="#c8d8f0" opacity="0.12"/>
+        <rect x="18" y="310" width="8" height="50" fill="#3a2a1a"/>
+        <polygon points="22,262 4,318 40,318" fill="#1a3a1a"/><polygon points="22,280 6,328 38,328" fill="#1e4a1e"/>
+        <rect x="55" y="320" width="6" height="40" fill="#3a2a1a"/><polygon points="58,280 43,326 73,326" fill="#163016"/>
+        <rect x="462" y="310" width="8" height="50" fill="#3a2a1a"/>
+        <polygon points="466,262 448,320 484,320" fill="#1a3a1a"/><polygon points="466,280 450,330 482,330" fill="#1e4a1e"/>
+        <rect x="428" y="318" width="7" height="42" fill="#3a2a1a"/><polygon points="431,278 416,324 446,324" fill="#163016"/>
+        <rect x="0" y="356" width="500" height="60" fill="url(#mgrass)"/>
+        <rect x="0" y="416" width="500" height="40" fill="#1a1a28"/>
+        <line x1="0" y1="436" x2="500" y2="436" stroke="#4a4a6a" stroke-width="1" stroke-dasharray="30 15"/>
+        <rect x="215" y="356" width="70" height="62" fill="#2a2a3a" rx="2"/>
+        <line x1="250" y1="358" x2="250" y2="418" stroke="#3a3a5a" stroke-width="1" stroke-dasharray="8 6"/>
+        <circle cx="130" cy="368" r="4" fill="#d4537e" opacity="0.8"/><circle cx="145" cy="364" r="3" fill="#fbd38d" opacity="0.8"/>
+        <circle cx="158" cy="370" r="4" fill="#90cdf4" opacity="0.7"/><circle cx="345" cy="366" r="4" fill="#d6bcfa" opacity="0.8"/>
+        <circle cx="360" cy="370" r="3" fill="#feb2b2" opacity="0.8"/><circle cx="375" cy="364" r="4" fill="#fbd38d" opacity="0.7"/>
+        <rect x="92" y="148" width="318" height="210" fill="#111118" rx="3"/>
+        <rect x="90" y="145" width="320" height="212" fill="url(#mwall)" rx="3"/>
+        <rect x="90" y="145" width="320" height="212" fill="none" stroke="#3a3a5a" stroke-width="1" rx="3"/>
+        <rect x="90" y="330" width="320" height="28" fill="#252535"/>
+        <rect x="90" y="328" width="320" height="4" fill="#1a1a2a"/>
+        <polygon points="80,148 250,58 420,148" fill="url(#mroof1)" stroke="#5a4a3a" stroke-width="1.5"/>
+        <polygon points="420,148 440,158 260,68 250,58" fill="url(#mroof2)" stroke="#4a3a2a" stroke-width="1"/>
+        <line x1="130" y1="148" x2="190" y2="100" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
+        <line x1="170" y1="148" x2="220" y2="105" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
+        <line x1="250" y1="148" x2="250" y2="58" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
+        <line x1="310" y1="100" x2="370" y2="148" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
+        <rect x="88" y="144" width="334" height="8" fill="#2a2a3a" rx="2"/>
+        <rect x="300" y="72" width="28" height="50" fill="#2e2018" stroke="#4a3020" stroke-width="1"/>
+        <rect x="296" y="68" width="36" height="8" fill="#3a2820" rx="1"/>
+        <circle cx="314" cy="55" r="8" fill="#2a2a3a" opacity="0.4"/>
+        <circle cx="310" cy="44" r="6" fill="#2a2a3a" opacity="0.3"/>
+        <rect x="200" y="100" width="40" height="32" fill="#1a2040" rx="3" stroke="#4a5a8a" stroke-width="1"/>
+        <polygon points="195,103 220,85 245,103" fill="#3a2a1a" stroke="#5a4a3a" stroke-width="0.8"/>
+        <line x1="220" y1="100" x2="220" y2="132" stroke="#4a5a8a" stroke-width="0.8"/>
+        <line x1="200" y1="116" x2="240" y2="116" stroke="#4a5a8a" stroke-width="0.8"/>
+        <rect x="90" y="238" width="320" height="5" fill="#1a1a2e"/>
+
+        <!-- Chambre parents -->
+        <g id="mp-parents" style="cursor:pointer" onclick="selectPiece('parents')">
+          <rect x="91" y="146" width="104" height="91" fill="#1a2040"/>
+          <rect x="93" y="195" width="60" height="36" fill="#2a1a0a" rx="4"/>
+          <rect x="93" y="195" width="60" height="12" fill="#3a2a1a" rx="2"/>
+          <rect x="93" y="195" width="28" height="18" fill="#4a3a2a" rx="2"/>
+          <rect x="123" y="195" width="28" height="18" fill="#4a3a2a" rx="2"/>
+          <rect x="95" y="197" width="22" height="10" fill="#e8d8c8" rx="2" opacity="0.6"/>
+          <rect x="127" y="197" width="22" height="10" fill="#e8d8c8" rx="2" opacity="0.6"/>
+          <rect x="157" y="200" width="18" height="20" fill="#2a1a0a" rx="2"/>
+          <rect x="93" y="150" width="22" height="44" fill="#2a1a0a" rx="2"/>
+          <line x1="104" y1="150" x2="104" y2="194" stroke="#3a2a1a" stroke-width="0.8"/>
+        </g>
+        <rect x="194" y="146" width="3" height="91" fill="#1a1a2e"/>
+
+        <!-- Chambre bébé -->
+        <g id="mp-bebe" style="cursor:pointer" onclick="selectPiece('bebe')">
+          <rect x="197" y="146" width="108" height="91" fill="#1a2818"/>
+          <rect x="210" y="185" width="50" height="38" fill="#2a1a0a" rx="3"/>
+          <rect x="210" y="185" width="50" height="8" fill="#3a2a1a" rx="2"/>
+          <rect x="210" y="215" width="50" height="8" fill="#3a2a1a" rx="2"/>
+          <line x1="218" y1="185" x2="218" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
+          <line x1="226" y1="185" x2="226" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
+          <line x1="234" y1="185" x2="234" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
+          <line x1="242" y1="185" x2="242" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
+          <line x1="250" y1="185" x2="250" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
+          <rect x="212" y="193" width="46" height="18" fill="#e8f0e8" opacity="0.4" rx="2"/>
+          <line x1="240" y1="160" x2="240" y2="184" stroke="#9ae6b4" stroke-width="0.8"/>
+          <line x1="228" y1="166" x2="252" y2="166" stroke="#9ae6b4" stroke-width="0.8"/>
+          <circle cx="225" cy="169" r="3" fill="#d4537e" opacity="0.7"/>
+          <circle cx="240" cy="171" r="3" fill="#90cdf4" opacity="0.7"/>
+          <circle cx="255" cy="169" r="3" fill="#fbd38d" opacity="0.7"/>
+          <rect x="268" y="190" width="28" height="32" fill="#2a1a0a" rx="2"/>
+          <line x1="268" y1="202" x2="296" y2="202" stroke="#3a2a1a" stroke-width="0.8"/>
+        </g>
+        <rect x="304" y="146" width="3" height="91" fill="#1a1a2e"/>
+
+        <!-- Salle de bain -->
+        <g id="mp-sdb" style="cursor:pointer" onclick="selectPiece('sdb')">
+          <rect x="307" y="146" width="102" height="91" fill="#1a2830"/>
+          <line x1="325" y1="146" x2="325" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
+          <line x1="345" y1="146" x2="345" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
+          <line x1="365" y1="146" x2="365" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
+          <line x1="385" y1="146" x2="385" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
+          <line x1="307" y1="175" x2="409" y2="175" stroke="#2a3a40" stroke-width="0.5"/>
+          <line x1="307" y1="190" x2="409" y2="190" stroke="#2a3a40" stroke-width="0.5"/>
+          <rect x="315" y="197" width="70" height="30" fill="#1e3040" rx="8" stroke="#3a5060" stroke-width="1"/>
+          <rect x="320" y="200" width="60" height="22" fill="#243848" rx="6"/>
+          <rect x="322" y="202" width="56" height="16" fill="#1a4060" rx="5" opacity="0.4"/>
+          <rect x="356" y="195" width="6" height="6" fill="#8a9aaa" rx="1"/>
+          <rect x="352" y="193" width="14" height="3" fill="#8a9aaa" rx="1"/>
+          <rect x="315" y="172" width="26" height="20" fill="#1e3040" rx="4" stroke="#3a5060" stroke-width="1"/>
+          <circle cx="328" cy="182" r="3" fill="#243848"/>
+          <line x1="328" y1="172" x2="328" y2="168" stroke="#8a9aaa" stroke-width="1.5"/>
+        </g>
+
+        <!-- Fenêtres étage -->
+        <rect x="117" y="157" width="22" height="16" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
+        <line x1="128" y1="157" x2="128" y2="173" stroke="#4a6090" stroke-width="0.6"/>
+        <line x1="117" y1="165" x2="139" y2="165" stroke="#4a6090" stroke-width="0.6"/>
+        <rect x="342" y="157" width="22" height="16" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
+        <line x1="353" y1="157" x2="353" y2="173" stroke="#4a6090" stroke-width="0.6"/>
+        <line x1="342" y1="165" x2="364" y2="165" stroke="#4a6090" stroke-width="0.6"/>
+
+        <!-- Salon -->
+        <g id="mp-salon" style="cursor:pointer" onclick="selectPiece('salon')">
+          <rect x="91" y="243" width="148" height="114" fill="#201a30"/>
+          <line x1="91" y1="310" x2="239" y2="310" stroke="#2a1a0a" stroke-width="0.5"/>
+          <line x1="91" y1="325" x2="239" y2="325" stroke="#2a1a0a" stroke-width="0.5"/>
+          <line x1="91" y1="340" x2="239" y2="340" stroke="#2a1a0a" stroke-width="0.5"/>
+          <rect x="98" y="293" width="80" height="26" fill="#2a1a40" rx="4"/>
+          <rect x="98" y="293" width="80" height="9" fill="#3a2a50" rx="3"/>
+          <rect x="96" y="291" width="10" height="28" fill="#3a2a50" rx="3"/>
+          <rect x="170" y="291" width="10" height="28" fill="#3a2a50" rx="3"/>
+          <rect x="104" y="296" width="18" height="9" fill="#d6bcfa" rx="2" opacity="0.5"/>
+          <rect x="126" y="296" width="18" height="9" fill="#b794f4" rx="2" opacity="0.4"/>
+          <rect x="148" y="296" width="18" height="9" fill="#d6bcfa" rx="2" opacity="0.5"/>
+          <rect x="116" y="322" width="44" height="16" fill="#2a1a0a" rx="3"/>
+          <rect x="98" y="249" width="50" height="28" fill="#0a0a14" rx="3" stroke="#3a3a5a" stroke-width="0.8"/>
+          <rect x="100" y="251" width="46" height="24" fill="#1a3060" opacity="0.2" rx="2"/>
+          <ellipse cx="155" cy="316" rx="34" ry="10" fill="#3a2a5a" opacity="0.35"/>
+          <line x1="218" y1="248" x2="218" y2="290" stroke="#5a4a3a" stroke-width="2"/>
+          <ellipse cx="218" cy="246" rx="10" ry="4" fill="#3a2a0a"/>
+        </g>
+        <rect x="238" y="243" width="3" height="114" fill="#1a1a2e"/>
+
+        <!-- Couloir -->
+        <rect x="241" y="243" width="58" height="114" fill="#181828"/>
+        <line x1="260" y1="243" x2="260" y2="357" stroke="#252535" stroke-width="0.8"/>
+        <line x1="280" y1="243" x2="280" y2="357" stroke="#252535" stroke-width="0.8"/>
+        <line x1="241" y1="270" x2="299" y2="270" stroke="#252535" stroke-width="0.8"/>
+        <line x1="241" y1="300" x2="299" y2="300" stroke="#252535" stroke-width="0.8"/>
+        <line x1="241" y1="330" x2="299" y2="330" stroke="#252535" stroke-width="0.8"/>
+        <rect x="252" y="296" width="36" height="61" fill="#2a1a0a" rx="3" stroke="#4a3020" stroke-width="1.2"/>
+        <rect x="255" y="299" width="13" height="20" fill="#1a0a00" rx="1" opacity="0.7"/>
+        <rect x="270" y="299" width="13" height="20" fill="#1a0a00" rx="1" opacity="0.7"/>
+        <circle cx="287" cy="328" r="2.5" fill="#c8a870"/>
+        <rect x="254" y="354" width="32" height="5" fill="#2a1a0a" rx="1"/>
+        <rect x="244" y="280" width="22" height="14" fill="#2a1a0a" rx="2"/>
+        <text x="255" y="291" text-anchor="middle" font-size="9" font-weight="700" fill="#c8a870" font-family="-apple-system,sans-serif">17</text>
+        <rect x="298" y="243" width="3" height="114" fill="#1a1a2e"/>
+
+        <!-- Cuisine -->
+        <g id="mp-cuisine" style="cursor:pointer" onclick="selectPiece('cuisine')">
+          <rect x="301" y="243" width="108" height="114" fill="#1e1e14"/>
+          <line x1="301" y1="258" x2="409" y2="258" stroke="#2a2a1a" stroke-width="0.5"/>
+          <line x1="301" y1="315" x2="409" y2="315" stroke="#2a2a1a" stroke-width="0.5"/>
+          <line x1="301" y1="330" x2="409" y2="330" stroke="#2a2a1a" stroke-width="0.5"/>
+          <line x1="301" y1="345" x2="409" y2="345" stroke="#2a2a1a" stroke-width="0.5"/>
+          <line x1="318" y1="243" x2="318" y2="357" stroke="#2a2a1a" stroke-width="0.5"/>
+          <line x1="365" y1="243" x2="365" y2="357" stroke="#2a2a1a" stroke-width="0.5"/>
+          <rect x="303" y="275" width="104" height="33" fill="#2a2a1a" rx="2"/>
+          <rect x="303" y="273" width="104" height="5" fill="#4a4a3a" rx="1"/>
+          <circle cx="328" cy="284" r="7" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
+          <circle cx="328" cy="284" r="3" fill="#3a2a1a"/>
+          <circle cx="348" cy="282" r="5" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
+          <circle cx="328" cy="296" r="5" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
+          <circle cx="348" cy="296" r="7" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
+          <circle cx="348" cy="296" r="3" fill="#3a2a1a"/>
+          <rect x="318" y="249" width="44" height="14" fill="#2a2a2a" rx="2" stroke="#3a3a3a" stroke-width="0.8"/>
+          <rect x="365" y="277" width="36" height="24" fill="#1a1a2a" rx="3" stroke="#3a3a4a" stroke-width="0.8"/>
+          <rect x="367" y="279" width="32" height="18" fill="#141420" rx="2"/>
+          <line x1="383" y1="277" x2="383" y2="273" stroke="#8a9aaa" stroke-width="1.5"/>
+          <rect x="303" y="312" width="58" height="45" fill="#2a2a1a" rx="2" stroke="#3a3a2a" stroke-width="0.8"/>
+          <line x1="332" y1="312" x2="332" y2="357" stroke="#3a3a2a" stroke-width="0.8"/>
+          <rect x="373" y="316" width="18" height="28" fill="#2a3a4a" rx="3"/>
+          <rect x="371" y="314" width="22" height="7" fill="#3a4a5a" rx="2"/>
+          <rect x="390" y="276" width="17" height="78" fill="#2a2a3a" rx="2" stroke="#3a3a4a" stroke-width="0.8"/>
+          <line x1="390" y1="320" x2="407" y2="320" stroke="#3a3a4a" stroke-width="0.8"/>
+        </g>
+
+        <!-- Fenêtres RDC -->
+        <rect x="155" y="252" width="24" height="18" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
+        <line x1="167" y1="252" x2="167" y2="270" stroke="#4a6090" stroke-width="0.6"/>
+        <line x1="155" y1="261" x2="179" y2="261" stroke="#4a6090" stroke-width="0.6"/>
+        <rect x="352" y="252" width="24" height="18" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
+        <line x1="364" y1="252" x2="364" y2="270" stroke="#4a6090" stroke-width="0.6"/>
+        <line x1="352" y1="261" x2="376" y2="261" stroke="#4a6090" stroke-width="0.6"/>
+
+        <!-- Jardin -->
+        <g id="mp-jardin" style="cursor:pointer" onclick="selectPiece('jardin')">
+          <rect x="0" y="280" width="88" height="80" fill="rgba(20,40,10,0.55)" rx="6"/>
+          <rect x="2" y="308" width="84" height="7" fill="#1a3a0a" rx="3"/>
+          <line x1="5" y1="322" x2="85" y2="322" stroke="#1a3a0a" stroke-width="0.8"/>
+          <line x1="5" y1="334" x2="85" y2="334" stroke="#1a3a0a" stroke-width="0.8"/>
+          <line x1="18" y1="284" x2="18" y2="355" stroke="#5a4a3a" stroke-width="1.5"/>
+          <line x1="52" y1="284" x2="52" y2="355" stroke="#5a4a3a" stroke-width="1.5"/>
+          <line x1="18" y1="285" x2="52" y2="285" stroke="#5a4a3a" stroke-width="2"/>
+          <line x1="24" y1="285" x2="24" y2="310" stroke="#6a5a4a" stroke-width="1"/>
+          <line x1="46" y1="285" x2="46" y2="310" stroke="#6a5a4a" stroke-width="1"/>
+          <rect x="21" y="310" width="28" height="9" fill="#4a3a2a" rx="3"/>
+        </g>
+
+        <!-- Voiture -->
+        <g id="mp-voiture" style="cursor:pointer" onclick="selectPiece('voiture')">
+          <rect x="412" y="280" width="88" height="80" fill="rgba(20,16,35,0.55)" rx="6"/>
+          <rect x="414" y="322" width="84" height="36" fill="#1a1a28" rx="3"/>
+          <line x1="456" y1="324" x2="456" y2="356" stroke="#3a3a5a" stroke-width="1" stroke-dasharray="6 4"/>
+          <rect x="418" y="303" width="76" height="30" fill="#1e2a40" rx="6" stroke="#3a4a60" stroke-width="1"/>
+          <rect x="424" y="295" width="64" height="18" fill="#243050" rx="5"/>
+          <rect x="428" y="297" width="24" height="12" fill="#1a3060" rx="2" opacity="0.7"/>
+          <rect x="455" y="297" width="28" height="12" fill="#1a3060" rx="2" opacity="0.7"/>
+          <circle cx="422" cy="313" r="4" fill="#ffd080" opacity="0.5"/>
+          <circle cx="490" cy="313" r="4" fill="#ff6060" opacity="0.4"/>
+          <circle cx="435" cy="333" r="7" fill="#0a0a14" stroke="#3a3a4a" stroke-width="1.5"/>
+          <circle cx="435" cy="333" r="3" fill="#1a1a2a"/>
+          <circle cx="475" cy="333" r="7" fill="#0a0a14" stroke="#3a3a4a" stroke-width="1.5"/>
+          <circle cx="475" cy="333" r="3" fill="#1a1a2a"/>
+        </g>
+
+        <!-- Sorties -->
+        <g id="mp-ext" style="cursor:pointer" onclick="selectPiece('ext')">
+          <rect x="90" y="418" width="320" height="50" fill="rgba(18,18,10,0.5)" rx="4"/>
+          <ellipse cx="170" cy="444" rx="6" ry="6" fill="none" stroke="#f0e68c" stroke-width="1.5"/>
+          <ellipse cx="190" cy="444" rx="6" ry="6" fill="none" stroke="#f0e68c" stroke-width="1.5"/>
+          <rect x="172" y="424" width="22" height="18" fill="#2a3a4a" rx="3" stroke="#f0e68c" stroke-width="1"/>
+          <line x1="172" y1="424" x2="160" y2="436" stroke="#f0e68c" stroke-width="1.2"/>
+          <line x1="194" y1="424" x2="194" y2="434" stroke="#f0e68c" stroke-width="1.2"/>
+          <line x1="194" y1="434" x2="202" y2="444" stroke="#f0e68c" stroke-width="1.2"/>
+          <ellipse cx="265" cy="436" rx="9" ry="11" fill="#3a2a4a" stroke="#c8b4f0" stroke-width="1"/>
+          <circle cx="265" cy="428" r="5" fill="#2a1a3a" stroke="#c8b4f0" stroke-width="0.8"/>
+        </g>
+
+        <!-- BADGES EN DERNIER (toujours au premier plan) -->
+        <g onclick="selectPiece('parents')" style="cursor:pointer">
+          <rect x="96" y="152" width="92" height="22" fill="#0d1a30" rx="6" stroke="#3a4fd4" stroke-width="1"/>
+          <text x="142" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#a0b4ff" font-family="-apple-system,sans-serif">🛏️ Ch. parents</text>
+        </g>
+        <g onclick="selectPiece('bebe')" style="cursor:pointer">
+          <rect x="200" y="152" width="100" height="22" fill="#0d1a14" rx="6" stroke="#1a6a3a" stroke-width="1"/>
+          <text x="250" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#9ae6b4" font-family="-apple-system,sans-serif">🍼 Ch. bébé</text>
+        </g>
+        <g onclick="selectPiece('sdb')" style="cursor:pointer">
+          <rect x="310" y="152" width="96" height="22" fill="#0d1820" rx="6" stroke="#1a5a7a" stroke-width="1"/>
+          <text x="358" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#90cdf4" font-family="-apple-system,sans-serif">🚿 Salle de bain</text>
+        </g>
+        <g onclick="selectPiece('salon')" style="cursor:pointer">
+          <rect x="94" y="248" width="64" height="22" fill="#140e20" rx="6" stroke="#5a3a8a" stroke-width="1"/>
+          <text x="126" y="263" text-anchor="middle" font-size="10" font-weight="700" fill="#d6bcfa" font-family="-apple-system,sans-serif">🛋️ Salon</text>
+        </g>
+        <g onclick="selectPiece('cuisine')" style="cursor:pointer">
+          <rect x="304" y="248" width="72" height="22" fill="#14120a" rx="6" stroke="#7a6a1a" stroke-width="1"/>
+          <text x="340" y="263" text-anchor="middle" font-size="10" font-weight="700" fill="#fbd38d" font-family="-apple-system,sans-serif">🍳 Cuisine</text>
+        </g>
+        <g onclick="selectPiece('jardin')" style="cursor:pointer">
+          <rect x="3" y="282" width="82" height="22" fill="#0a1408" rx="6" stroke="#2a6a1a" stroke-width="1"/>
+          <text x="44" y="297" text-anchor="middle" font-size="10" font-weight="700" fill="#b7e4b7" font-family="-apple-system,sans-serif">🌿 Jardin</text>
+        </g>
+        <g onclick="selectPiece('voiture')" style="cursor:pointer">
+          <rect x="414" y="282" width="82" height="22" fill="#100e1a" rx="6" stroke="#7a3a6a" stroke-width="1"/>
+          <text x="455" y="297" text-anchor="middle" font-size="10" font-weight="700" fill="#f0b4e8" font-family="-apple-system,sans-serif">🚗 Voiture</text>
+        </g>
+        <g onclick="selectPiece('ext')" style="cursor:pointer">
+          <rect x="190" y="422" width="120" height="22" fill="#100e06" rx="6" stroke="#7a6a0a" stroke-width="1"/>
+          <text x="250" y="437" text-anchor="middle" font-size="10" font-weight="700" fill="#f0e68c" font-family="-apple-system,sans-serif">🏙️ Sorties & promenades</text>
+        </g>
+      </svg>
+
+      <!-- Info pièce sélectionnée -->
+      <div class="maison-info" id="maison-info">
+        <span style="font-size:20px">👆</span>
+        <span style="font-size:13px;color:#4a5568;margin-left:8px">Touchez une pièce pour gérer le mobilier</span>
+      </div>
+
+      <!-- Formulaire ajout -->
+      <div class="mob-add-form" id="mob-add-form">
+        <h3 id="mob-form-title">Ajouter un article</h3>
+        <label>Article</label>
+        <input type="text" id="mob-item" placeholder="ex : lit à barreaux, chaise haute...">
+        <label>Marque / Modèle (optionnel)</label>
+        <input type="text" id="mob-modele" placeholder="ex : Stokke, IKEA...">
+        <label>Prix estimé (optionnel)</label>
+        <input type="text" id="mob-prix" placeholder="ex : 250 €">
+        <label>Statut</label>
+        <select id="mob-statut">
+          <option>À acheter</option>
+          <option>Commandé</option>
+          <option>Reçu ✓</option>
+        </select>
+        <label>Note</label>
+        <input type="text" id="mob-note" placeholder="ex : cadeau de grand-mère...">
+        <button class="btn" onclick="ajouterArticleMaison()">Ajouter</button>
+      </div>
+
+      <!-- Liste des articles -->
+      <div id="mob-liste"></div>
+    </div>
+  </div>
+</div>
+<!-- BUDGET -->
+<div id="budget" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="section-inner">
+
+    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:16px;padding:20px;margin-bottom:14px;">
+      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">💰 Budget total prévu</div>
+      <div style="position:relative;margin-bottom:14px;">
+        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#8892b0;font-size:14px">€</span>
+        <input type="number" id="budget-total" value="" placeholder="Ex : 5000"
+          style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 14px 10px 30px;font-size:18px;font-weight:700;color:#ccd6f6;outline:none;"
+          oninput="majBudget()">
+      </div>
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8892b0;margin-bottom:4px;">
+        <span>Dépensé</span><span id="b-pct">0%</span><span>Budget</span>
+      </div>
+      <div style="height:14px;background:rgba(255,255,255,0.08);border-radius:7px;overflow:hidden;margin-bottom:12px;">
+        <div id="b-jauge" style="height:100%;border-radius:7px;background:linear-gradient(90deg,#3a4fd4,#9ae6b4);width:0%;transition:width 0.5s;"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
+          <div id="b-stat-total" style="font-size:15px;font-weight:700;color:#90cdf4">—</div>
+          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Budget</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
+          <div id="b-stat-dep" style="font-size:15px;font-weight:700;color:#feb2b2">0 €</div>
+          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Dépensé</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
+          <div id="b-stat-reste" style="font-size:15px;font-weight:700;color:#9ae6b4">—</div>
+          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Restant</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;">
+        <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Par pièce</div>
+        <div style="position:relative;height:160px"><canvas id="b-chart-pie"></canvas></div>
+        <div id="b-legend-pie" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;"></div>
+      </div>
+      <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;">
+        <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Par statut</div>
+        <div style="position:relative;height:160px"><canvas id="b-chart-statut"></canvas></div>
+        <div id="b-legend-statut" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;"></div>
+      </div>
+    </div>
+
+    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
+      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Dépenses par pièce</div>
+      <div style="position:relative;height:200px"><canvas id="b-chart-bar"></canvas></div>
+    </div>
+
+    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
+      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Évolution des achats</div>
+      <div style="position:relative;height:180px"><canvas id="b-chart-line"></canvas></div>
+    </div>
+
+    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
+      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Détail des articles</div>
+      <div id="b-detail-liste"></div>
+    </div>
+
+  </div>
+</div>
 <!-- REPAS -->
-<div id="repas" class="section active">
-  <div class="card">
-    <h2>🍼 Ajouter un repas</h2>
-    <label>Type</label>
-    <select id="repas-type">
-      <option>Tétée</option>
-      <option>Biberon</option>
-      <option>Repas solide</option>
-    </select>
-    <label>Heure</label>
-    <input type="time" id="repas-heure">
-    <label>Durée / Quantité (optionnel)</label>
-    <input type="text" id="repas-details" placeholder="ex : 15 min ou 120 ml">
-    <label>Note</label>
-    <input type="text" id="repas-note" placeholder="ex : a bien mangé">
+<div id="repas" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>🍼 Ajouter un repas</h2>
+    <label>Type</label><select id="repas-type"><option>Tétée</option><option>Biberon</option><option>Repas solide</option></select>
+    <label>Heure</label><input type="time" id="repas-heure">
+    <label>Durée / Quantité (optionnel)</label><input type="text" id="repas-details" placeholder="ex : 15 min ou 120 ml">
+    <label>Note</label><input type="text" id="repas-note" placeholder="ex : a bien mangé">
     <button class="btn" onclick="ajouterRepas()">Ajouter ce repas</button>
   </div>
-  <div class="card">
-    <h2>Historique</h2>
-    <div class="entry-list" id="repas-liste"></div>
-  </div>
-</div>
+  <div class="card"><h2>Historique</h2><div class="entry-list" id="repas-liste"></div></div>
+</div></div>
 
-<!-- SOMMEIL -->
-<div id="sommeil" class="section">
-  <div class="card">
-    <h2>😴 Ajouter un sommeil</h2>
-    <label>Type</label>
-    <select id="sommeil-type">
-      <option>Nuit</option>
-      <option>Sieste</option>
-    </select>
-    <label>Début</label>
-    <input type="datetime-local" id="sommeil-debut">
-    <label>Fin</label>
-    <input type="datetime-local" id="sommeil-fin">
-    <label>Note</label>
-    <input type="text" id="sommeil-note" placeholder="ex : agité, bien dormi...">
+<div id="sommeil" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>😴 Ajouter un sommeil</h2>
+    <label>Type</label><select id="sommeil-type"><option>Nuit</option><option>Sieste</option></select>
+    <label>Début</label><input type="datetime-local" id="sommeil-debut">
+    <label>Fin</label><input type="datetime-local" id="sommeil-fin">
+    <label>Note</label><input type="text" id="sommeil-note" placeholder="ex : agité, bien dormi...">
     <button class="btn" onclick="ajouterSommeil()">Ajouter ce sommeil</button>
   </div>
-  <div class="card">
-    <h2>Historique</h2>
-    <div class="entry-list" id="sommeil-liste"></div>
-  </div>
-</div>
+  <div class="card"><h2>Historique</h2><div class="entry-list" id="sommeil-liste"></div></div>
+</div></div>
 
-<!-- SANTÉ -->
-<div id="sante" class="section">
-  <div class="card">
-    <h2>🏥 Ajouter une note santé</h2>
-    <label>Type</label>
-    <select id="sante-type">
-      <option>Vaccin</option>
-      <option>Médicament</option>
-      <option>Symptôme</option>
-      <option>Mesure (poids / taille)</option>
-      <option>Autre</option>
-    </select>
-    <label>Date</label>
-    <input type="date" id="sante-date">
-    <label>Description</label>
-    <textarea id="sante-desc" placeholder="ex : Vaccin DTP — bras gauche, 5,2 kg..."></textarea>
+<div id="sante" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>🏥 Ajouter une note santé</h2>
+    <label>Type</label><select id="sante-type"><option>Vaccin</option><option>Médicament</option><option>Symptôme</option><option>Mesure (poids / taille)</option><option>Autre</option></select>
+    <label>Date</label><input type="date" id="sante-date">
+    <label>Description</label><textarea id="sante-desc" placeholder="ex : Vaccin DTP, 5,2 kg..."></textarea>
     <button class="btn" onclick="ajouterSante()">Ajouter</button>
   </div>
-  <div class="card">
-    <h2>Carnet de santé</h2>
-    <div class="entry-list" id="sante-liste"></div>
-  </div>
-</div>
+  <div class="card"><h2>Carnet de santé</h2><div class="entry-list" id="sante-liste"></div></div>
+</div></div>
 
-<!-- COURSES -->
-<div id="courses" class="section">
-  <div class="card">
-    <h2>🛒 Ajouter un article</h2>
-    <label>Article</label>
-    <input type="text" id="courses-item" placeholder="ex : couches taille 2, lait 1er âge...">
-    <label>Quantité (optionnel)</label>
-    <input type="text" id="courses-qte" placeholder="ex : 2 paquets">
+<div id="courses" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>🛒 Ajouter un article</h2>
+    <label>Article</label><input type="text" id="courses-item" placeholder="ex : couches taille 2...">
+    <label>Quantité (optionnel)</label><input type="text" id="courses-qte" placeholder="ex : 2 paquets">
     <button class="btn" onclick="ajouterCourse()">Ajouter à la liste</button>
   </div>
-  <div class="card">
-    <h2>Liste de courses</h2>
-    <div class="entry-list" id="courses-liste"></div>
-  </div>
-</div>
+  <div class="card"><h2>Liste de courses</h2><div class="entry-list" id="courses-liste"></div></div>
+</div></div>
 
-<!-- RENDEZ-VOUS -->
-<div id="rdv" class="section">
-  <div class="card">
-    <h2>📅 Ajouter un rendez-vous</h2>
-    <label>Titre</label>
-    <input type="text" id="rdv-titre" placeholder="ex : Pédiatre, Sage-femme...">
-    <label>Date et heure</label>
-    <input type="datetime-local" id="rdv-date">
-    <label>Lieu (optionnel)</label>
-    <input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
-    <label>Note</label>
-    <input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
+<div id="rdv" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>📅 Ajouter un rendez-vous</h2>
+    <label>Titre</label><input type="text" id="rdv-titre" placeholder="ex : Pédiatre...">
+    <label>Date et heure</label><input type="datetime-local" id="rdv-date">
+    <label>Lieu (optionnel)</label><input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
+    <label>Note</label><input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
     <button class="btn" onclick="ajouterRdv()">Ajouter le rendez-vous</button>
   </div>
-  <div class="card">
-    <h2>Prochains rendez-vous</h2>
-    <div class="entry-list" id="rdv-liste"></div>
+  <div class="card"><h2>Prochains rendez-vous</h2><div class="entry-list" id="rdv-liste"></div></div>
+</div></div>
+
+<div id="vetements" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>👕 Ajouter un vêtement</h2>
+    <label>Taille</label><select id="vetements-taille"><option>Naissance (50cm)</option><option>1 mois (56cm)</option><option>3 mois (62cm)</option><option>6 mois (68cm)</option><option>9 mois (74cm)</option><option>12 mois (80cm)</option><option>18 mois (86cm)</option></select>
+    <label>Article</label><input type="text" id="vetements-item" placeholder="ex : bodies, pyjama...">
+    <label>Quantité</label><input type="text" id="vetements-qte" placeholder="ex : 5 bodies">
+    <label>Note</label><input type="text" id="vetements-note" placeholder="ex : reçu en cadeau...">
+    <button class="btn" onclick="ajouterVetement()">Ajouter</button>
   </div>
-</div>
+  <div class="card"><h2>Layette</h2><div class="entry-list" id="vetements-liste"></div></div>
+</div></div>
+
+<div id="maternite" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>🏥 Valise maternité</h2>
+    <label>Valise</label><select id="maternite-valise"><option>Valise maman</option><option>Valise bébé</option><option>Valise papa / accompagnant</option><option>Documents</option></select>
+    <label>Article</label><input type="text" id="maternite-item" placeholder="ex : chemise de nuit...">
+    <label>Quantité (optionnel)</label><input type="text" id="maternite-qte" placeholder="ex : 2">
+    <label>Note</label><input type="text" id="maternite-note" placeholder="ex : déjà dans la valise...">
+    <button class="btn" onclick="ajouterMaternite()">Ajouter</button>
+  </div>
+  <div class="card"><h2>Contenu</h2><div class="entry-list" id="maternite-liste"></div></div>
+</div></div>
+
+<div id="admin" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>📋 Ajouter une démarche</h2>
+    <label>Catégorie</label><select id="admin-cat"><option>Congé maternité / paternité</option><option>CAF / Allocations</option><option>Mutuelle</option><option>Employeur</option><option>Mairie / État civil</option><option>Médecin / Maternité</option><option>Autre</option></select>
+    <label>Démarche</label><input type="text" id="admin-item" placeholder="ex : Déclarer la grossesse à la CAF...">
+    <label>Date limite (optionnel)</label><input type="date" id="admin-date">
+    <label>Statut</label><select id="admin-statut"><option>À faire</option><option>En cours</option><option>Fait ✓</option></select>
+    <label>Note</label><input type="text" id="admin-note" placeholder="ex : appeler le 01 23 45 67 89...">
+    <button class="btn" onclick="ajouterAdmin()">Ajouter</button>
+  </div>
+  <div class="card"><h2>Démarches</h2><div class="entry-list" id="admin-liste"></div></div>
+</div></div>
+
+<div id="events" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
+  <div class="card"><h2>🎉 Ajouter un événement</h2>
+    <label>Type</label><select id="events-type"><option>Échographie</option><option>Baby shower</option><option>Séance photo</option><option>Cours de préparation</option><option>Visite médicale</option><option>Fête / Célébration</option><option>Autre</option></select>
+    <label>Titre</label><input type="text" id="events-titre" placeholder="ex : Échographie du 5ème mois...">
+    <label>Date</label><input type="datetime-local" id="events-date">
+    <label>Lieu (optionnel)</label><input type="text" id="events-lieu" placeholder="ex : Clinique Saint-Joseph">
+    <label>Note</label><input type="text" id="events-note" placeholder="ex : amener le carnet...">
+    <button class="btn" onclick="ajouterEvent()">Ajouter l'événement</button>
+  </div>
+  <div class="card"><h2>Calendrier</h2><div class="entry-list" id="events-liste"></div></div>
+</div></div>
 
 <script>
-  function showSection(id, btn) {
-    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    btn.classList.add('active');
+// ══════════════════════════════════
+//  UTILITAIRES
+// ══════════════════════════════════
+const now=new Date();
+const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+document.getElementById('date-header').textContent=JOURS[now.getDay()]+' '+now.getDate()+' '+MOIS[now.getMonth()]+' '+now.getFullYear();
+document.getElementById('repas-heure').value=now.toTimeString().slice(0,5);
+function sv(k,d){localStorage.setItem(k,JSON.stringify(d));}
+function ld(k){return JSON.parse(localStorage.getItem(k)||'[]');}
+
+function ouvrirSection(id){
+  document.getElementById('accueil').style.display='none';
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  if(id==='mindmap') afficherListeCartes();
+  window.scrollTo(0,0);
+}
+function retourAccueil(){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('accueil').style.display='block';
+  window.scrollTo(0,0);
+}
+
+// ══════════════════════════════════
+//  MOBILIER PAR PIÈCE
+// ══════════════════════════════════
+const PIECES_INFO={
+  parents:{icon:'🛏️',nom:'Chambre parents',col:'#a0b4ff'},
+  bebe:   {icon:'🍼',nom:'Chambre bébé',   col:'#9ae6b4'},
+  sdb:    {icon:'🚿',nom:'Salle de bain',  col:'#90cdf4'},
+  salon:  {icon:'🛋️',nom:'Salon',          col:'#d6bcfa'},
+  cuisine:{icon:'🍳',nom:'Cuisine',         col:'#fbd38d'},
+  jardin: {icon:'🌿',nom:'Jardin',          col:'#b7e4b7'},
+  voiture:{icon:'🚗',nom:'Voiture',         col:'#f0b4e8'},
+  ext:    {icon:'🏙️',nom:'Sorties',         col:'#f0e68c'}
+};
+let pieceActive=null;
+
+function selectPiece(id){
+  pieceActive=id;
+  const p=PIECES_INFO[id];
+  const items=ld('mob_'+id);
+
+  document.getElementById('maison-info').innerHTML=`
+    <span style="font-size:24px">${p.icon}</span>
+    <div style="flex:1">
+      <div style="font-size:15px;font-weight:700;color:${p.col}">${p.nom}</div>
+      <div style="font-size:11px;color:#8892b0">${items.length} article${items.length>1?'s':''}</div>
+    </div>
+    <button onclick="document.getElementById('mob-add-form').classList.toggle('open')" style="background:linear-gradient(135deg,#3a4fd4,#5a3fa0);color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer">+ Ajouter</button>`;
+
+  document.getElementById('mob-form-title').textContent='Ajouter dans : '+p.nom;
+  afficherArticlesMaison();
+}
+
+function ajouterArticleMaison(){
+  if(!pieceActive){alert('Sélectionnez une pièce.');return;}
+  const item=document.getElementById('mob-item').value.trim();
+  if(!item){alert('Indiquez un article.');return;}
+  const modele=document.getElementById('mob-modele').value.trim();
+  const prix=document.getElementById('mob-prix').value.trim();
+  const statut=document.getElementById('mob-statut').value;
+  const note=document.getElementById('mob-note').value.trim();
+  const l=ld('mob_'+pieceActive);
+  l.unshift({item,modele,prix,statut,note});
+  sv('mob_'+pieceActive,l);
+  document.getElementById('mob-item').value='';
+  document.getElementById('mob-modele').value='';
+  document.getElementById('mob-prix').value='';
+  document.getElementById('mob-note').value='';
+  document.getElementById('mob-add-form').classList.remove('open');
+  selectPiece(pieceActive);
+}
+
+function supprimerArticleMaison(id,i){
+  const l=ld('mob_'+id);l.splice(i,1);sv('mob_'+id,l);selectPiece(id);
+}
+
+const STATUT_COL={'À acheter':'badge-red','Commandé':'badge-amber','Reçu ✓':'badge-teal'};
+function afficherArticlesMaison(){
+  if(!pieceActive)return;
+  const l=ld('mob_'+pieceActive);
+  const el=document.getElementById('mob-liste');
+  if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px;padding:8px 0">Aucun article pour cette pièce.</p>';return;}
+  el.innerHTML=l.map((m,i)=>`
+    <div class="entry">
+      <span>
+        <span class="badge ${STATUT_COL[m.statut]||'badge-sky'}">${m.statut}</span><br>
+        <strong style="color:#ccd6f6">${m.item}</strong>
+        ${m.modele?' — '+m.modele:''}${m.prix?' · <span style="color:#fbd38d">'+m.prix+'</span>':''}
+        ${m.note?'<br><em style="color:#8892b0">'+m.note+'</em>':''}
+      </span>
+      <button onclick="supprimerArticleMaison('${pieceActive}',${i})">×</button>
+    </div>`).join('');
+}
+
+// ══════════════════════════════════
+//  CARTES MENTALES
+// ══════════════════════════════════
+let carteActive=null,nodesData=[],selectedNode=null,ajoutParent=null;
+let scale=1,panX=0,panY=0,isPanning=false,lastPan={x:0,y:0};
+const COULEURS_BG={'#90cdf4':'#1a2a4a','#9ae6b4':'#1a2e2a','#d6bcfa':'#2e1a2e','#fbd38d':'#2e2a1a','#feb2b2':'#2e1a1a','#a0c4ff':'#1a1e2e','#f0b4e8':'#2e1a2a','#f0e68c':'#2e2e1a'};
+
+function getCartes(){return ld('mm_cartes');}
+function saveCartes(c){sv('mm_cartes',c);}
+
+function afficherListeCartes(){
+  document.getElementById('mm-list-view').style.display='block';
+  document.getElementById('mm-editor').style.display='none';
+  const cartes=getCartes();
+  const el=document.getElementById('mm-cards-list');
+  if(!cartes.length){el.innerHTML='<div class="mm-empty"><div class="mm-empty-icon">🧠</div><p>Aucune carte mentale.<br>Créez votre première carte !</p></div>';return;}
+  el.innerHTML=cartes.map((c,i)=>{
+    const branches=(c.nodes||[]).filter(n=>n.parentId!==null);
+    const pills=(c.nodes||[]).slice(0,4).map(n=>`<span class="mm-bubble-pill">${n.label}</span>`).join('');
+    return `<div class="mm-card" onclick="ouvrirCarte(${i})">
+      <div class="mm-card-top"><div><div class="mm-card-title">${c.title}</div><div class="mm-card-meta">${branches.length} branche${branches.length>1?'s':''} · ${c.updated||'—'}</div></div>
+      <button class="mm-card-del" onclick="event.stopPropagation();supprimerCarte(${i})">×</button></div>
+      <div class="mm-bubbles">${pills}</div></div>`;
+  }).join('');
+}
+
+function ouvrirModalNouvelleCarte(){document.getElementById('mm-modal-title').value='';document.getElementById('mm-modal-center').value='';document.getElementById('mm-modal').classList.add('open');setTimeout(()=>document.getElementById('mm-modal-title').focus(),100);}
+function fermerModal(){document.getElementById('mm-modal').classList.remove('open');}
+
+function creerCarte(){
+  const title=document.getElementById('mm-modal-title').value.trim();
+  const center=document.getElementById('mm-modal-center').value.trim();
+  if(!title){alert('Donnez un titre à la carte.');return;}
+  const cartes=getCartes();
+  cartes.unshift({title,updated:new Date().toLocaleDateString('fr-FR'),nodes:center?[{id:1,label:center,x:0,y:0,color:'#c8b4f0',parentId:null}]:[]});
+  saveCartes(cartes);fermerModal();ouvrirCarte(0);
+}
+function supprimerCarte(i){if(!confirm('Supprimer cette carte ?'))return;const c=getCartes();c.splice(i,1);saveCartes(c);afficherListeCartes();}
+
+function ouvrirCarte(i){
+  const cartes=getCartes();carteActive=i;nodesData=JSON.parse(JSON.stringify(cartes[i].nodes||[]));selectedNode=null;
+  document.getElementById('mm-list-view').style.display='none';document.getElementById('mm-editor').style.display='block';
+  document.getElementById('mm-editor-title').textContent=cartes[i].title;
+  scale=1;panX=0;panY=0;ajusterCanvas();fermerPanelAjout();fermerPanelNoeud();dessinerCarte();
+}
+function retourListeCartes(){document.getElementById('mm-editor').style.display='none';document.getElementById('mm-list-view').style.display='block';afficherListeCartes();}
+function sauvegarderNoeuds(){const c=getCartes();c[carteActive].nodes=nodesData;c[carteActive].updated=new Date().toLocaleDateString('fr-FR');saveCartes(c);}
+function renommerCarte(){const c=getCartes();const n=prompt('Nouveau titre :',c[carteActive].title);if(n&&n.trim()){c[carteActive].title=n.trim();saveCartes(c);document.getElementById('mm-editor-title').textContent=n.trim();}}
+
+function ajusterCanvas(){
+  const wrap=document.getElementById('mm-canvas-wrap');
+  const svg=document.getElementById('mm-svg');
+  const h=Math.max(window.innerHeight*0.55,320);
+  wrap.style.height=h+'px';svg.setAttribute('width',wrap.clientWidth);svg.setAttribute('height',h);
+}
+function getTransform(){return `translate(${panX+document.getElementById('mm-canvas-wrap').clientWidth/2},${panY+document.getElementById('mm-canvas-wrap').offsetHeight/2}) scale(${scale})`;}
+
+function dessinerCarte(){
+  const svg=document.getElementById('mm-svg');svg.innerHTML='';
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('id','mm-root');g.setAttribute('transform',getTransform());svg.appendChild(g);
+  nodesData.forEach(n=>{
+    if(n.parentId===null)return;
+    const parent=nodesData.find(p=>p.id===n.parentId);if(!parent)return;
+    const line=document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1',parent.x);line.setAttribute('y1',parent.y);line.setAttribute('x2',n.x);line.setAttribute('y2',n.y);
+    line.setAttribute('stroke',n.color||'#7f91e8');line.setAttribute('stroke-width','1.5');line.setAttribute('stroke-opacity','0.45');g.appendChild(line);
+  });
+  nodesData.forEach(n=>{
+    const depth=getDepth(n);const rx=depth===0?58:depth===1?46:36;const ry=depth===0?26:depth===1?20:16;
+    const isSelected=selectedNode&&selectedNode.id===n.id;const bg=COULEURS_BG[n.color]||'#1e1432';
+    const nodeG=document.createElementNS('http://www.w3.org/2000/svg','g');nodeG.setAttribute('cursor','pointer');nodeG.setAttribute('data-id',n.id);
+    const ellipse=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    ellipse.setAttribute('cx',n.x);ellipse.setAttribute('cy',n.y);ellipse.setAttribute('rx',rx);ellipse.setAttribute('ry',ry);
+    ellipse.setAttribute('fill',bg);ellipse.setAttribute('stroke',n.color||'#7f91e8');ellipse.setAttribute('stroke-width',isSelected?'2.5':'1.5');ellipse.setAttribute('stroke-opacity',isSelected?'1':'0.7');nodeG.appendChild(ellipse);
+    const text=document.createElementNS('http://www.w3.org/2000/svg','text');
+    text.setAttribute('x',n.x);text.setAttribute('y',n.y+1);text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');
+    text.setAttribute('fill',n.color||'#ccd6f6');text.setAttribute('font-size',depth===0?'13':depth===1?'11':'10');text.setAttribute('font-weight',depth===0?'700':'600');
+    text.setAttribute('font-family','-apple-system,sans-serif');text.setAttribute('pointer-events','none');
+    const maxLen=depth===0?14:depth===1?11:9;text.textContent=n.label.length>maxLen?n.label.slice(0,maxLen)+'…':n.label;nodeG.appendChild(text);
+    attacherEvenementsNoeud(nodeG,n.id);g.appendChild(nodeG);
+  });
+  svg.onclick=()=>{selectionnerNoeud(null);};activerPanFond(svg);
+  document.getElementById('zoom-label').textContent=Math.round(scale*100)+'%';
+}
+
+function getDepth(n){let d=0,cur=n;while(cur.parentId!==null){cur=nodesData.find(x=>x.id===cur.parentId);if(!cur)break;d++;}return d;}
+
+function attacherEvenementsNoeud(el,nodeId){
+  let dragActif=false,startClient={x:0,y:0},startPos={x:0,y:0},moved=false;const SEUIL=6;
+  function startDrag(cx,cy){const n=nodesData.find(x=>x.id===nodeId);if(!n)return;dragActif=true;moved=false;startClient={x:cx,y:cy};startPos={x:n.x,y:n.y};}
+  function moveDrag(cx,cy){if(!dragActif)return;const dx=cx-startClient.x,dy=cy-startClient.y;if(!moved&&Math.hypot(dx,dy)<SEUIL)return;moved=true;const n=nodesData.find(x=>x.id===nodeId);if(!n)return;n.x=startPos.x+dx/scale;n.y=startPos.y+dy/scale;dessinerCarte();}
+  function endDrag(){if(!dragActif)return;dragActif=false;if(moved){sauvegarderNoeuds();}else{selectionnerNoeud(nodeId);}moved=false;}
+  el.addEventListener('mousedown',e=>{e.stopPropagation();startDrag(e.clientX,e.clientY);const onMove=e2=>moveDrag(e2.clientX,e2.clientY);const onUp=()=>{endDrag();window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);});
+  el.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;e.stopPropagation();startDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
+  el.addEventListener('touchmove',e=>{if(e.touches.length!==1)return;e.stopPropagation();moveDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
+  el.addEventListener('touchend',e=>{e.stopPropagation();endDrag();},{passive:true});
+}
+
+function activerPanFond(svg){
+  svg.addEventListener('mousedown',e=>{if(e.target!==svg&&!e.target.isSameNode(document.getElementById('mm-root')))return;isPanning=true;lastPan={x:e.clientX,y:e.clientY};const onMove=e2=>{if(!isPanning)return;panX+=e2.clientX-lastPan.x;panY+=e2.clientY-lastPan.y;lastPan={x:e2.clientX,y:e2.clientY};dessinerCarte();};const onUp=()=>{isPanning=false;window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);});
+  let lastTouchFond=null;
+  svg.addEventListener('touchstart',e=>{if(e.touches.length===1)lastTouchFond={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
+  svg.addEventListener('touchmove',e=>{if(e.touches.length===1&&lastTouchFond){panX+=e.touches[0].clientX-lastTouchFond.x;panY+=e.touches[0].clientY-lastTouchFond.y;lastTouchFond={x:e.touches[0].clientX,y:e.touches[0].clientY};dessinerCarte();}},{passive:true});
+  svg.addEventListener('touchend',()=>lastTouchFond=null,{passive:true});
+  let lastDist=null;
+  svg.addEventListener('touchstart',e=>{if(e.touches.length===2)lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
+  svg.addEventListener('touchmove',e=>{if(e.touches.length===2&&lastDist){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);scale=Math.max(0.3,Math.min(3,scale*(d/lastDist)));lastDist=d;dessinerCarte();}},{passive:true});
+  svg.addEventListener('touchend',e=>{if(e.touches.length<2)lastDist=null;},{passive:true});
+}
+
+function selectionnerNoeud(id){selectedNode=id?nodesData.find(n=>n.id===id):null;if(selectedNode){document.getElementById('mm-node-label-display').textContent=selectedNode.label;document.getElementById('mm-node-panel').classList.add('open');document.getElementById('mm-add-panel').classList.remove('open');}else{fermerPanelNoeud();}dessinerCarte();}
+function fermerPanelNoeud(){document.getElementById('mm-node-panel').classList.remove('open');selectedNode=null;}
+
+function togglePanelAjout(){const panel=document.getElementById('mm-add-panel');if(panel.classList.contains('open')){fermerPanelAjout();return;}ajoutParent=nodesData.find(n=>n.parentId===null)||null;document.getElementById('mm-add-title').textContent=ajoutParent?`Branche depuis "${ajoutParent.label}"`:'Nouvelle bulle centrale';panel.classList.add('open');fermerPanelNoeud();setTimeout(()=>document.getElementById('mm-new-label').focus(),100);}
+function ajouterSousBulle(){if(!selectedNode){alert('Sélectionnez d\'abord une bulle.');return;}ajoutParent=selectedNode;document.getElementById('mm-add-title').textContent=`Sous-bulle de "${ajoutParent.label}"`;document.getElementById('mm-add-panel').classList.add('open');fermerPanelNoeud();setTimeout(()=>document.getElementById('mm-new-label').focus(),100);}
+function fermerPanelAjout(){document.getElementById('mm-add-panel').classList.remove('open');document.getElementById('mm-new-label').value='';}
+
+function confirmerAjoutBulle(){
+  const label=document.getElementById('mm-new-label').value.trim();const color=document.getElementById('mm-new-color').value;
+  if(!label){alert('Écrivez le texte de la bulle.');return;}
+  const newId=nodesData.length?Math.max(...nodesData.map(n=>n.id))+1:1;let x=0,y=0;
+  if(ajoutParent){
+    const siblings=nodesData.filter(n=>n.parentId===ajoutParent.id);const depth=getDepth(ajoutParent)+1;const radius=depth===1?160:110;
+    let angle=0;const existingAngles=siblings.map(s=>Math.atan2(s.y-ajoutParent.y,s.x-ajoutParent.x));
+    for(let a=0;a<Math.PI*2;a+=Math.PI/4){if(existingAngles.every(ea=>Math.abs(ea-a)>Math.PI/5)){angle=a;break;}}
+    x=ajoutParent.x+Math.cos(angle)*radius;y=ajoutParent.y+Math.sin(angle)*radius;
   }
+  nodesData.push({id:newId,label,x,y,color,parentId:ajoutParent?ajoutParent.id:null});sauvegarderNoeuds();fermerPanelAjout();dessinerCarte();
+}
+function supprimerNoeud(){if(!selectedNode)return;function supprimerRec(id){const e=nodesData.filter(n=>n.parentId===id);e.forEach(e=>supprimerRec(e.id));nodesData=nodesData.filter(n=>n.id!==id);}supprimerRec(selectedNode.id);selectedNode=null;fermerPanelNoeud();sauvegarderNoeuds();dessinerCarte();}
+function zoomIn(){scale=Math.min(scale*1.25,3);dessinerCarte();}
+function zoomOut(){scale=Math.max(scale/1.25,0.3);dessinerCarte();}
+function centrerVue(){scale=1;panX=0;panY=0;dessinerCarte();}
+window.addEventListener('resize',()=>{if(document.getElementById('mm-editor').style.display!=='none'){ajusterCanvas();dessinerCarte();}});
 
-  const now = new Date();
-  const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-  const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-  document.getElementById('date-header').textContent =
-    jours[now.getDay()] + ' ' + now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+// ══════════════════════════════════
+//  SECTIONS STANDARDS
+// ══════════════════════════════════
+function ajouterRepas(){const type=document.getElementById('repas-type').value,heure=document.getElementById('repas-heure').value,details=document.getElementById('repas-details').value,note=document.getElementById('repas-note').value;if(!heure){alert('Heure requise.');return;}const l=ld('repas');l.unshift({type,heure,details,note,date:now.toLocaleDateString('fr-FR')});sv('repas',l);document.getElementById('repas-details').value='';document.getElementById('repas-note').value='';afficherRepas();}
+function supprimerRepas(i){const l=ld('repas');l.splice(i,1);sv('repas',l);afficherRepas();}
+function afficherRepas(){const l=ld('repas'),el=document.getElementById('repas-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun repas.</p>';return;}el.innerHTML=l.map((r,i)=>`<div class="entry"><span><span class="badge badge-blue">${r.type}</span><br>${r.date} à ${r.heure}${r.details?' — '+r.details:''}${r.note?'<br><em>'+r.note+'</em>':''}</span><button onclick="supprimerRepas(${i})">×</button></div>`).join('');}
 
-  document.getElementById('repas-heure').value = now.toTimeString().slice(0,5);
+function ajouterSommeil(){const type=document.getElementById('sommeil-type').value,debut=document.getElementById('sommeil-debut').value,fin=document.getElementById('sommeil-fin').value,note=document.getElementById('sommeil-note').value;if(!debut){alert('Début requis.');return;}let duree='';if(debut&&fin){const diff=Math.round((new Date(fin)-new Date(debut))/60000);if(diff>0)duree=Math.floor(diff/60)+'h'+(diff%60?String(diff%60).padStart(2,'0'):'');}const l=ld('sommeil');l.unshift({type,debut,fin,duree,note});sv('sommeil',l);document.getElementById('sommeil-note').value='';afficherSommeil();}
+function supprimerSommeil(i){const l=ld('sommeil');l.splice(i,1);sv('sommeil',l);afficherSommeil();}
+function afficherSommeil(){const l=ld('sommeil'),el=document.getElementById('sommeil-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun sommeil.</p>';return;}el.innerHTML=l.map((s,i)=>`<div class="entry"><span><span class="badge badge-teal">${s.type}</span><br>Début : ${s.debut?s.debut.replace('T',' à '):'—'}${s.fin?'<br>Fin : '+s.fin.replace('T',' à '):''}${s.duree?' ('+s.duree+')':''}${s.note?'<br><em>'+s.note+'</em>':''}</span><button onclick="supprimerSommeil(${i})">×</button></div>`).join('');}
 
-  function sauvegarder(cle, data) { localStorage.setItem(cle, JSON.stringify(data)); }
-  function charger(cle) { return JSON.parse(localStorage.getItem(cle) || '[]'); }
+function ajouterSante(){const type=document.getElementById('sante-type').value,date=document.getElementById('sante-date').value,desc=document.getElementById('sante-desc').value;if(!desc){alert('Description requise.');return;}const l=ld('sante');l.unshift({type,date,desc});sv('sante',l);document.getElementById('sante-desc').value='';afficherSante();}
+function supprimerSante(i){const l=ld('sante');l.splice(i,1);sv('sante',l);afficherSante();}
+function afficherSante(){const l=ld('sante'),el=document.getElementById('sante-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucune note.</p>';return;}el.innerHTML=l.map((s,i)=>`<div class="entry"><span><span class="badge badge-purple">${s.type}</span><br>${s.date||''} ${s.desc}</span><button onclick="supprimerSante(${i})">×</button></div>`).join('');}
 
-  // REPAS
-  function ajouterRepas() {
-    const type    = document.getElementById('repas-type').value;
-    const heure   = document.getElementById('repas-heure').value;
-    const details = document.getElementById('repas-details').value;
-    const note    = document.getElementById('repas-note').value;
-    if (!heure) { alert('Veuillez indiquer une heure.'); return; }
-    const liste = charger('repas');
-    liste.unshift({ type, heure, details, note, date: now.toLocaleDateString('fr-FR') });
-    sauvegarder('repas', liste);
-    document.getElementById('repas-details').value = '';
-    document.getElementById('repas-note').value = '';
-    afficherRepas();
-  }
-  function supprimerRepas(i) {
-    const l = charger('repas'); l.splice(i,1); sauvegarder('repas',l); afficherRepas();
-  }
-  function afficherRepas() {
-    const liste = charger('repas');
-    const el = document.getElementById('repas-liste');
-    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun repas enregistré.</p>'; return; }
-    el.innerHTML = liste.map((r,i) => `
-      <div class="entry">
-        <span>
-          <span class="badge badge-teal">${r.type}</span><br>
-          ${r.date} à ${r.heure}
-          ${r.details ? ' — ' + r.details : ''}
-          ${r.note ? '<br><em>' + r.note + '</em>' : ''}
-        </span>
-        <button onclick="supprimerRepas(${i})">×</button>
-      </div>`).join('');
-  }
+function ajouterCourse(){const item=document.getElementById('courses-item').value.trim(),qte=document.getElementById('courses-qte').value.trim();if(!item){alert('Article requis.');return;}const l=ld('courses');l.push({item,qte,fait:false});sv('courses',l);document.getElementById('courses-item').value='';document.getElementById('courses-qte').value='';afficherCourses();}
+function toggleCourse(i){const l=ld('courses');l[i].fait=!l[i].fait;sv('courses',l);afficherCourses();}
+function supprimerCourse(i){const l=ld('courses');l.splice(i,1);sv('courses',l);afficherCourses();}
+function afficherCourses(){const l=ld('courses'),el=document.getElementById('courses-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Liste vide.</p>';return;}el.innerHTML=l.map((c,i)=>`<div class="checklist-item ${c.fait?'checked':''}"><input type="checkbox" ${c.fait?'checked':''} onchange="toggleCourse(${i})"><label onclick="toggleCourse(${i})">${c.item}${c.qte?' — '+c.qte:''}</label><button onclick="supprimerCourse(${i})">×</button></div>`).join('');}
 
-  // SOMMEIL
-  function ajouterSommeil() {
-    const type  = document.getElementById('sommeil-type').value;
-    const debut = document.getElementById('sommeil-debut').value;
-    const fin   = document.getElementById('sommeil-fin').value;
-    const note  = document.getElementById('sommeil-note').value;
-    if (!debut) { alert('Veuillez indiquer une heure de début.'); return; }
-    let duree = '';
-    if (debut && fin) {
-      const diff = Math.round((new Date(fin) - new Date(debut)) / 60000);
-      if (diff > 0) duree = Math.floor(diff/60) + 'h' + (diff%60 ? String(diff%60).padStart(2,'0') : '');
+function ajouterRdv(){const titre=document.getElementById('rdv-titre').value.trim(),date=document.getElementById('rdv-date').value,lieu=document.getElementById('rdv-lieu').value.trim(),note=document.getElementById('rdv-note').value.trim();if(!titre||!date){alert('Titre et date requis.');return;}const l=ld('rdv');l.push({titre,date,lieu,note});l.sort((a,b)=>new Date(a.date)-new Date(b.date));sv('rdv',l);document.getElementById('rdv-titre').value='';document.getElementById('rdv-lieu').value='';document.getElementById('rdv-note').value='';afficherRdv();}
+function supprimerRdv(i){const l=ld('rdv');l.splice(i,1);sv('rdv',l);afficherRdv();}
+function afficherRdv(){const l=ld('rdv'),el=document.getElementById('rdv-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun rendez-vous.</p>';return;}el.innerHTML=l.map((r,i)=>`<div class="entry"><span><span class="badge badge-red">${r.titre}</span><br>${r.date?r.date.replace('T',' à '):''}${r.lieu?'<br>📍 '+r.lieu:''}${r.note?'<br><em>'+r.note+'</em>':''}</span><button onclick="supprimerRdv(${i})">×</button></div>`).join('');}
+
+function ajouterVetement(){const taille=document.getElementById('vetements-taille').value,item=document.getElementById('vetements-item').value.trim(),qte=document.getElementById('vetements-qte').value.trim(),note=document.getElementById('vetements-note').value.trim();if(!item){alert('Article requis.');return;}const l=ld('vetements');l.unshift({taille,item,qte,note});sv('vetements',l);document.getElementById('vetements-item').value='';document.getElementById('vetements-qte').value='';document.getElementById('vetements-note').value='';afficherVetements();}
+function supprimerVetement(i){const l=ld('vetements');l.splice(i,1);sv('vetements',l);afficherVetements();}
+function afficherVetements(){const l=ld('vetements'),el=document.getElementById('vetements-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun vêtement.</p>';return;}el.innerHTML=l.map((v,i)=>`<div class="entry"><span><span class="badge badge-pink">${v.taille}</span><br><strong style="color:#ccd6f6">${v.item}</strong>${v.qte?' — '+v.qte:''}${v.note?'<br><em>'+v.note+'</em>':''}</span><button onclick="supprimerVetement(${i})">×</button></div>`).join('');}
+
+function ajouterMaternite(){const valise=document.getElementById('maternite-valise').value,item=document.getElementById('maternite-item').value.trim(),qte=document.getElementById('maternite-qte').value.trim(),note=document.getElementById('maternite-note').value.trim();if(!item){alert('Article requis.');return;}const l=ld('maternite');l.unshift({valise,item,qte,note});sv('maternite',l);document.getElementById('maternite-item').value='';document.getElementById('maternite-qte').value='';document.getElementById('maternite-note').value='';afficherMaternite();}
+function supprimerMaternite(i){const l=ld('maternite');l.splice(i,1);sv('maternite',l);afficherMaternite();}
+function afficherMaternite(){const l=ld('maternite'),el=document.getElementById('maternite-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Valise vide.</p>';return;}el.innerHTML=l.map((m,i)=>`<div class="entry"><span><span class="badge badge-rose">${m.valise}</span><br><strong style="color:#ccd6f6">${m.item}</strong>${m.qte?' — '+m.qte:''}${m.note?'<br><em>'+m.note+'</em>':''}</span><button onclick="supprimerMaternite(${i})">×</button></div>`).join('');}
+
+function ajouterAdmin(){const cat=document.getElementById('admin-cat').value,item=document.getElementById('admin-item').value.trim(),date=document.getElementById('admin-date').value,statut=document.getElementById('admin-statut').value,note=document.getElementById('admin-note').value.trim();if(!item){alert('Démarche requise.');return;}const l=ld('admin');l.unshift({cat,item,date,statut,note});sv('admin',l);document.getElementById('admin-item').value='';document.getElementById('admin-date').value='';document.getElementById('admin-note').value='';afficherAdmin();}
+function supprimerAdmin(i){const l=ld('admin');l.splice(i,1);sv('admin',l);afficherAdmin();}
+function afficherAdmin(){const l=ld('admin'),el=document.getElementById('admin-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucune démarche.</p>';return;}const sc={'À faire':'badge-red','En cours':'badge-amber','Fait ✓':'badge-teal'};el.innerHTML=l.map((a,i)=>`<div class="entry"><span><span class="badge badge-yellow">${a.cat}</span> <span class="badge ${sc[a.statut]||'badge-amber'}">${a.statut}</span><br><strong style="color:#ccd6f6">${a.item}</strong>${a.date?'<br>📅 Avant le '+a.date:''}${a.note?'<br><em>'+a.note+'</em>':''}</span><button onclick="supprimerAdmin(${i})">×</button></div>`).join('');}
+
+function ajouterEvent(){const type=document.getElementById('events-type').value,titre=document.getElementById('events-titre').value.trim(),date=document.getElementById('events-date').value,lieu=document.getElementById('events-lieu').value.trim(),note=document.getElementById('events-note').value.trim();if(!titre||!date){alert('Titre et date requis.');return;}const l=ld('events');l.push({type,titre,date,lieu,note});l.sort((a,b)=>new Date(a.date)-new Date(b.date));sv('events',l);document.getElementById('events-titre').value='';document.getElementById('events-date').value='';document.getElementById('events-lieu').value='';document.getElementById('events-note').value='';afficherEvents();}
+function supprimerEvent(i){const l=ld('events');l.splice(i,1);sv('events',l);afficherEvents();}
+function afficherEvents(){const l=ld('events'),el=document.getElementById('events-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun événement.</p>';return;}el.innerHTML=l.map((e,i)=>`<div class="entry"><span><span class="badge badge-violet">${e.type}</span><br><strong style="color:#ccd6f6">${e.titre}</strong><br>${e.date?e.date.replace('T',' à '):''}${e.lieu?'<br>📍 '+e.lieu:''}${e.note?'<br><em>'+e.note+'</em>':''}</span><button onclick="supprimerEvent(${i})">×</button></div>`).join('');}
+
+// Init
+const savedBudget=localStorage.getItem('budget_total');
+if(savedBudget)document.getElementById('budget-total').value=savedBudget;
+afficherRepas();afficherSommeil();afficherSante();afficherCourses();afficherRdv();
+afficherVetements();afficherMaternite();afficherAdmin();afficherEvents();
+// ══════════════════════════════════
+//  BUDGET
+// ══════════════════════════════════
+const B_PIECES={
+  parents:{label:'Ch. parents',color:'#7f91e8'},
+  bebe:   {label:'Ch. bébé',   color:'#9ae6b4'},
+  sdb:    {label:'Sdb',        color:'#90cdf4'},
+  salon:  {label:'Salon',      color:'#d6bcfa'},
+  cuisine:{label:'Cuisine',    color:'#fbd38d'},
+  jardin: {label:'Jardin',     color:'#b7e4b7'},
+  voiture:{label:'Voiture',    color:'#f0b4e8'},
+  ext:    {label:'Sorties',    color:'#f0e68c'}
+};
+
+function bParsePrice(s){if(!s)return 0;const n=parseFloat(String(s).replace(/[^0-9.,]/g,'').replace(',','.'));return isNaN(n)?0:n;}
+function bFmt(n){return Math.round(n).toLocaleString('fr-FR')+' €';}
+
+function bGetAllItems(){
+  const all=[];
+  Object.keys(B_PIECES).forEach(id=>{
+    const items=ld('mob_'+id);
+    items.forEach(it=>all.push({...it,piece:id,prixNum:bParsePrice(it.prix)}));
+  });
+  return all;
+}
+
+let bChartPie,bChartStatut,bChartBar,bChartLine;
+
+function majBudget(){
+  const all=bGetAllItems();
+  const budget=parseFloat(document.getElementById('budget-total').value)||0;
+  const depense=all.filter(i=>i.statut==='Reçu ✓').reduce((s,i)=>s+i.prixNum,0);
+  const reste=budget-depense;
+  const pct=budget>0?Math.min(100,Math.round((depense/budget)*100)):0;
+
+  // Sauvegarder le budget saisi
+  localStorage.setItem('budget_total', document.getElementById('budget-total').value);
+
+  document.getElementById('b-jauge').style.width=pct+'%';
+  document.getElementById('b-pct').textContent=pct+'%';
+  document.getElementById('b-stat-total').textContent=budget?bFmt(budget):'—';
+  document.getElementById('b-stat-dep').textContent=bFmt(depense);
+  document.getElementById('b-stat-reste').textContent=budget?bFmt(reste):'—';
+  document.getElementById('b-stat-reste').style.color=reste<0?'#feb2b2':'#9ae6b4';
+
+  const DARK='#0d0d18';
+  const CHART_OPTS={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>bFmt(ctx.raw||0)}}}};
+
+  // Camembert par pièce
+  const pieData=Object.keys(B_PIECES).map(id=>({
+    label:B_PIECES[id].label,color:B_PIECES[id].color,
+    val:all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)
+  })).filter(d=>d.val>0);
+  const pieSrc=pieData.length?pieData:[{label:'Aucun article',color:'#4a5568',val:1}];
+  if(bChartPie)bChartPie.destroy();
+  bChartPie=new Chart(document.getElementById('b-chart-pie'),{
+    type:'doughnut',
+    data:{labels:pieSrc.map(d=>d.label),datasets:[{data:pieSrc.map(d=>d.val),backgroundColor:pieSrc.map(d=>d.color),borderColor:DARK,borderWidth:2}]},
+    options:{...CHART_OPTS,cutout:'65%'}
+  });
+  document.getElementById('b-legend-pie').innerHTML=pieSrc.map(d=>`<span style="display:flex;align-items:center;gap:3px;font-size:9px;color:#8892b0"><span style="width:8px;height:8px;border-radius:2px;background:${d.color};flex-shrink:0"></span>${d.label}</span>`).join('');
+
+  // Camembert par statut
+  const statutData=[
+    {label:'À acheter',color:'#feb2b2',val:all.filter(i=>i.statut==='À acheter').reduce((s,i)=>s+i.prixNum,0)},
+    {label:'Commandé', color:'#fbd38d',val:all.filter(i=>i.statut==='Commandé').reduce((s,i)=>s+i.prixNum,0)},
+    {label:'Reçu ✓',   color:'#9ae6b4',val:all.filter(i=>i.statut==='Reçu ✓').reduce((s,i)=>s+i.prixNum,0)}
+  ].filter(d=>d.val>0);
+  const statutSrc=statutData.length?statutData:[{label:'Aucun article',color:'#4a5568',val:1}];
+  if(bChartStatut)bChartStatut.destroy();
+  bChartStatut=new Chart(document.getElementById('b-chart-statut'),{
+    type:'doughnut',
+    data:{labels:statutSrc.map(d=>d.label),datasets:[{data:statutSrc.map(d=>d.val),backgroundColor:statutSrc.map(d=>d.color),borderColor:DARK,borderWidth:2}]},
+    options:{...CHART_OPTS,cutout:'65%'}
+  });
+  document.getElementById('b-legend-statut').innerHTML=statutSrc.map(d=>`<span style="display:flex;align-items:center;gap:3px;font-size:9px;color:#8892b0"><span style="width:8px;height:8px;border-radius:2px;background:${d.color};flex-shrink:0"></span>${d.label}</span>`).join('');
+
+  // Histogramme par pièce
+  const barLabels=Object.values(B_PIECES).map(p=>p.label);
+  const barVals=Object.keys(B_PIECES).map(id=>Math.round(all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)));
+  const barColors=Object.values(B_PIECES).map(p=>p.color);
+  if(bChartBar)bChartBar.destroy();
+  bChartBar=new Chart(document.getElementById('b-chart-bar'),{
+    type:'bar',
+    data:{labels:barLabels,datasets:[{data:barVals,backgroundColor:barColors,borderRadius:6,borderSkipped:false}]},
+    options:{...CHART_OPTS,scales:{
+      x:{ticks:{color:'#8892b0',font:{size:9},autoSkip:false,maxRotation:30},grid:{color:'rgba(255,255,255,0.04)'}},
+      y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>v+'€'},grid:{color:'rgba(255,255,255,0.06)'}}
+    }}
+  });
+
+  // Courbe d'évolution
+  const byDate={};
+  all.forEach(it=>{
+    if(it.prixNum>0){
+      const d=it.date||new Date().toLocaleDateString('fr-FR');
+      if(!byDate[d])byDate[d]=0;
+      byDate[d]+=it.prixNum;
     }
-    const liste = charger('sommeil');
-    liste.unshift({ type, debut, fin, duree, note });
-    sauvegarder('sommeil', liste);
-    document.getElementById('sommeil-note').value = '';
-    afficherSommeil();
-  }
-  function supprimerSommeil(i) {
-    const l = charger('sommeil'); l.splice(i,1); sauvegarder('sommeil',l); afficherSommeil();
-  }
-  function afficherSommeil() {
-    const liste = charger('sommeil');
-    const el = document.getElementById('sommeil-liste');
-    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun sommeil enregistré.</p>'; return; }
-    el.innerHTML = liste.map((s,i) => `
-      <div class="entry">
-        <span>
-          <span class="badge badge-blue">${s.type}</span><br>
-          Début : ${s.debut ? s.debut.replace('T',' à ') : '—'}
-          ${s.fin ? '<br>Fin : ' + s.fin.replace('T',' à ') : ''}
-          ${s.duree ? ' (' + s.duree + ')' : ''}
-          ${s.note ? '<br><em>' + s.note + '</em>' : ''}
-        </span>
-        <button onclick="supprimerSommeil(${i})">×</button>
-      </div>`).join('');
-  }
+  });
+  const sortedDates=Object.keys(byDate).sort((a,b)=>{
+    const pa=a.split('/'),pb=b.split('/');
+    return new Date(pa[2],pa[1]-1,pa[0])-new Date(pb[2],pb[1]-1,pb[0]);
+  });
+  let cumul=0;
+  const lineVals=sortedDates.map(d=>{cumul+=byDate[d];return Math.round(cumul);});
+  const lineSrc=lineVals.length?{labels:sortedDates,vals:lineVals}:{labels:['Aujourd\'hui'],vals:[0]};
+  if(bChartLine)bChartLine.destroy();
+  bChartLine=new Chart(document.getElementById('b-chart-line'),{
+    type:'line',
+    data:{labels:lineSrc.labels,datasets:[{
+      data:lineSrc.vals,borderColor:'#7f91e8',backgroundColor:'rgba(127,145,232,0.12)',
+      borderWidth:2,pointBackgroundColor:'#7f91e8',pointRadius:4,fill:true,tension:0.4
+    }]},
+    options:{...CHART_OPTS,scales:{
+      x:{ticks:{color:'#8892b0',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}},
+      y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>v+'€'},grid:{color:'rgba(255,255,255,0.06)'}}
+    }}
+  });
 
-  // SANTÉ
-  function ajouterSante() {
-    const type = document.getElementById('sante-type').value;
-    const date = document.getElementById('sante-date').value;
-    const desc = document.getElementById('sante-desc').value;
-    if (!desc) { alert('Veuillez ajouter une description.'); return; }
-    const liste = charger('sante');
-    liste.unshift({ type, date, desc });
-    sauvegarder('sante', liste);
-    document.getElementById('sante-desc').value = '';
-    afficherSante();
+  // Détail articles avec prix
+  const avecPrix=all.filter(i=>i.prixNum>0).sort((a,b)=>b.prixNum-a.prixNum);
+  const el=document.getElementById('b-detail-liste');
+  if(!avecPrix.length){
+    el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun article avec prix saisi dans le mobilier.</p>';
+    return;
   }
-  function supprimerSante(i) {
-    const l = charger('sante'); l.splice(i,1); sauvegarder('sante',l); afficherSante();
-  }
-  function afficherSante() {
-    const liste = charger('sante');
-    const el = document.getElementById('sante-liste');
-    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucune note de santé.</p>'; return; }
-    el.innerHTML = liste.map((s,i) => `
-      <div class="entry">
-        <span>
-          <span class="badge badge-coral">${s.type}</span><br>
-          ${s.date || ''} ${s.desc}
-        </span>
-        <button onclick="supprimerSante(${i})">×</button>
-      </div>`).join('');
-  }
-
-  // COURSES
-  function ajouterCourse() {
-    const item = document.getElementById('courses-item').value.trim();
-    const qte  = document.getElementById('courses-qte').value.trim();
-    if (!item) { alert('Veuillez écrire un article.'); return; }
-    const liste = charger('courses');
-    liste.push({ item, qte, fait: false });
-    sauvegarder('courses', liste);
-    document.getElementById('courses-item').value = '';
-    document.getElementById('courses-qte').value = '';
-    afficherCourses();
-  }
-  function toggleCourse(i) {
-    const l = charger('courses'); l[i].fait = !l[i].fait; sauvegarder('courses',l); afficherCourses();
-  }
-  function supprimerCourse(i) {
-    const l = charger('courses'); l.splice(i,1); sauvegarder('courses',l); afficherCourses();
-  }
-  function afficherCourses() {
-    const liste = charger('courses');
-    const el = document.getElementById('courses-liste');
-    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Liste vide.</p>'; return; }
-    el.innerHTML = liste.map((c,i) => `
-      <div class="checklist-item ${c.fait ? 'checked' : ''}">
-        <input type="checkbox" ${c.fait ? 'checked' : ''} onchange="toggleCourse(${i})">
-        <label onclick="toggleCourse(${i})">${c.item}${c.qte ? ' — ' + c.qte : ''}</label>
-        <button onclick="supprimerCourse(${i})" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:18px;cursor:pointer">×</button>
-      </div>`).join('');
-  }
-
-  // RENDEZ-VOUS
-  function ajouterRdv() {
-    const titre = document.getElementById('rdv-titre').value.trim();
-    const date  = document.getElementById('rdv-date').value;
-    const lieu  = document.getElementById('rdv-lieu').value.trim();
-    const note  = document.getElementById('rdv-note').value.trim();
-    if (!titre || !date) { alert('Veuillez indiquer un titre et une date.'); return; }
-    const liste = charger('rdv');
-    liste.push({ titre, date, lieu, note });
-    liste.sort((a,b) => new Date(a.date) - new Date(b.date));
-    sauvegarder('rdv', liste);
-    document.getElementById('rdv-titre').value = '';
-    document.getElementById('rdv-lieu').value = '';
-    document.getElementById('rdv-note').value = '';
-    afficherRdv();
-  }
-  function supprimerRdv(i) {
-    const l = charger('rdv'); l.splice(i,1); sauvegarder('rdv',l); afficherRdv();
-  }
-  function afficherRdv() {
-    const liste = charger('rdv');
-    const el = document.getElementById('rdv-liste');
-    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun rendez-vous.</p>'; return; }
-    el.innerHTML = liste.map((r,i) => `
-      <div class="entry">
-        <span>
-          <span class="badge badge-purple">${r.titre}</span><br>
-          ${r.date ? r.date.replace('T',' à ') : ''}
-          ${r.lieu ? '<br>📍 ' + r.lieu : ''}
-          ${r.note ? '<br><em>' + r.note + '</em>' : ''}
-        </span>
-        <button onclick="supprimerRdv(${i})">×</button>
-      </div>`).join('');
-  }
-
-  afficherRepas();
-  afficherSommeil();
-  afficherSante();
-  afficherCourses();
-  afficherRdv();
+  const SCOL={'À acheter':'#feb2b2','Commandé':'#fbd38d','Reçu ✓':'#9ae6b4'};
+  el.innerHTML=avecPrix.map(i=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+      <div>
+        <span style="display:inline-block;background:rgba(255,255,255,0.05);border-radius:6px;padding:2px 8px;font-size:10px;color:${B_PIECES[i.piece]?.color||'#ccd6f6'};margin-right:6px">${B_PIECES[i.piece]?.label||i.piece}</span>
+        <span style="font-size:13px;color:#ccd6f6">${i.item}</span>
+        ${i.modele?`<span style="font-size:11px;color:#8892b0"> — ${i.modele}</span>`:''}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:10px">
+        <span style="font-size:12px;color:${SCOL[i.statut]||'#ccd6f6'}">${i.statut}</span>
+        <span style="font-size:14px;font-weight:700;color:#fbd38d">${bFmt(i.prixNum)}</span>
+      </div>
+    </div>`).join('');
+}
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </body>
 </html>

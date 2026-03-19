@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>App Bébé 👶</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, sans-serif;
+      background: #f0f4f8;
+      color: #1a1a2e;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #6c63ff;
+      color: white;
+      text-align: center;
+      padding: 24px 16px 16px;
+    }
+    header h1 { font-size: 26px; margin-bottom: 4px; }
+    header p  { font-size: 14px; opacity: 0.85; }
+
+    nav {
+      display: flex;
+      overflow-x: auto;
+      background: white;
+      border-bottom: 2px solid #e2e8f0;
+      padding: 0 8px;
+    }
+    nav button {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      padding: 14px 18px;
+      font-size: 14px;
+      cursor: pointer;
+      color: #666;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+    nav button.active {
+      color: #6c63ff;
+      border-bottom-color: #6c63ff;
+      font-weight: 600;
+    }
+
+    .section { display: none; padding: 20px 16px; max-width: 700px; margin: 0 auto; }
+    .section.active { display: block; }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .card h2 { font-size: 18px; margin-bottom: 14px; color: #333; }
+
+    label { display: block; font-size: 14px; color: #555; margin-bottom: 4px; margin-top: 12px; }
+    input, select, textarea {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #dde1e7;
+      border-radius: 10px;
+      font-size: 15px;
+      background: #fafafa;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    input:focus, select:focus, textarea:focus { border-color: #6c63ff; background: white; }
+    textarea { min-height: 80px; resize: vertical; }
+
+    .btn {
+      display: inline-block;
+      margin-top: 16px;
+      padding: 12px 24px;
+      background: #6c63ff;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      cursor: pointer;
+      width: 100%;
+      font-weight: 600;
+    }
+    .btn:active { opacity: 0.85; }
+
+    .entry-list { margin-top: 16px; }
+    .entry {
+      background: #f7f8fc;
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      font-size: 14px;
+    }
+    .entry span { color: #444; line-height: 1.5; }
+    .entry button {
+      background: none;
+      border: none;
+      color: #e74c3c;
+      font-size: 18px;
+      cursor: pointer;
+      margin-left: 10px;
+      flex-shrink: 0;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .badge-teal   { background: #e0f7f1; color: #0f7a5a; }
+    .badge-blue   { background: #e8f0fe; color: #1a56db; }
+    .badge-coral  { background: #fde8e8; color: #c0392b; }
+    .badge-amber  { background: #fef3cd; color: #9a6700; }
+    .badge-purple { background: #ede9fe; color: #5b21b6; }
+
+    .checklist-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    .checklist-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: #6c63ff; }
+    .checklist-item label { margin: 0; color: #333; cursor: pointer; font-size: 14px; }
+    .checklist-item.checked label { text-decoration: line-through; color: #aaa; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>👶 App Bébé</h1>
+  <p id="date-header"></p>
+</header>
+
+<nav>
+  <button class="active" onclick="showSection('repas', this)">🍼 Repas</button>
+  <button onclick="showSection('sommeil', this)">😴 Sommeil</button>
+  <button onclick="showSection('sante', this)">🏥 Santé</button>
+  <button onclick="showSection('courses', this)">🛒 Courses</button>
+  <button onclick="showSection('rdv', this)">📅 Rendez-vous</button>
+</nav>
+
+<!-- REPAS -->
+<div id="repas" class="section active">
+  <div class="card">
+    <h2>🍼 Ajouter un repas</h2>
+    <label>Type</label>
+    <select id="repas-type">
+      <option>Tétée</option>
+      <option>Biberon</option>
+      <option>Repas solide</option>
+    </select>
+    <label>Heure</label>
+    <input type="time" id="repas-heure">
+    <label>Durée / Quantité (optionnel)</label>
+    <input type="text" id="repas-details" placeholder="ex : 15 min ou 120 ml">
+    <label>Note</label>
+    <input type="text" id="repas-note" placeholder="ex : a bien mangé">
+    <button class="btn" onclick="ajouterRepas()">Ajouter ce repas</button>
+  </div>
+  <div class="card">
+    <h2>Historique</h2>
+    <div class="entry-list" id="repas-liste"></div>
+  </div>
+</div>
+
+<!-- SOMMEIL -->
+<div id="sommeil" class="section">
+  <div class="card">
+    <h2>😴 Ajouter un sommeil</h2>
+    <label>Type</label>
+    <select id="sommeil-type">
+      <option>Nuit</option>
+      <option>Sieste</option>
+    </select>
+    <label>Début</label>
+    <input type="datetime-local" id="sommeil-debut">
+    <label>Fin</label>
+    <input type="datetime-local" id="sommeil-fin">
+    <label>Note</label>
+    <input type="text" id="sommeil-note" placeholder="ex : agité, bien dormi...">
+    <button class="btn" onclick="ajouterSommeil()">Ajouter ce sommeil</button>
+  </div>
+  <div class="card">
+    <h2>Historique</h2>
+    <div class="entry-list" id="sommeil-liste"></div>
+  </div>
+</div>
+
+<!-- SANTÉ -->
+<div id="sante" class="section">
+  <div class="card">
+    <h2>🏥 Ajouter une note santé</h2>
+    <label>Type</label>
+    <select id="sante-type">
+      <option>Vaccin</option>
+      <option>Médicament</option>
+      <option>Symptôme</option>
+      <option>Mesure (poids / taille)</option>
+      <option>Autre</option>
+    </select>
+    <label>Date</label>
+    <input type="date" id="sante-date">
+    <label>Description</label>
+    <textarea id="sante-desc" placeholder="ex : Vaccin DTP — bras gauche, 5,2 kg..."></textarea>
+    <button class="btn" onclick="ajouterSante()">Ajouter</button>
+  </div>
+  <div class="card">
+    <h2>Carnet de santé</h2>
+    <div class="entry-list" id="sante-liste"></div>
+  </div>
+</div>
+
+<!-- COURSES -->
+<div id="courses" class="section">
+  <div class="card">
+    <h2>🛒 Ajouter un article</h2>
+    <label>Article</label>
+    <input type="text" id="courses-item" placeholder="ex : couches taille 2, lait 1er âge...">
+    <label>Quantité (optionnel)</label>
+    <input type="text" id="courses-qte" placeholder="ex : 2 paquets">
+    <button class="btn" onclick="ajouterCourse()">Ajouter à la liste</button>
+  </div>
+  <div class="card">
+    <h2>Liste de courses</h2>
+    <div class="entry-list" id="courses-liste"></div>
+  </div>
+</div>
+
+<!-- RENDEZ-VOUS -->
+<div id="rdv" class="section">
+  <div class="card">
+    <h2>📅 Ajouter un rendez-vous</h2>
+    <label>Titre</label>
+    <input type="text" id="rdv-titre" placeholder="ex : Pédiatre, Sage-femme...">
+    <label>Date et heure</label>
+    <input type="datetime-local" id="rdv-date">
+    <label>Lieu (optionnel)</label>
+    <input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
+    <label>Note</label>
+    <input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
+    <button class="btn" onclick="ajouterRdv()">Ajouter le rendez-vous</button>
+  </div>
+  <div class="card">
+    <h2>Prochains rendez-vous</h2>
+    <div class="entry-list" id="rdv-liste"></div>
+  </div>
+</div>
+
+<script>
+  function showSection(id, btn) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+  }
+
+  const now = new Date();
+  const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const mois  = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  document.getElementById('date-header').textContent =
+    jours[now.getDay()] + ' ' + now.getDate() + ' ' + mois[now.getMonth()] + ' ' + now.getFullYear();
+
+  document.getElementById('repas-heure').value = now.toTimeString().slice(0,5);
+
+  function sauvegarder(cle, data) { localStorage.setItem(cle, JSON.stringify(data)); }
+  function charger(cle) { return JSON.parse(localStorage.getItem(cle) || '[]'); }
+
+  // REPAS
+  function ajouterRepas() {
+    const type    = document.getElementById('repas-type').value;
+    const heure   = document.getElementById('repas-heure').value;
+    const details = document.getElementById('repas-details').value;
+    const note    = document.getElementById('repas-note').value;
+    if (!heure) { alert('Veuillez indiquer une heure.'); return; }
+    const liste = charger('repas');
+    liste.unshift({ type, heure, details, note, date: now.toLocaleDateString('fr-FR') });
+    sauvegarder('repas', liste);
+    document.getElementById('repas-details').value = '';
+    document.getElementById('repas-note').value = '';
+    afficherRepas();
+  }
+  function supprimerRepas(i) {
+    const l = charger('repas'); l.splice(i,1); sauvegarder('repas',l); afficherRepas();
+  }
+  function afficherRepas() {
+    const liste = charger('repas');
+    const el = document.getElementById('repas-liste');
+    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun repas enregistré.</p>'; return; }
+    el.innerHTML = liste.map((r,i) => `
+      <div class="entry">
+        <span>
+          <span class="badge badge-teal">${r.type}</span><br>
+          ${r.date} à ${r.heure}
+          ${r.details ? ' — ' + r.details : ''}
+          ${r.note ? '<br><em>' + r.note + '</em>' : ''}
+        </span>
+        <button onclick="supprimerRepas(${i})">×</button>
+      </div>`).join('');
+  }
+
+  // SOMMEIL
+  function ajouterSommeil() {
+    const type  = document.getElementById('sommeil-type').value;
+    const debut = document.getElementById('sommeil-debut').value;
+    const fin   = document.getElementById('sommeil-fin').value;
+    const note  = document.getElementById('sommeil-note').value;
+    if (!debut) { alert('Veuillez indiquer une heure de début.'); return; }
+    let duree = '';
+    if (debut && fin) {
+      const diff = Math.round((new Date(fin) - new Date(debut)) / 60000);
+      if (diff > 0) duree = Math.floor(diff/60) + 'h' + (diff%60 ? String(diff%60).padStart(2,'0') : '');
+    }
+    const liste = charger('sommeil');
+    liste.unshift({ type, debut, fin, duree, note });
+    sauvegarder('sommeil', liste);
+    document.getElementById('sommeil-note').value = '';
+    afficherSommeil();
+  }
+  function supprimerSommeil(i) {
+    const l = charger('sommeil'); l.splice(i,1); sauvegarder('sommeil',l); afficherSommeil();
+  }
+  function afficherSommeil() {
+    const liste = charger('sommeil');
+    const el = document.getElementById('sommeil-liste');
+    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun sommeil enregistré.</p>'; return; }
+    el.innerHTML = liste.map((s,i) => `
+      <div class="entry">
+        <span>
+          <span class="badge badge-blue">${s.type}</span><br>
+          Début : ${s.debut ? s.debut.replace('T',' à ') : '—'}
+          ${s.fin ? '<br>Fin : ' + s.fin.replace('T',' à ') : ''}
+          ${s.duree ? ' (' + s.duree + ')' : ''}
+          ${s.note ? '<br><em>' + s.note + '</em>' : ''}
+        </span>
+        <button onclick="supprimerSommeil(${i})">×</button>
+      </div>`).join('');
+  }
+
+  // SANTÉ
+  function ajouterSante() {
+    const type = document.getElementById('sante-type').value;
+    const date = document.getElementById('sante-date').value;
+    const desc = document.getElementById('sante-desc').value;
+    if (!desc) { alert('Veuillez ajouter une description.'); return; }
+    const liste = charger('sante');
+    liste.unshift({ type, date, desc });
+    sauvegarder('sante', liste);
+    document.getElementById('sante-desc').value = '';
+    afficherSante();
+  }
+  function supprimerSante(i) {
+    const l = charger('sante'); l.splice(i,1); sauvegarder('sante',l); afficherSante();
+  }
+  function afficherSante() {
+    const liste = charger('sante');
+    const el = document.getElementById('sante-liste');
+    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucune note de santé.</p>'; return; }
+    el.innerHTML = liste.map((s,i) => `
+      <div class="entry">
+        <span>
+          <span class="badge badge-coral">${s.type}</span><br>
+          ${s.date || ''} ${s.desc}
+        </span>
+        <button onclick="supprimerSante(${i})">×</button>
+      </div>`).join('');
+  }
+
+  // COURSES
+  function ajouterCourse() {
+    const item = document.getElementById('courses-item').value.trim();
+    const qte  = document.getElementById('courses-qte').value.trim();
+    if (!item) { alert('Veuillez écrire un article.'); return; }
+    const liste = charger('courses');
+    liste.push({ item, qte, fait: false });
+    sauvegarder('courses', liste);
+    document.getElementById('courses-item').value = '';
+    document.getElementById('courses-qte').value = '';
+    afficherCourses();
+  }
+  function toggleCourse(i) {
+    const l = charger('courses'); l[i].fait = !l[i].fait; sauvegarder('courses',l); afficherCourses();
+  }
+  function supprimerCourse(i) {
+    const l = charger('courses'); l.splice(i,1); sauvegarder('courses',l); afficherCourses();
+  }
+  function afficherCourses() {
+    const liste = charger('courses');
+    const el = document.getElementById('courses-liste');
+    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Liste vide.</p>'; return; }
+    el.innerHTML = liste.map((c,i) => `
+      <div class="checklist-item ${c.fait ? 'checked' : ''}">
+        <input type="checkbox" ${c.fait ? 'checked' : ''} onchange="toggleCourse(${i})">
+        <label onclick="toggleCourse(${i})">${c.item}${c.qte ? ' — ' + c.qte : ''}</label>
+        <button onclick="supprimerCourse(${i})" style="margin-left:auto;background:none;border:none;color:#e74c3c;font-size:18px;cursor:pointer">×</button>
+      </div>`).join('');
+  }
+
+  // RENDEZ-VOUS
+  function ajouterRdv() {
+    const titre = document.getElementById('rdv-titre').value.trim();
+    const date  = document.getElementById('rdv-date').value;
+    const lieu  = document.getElementById('rdv-lieu').value.trim();
+    const note  = document.getElementById('rdv-note').value.trim();
+    if (!titre || !date) { alert('Veuillez indiquer un titre et une date.'); return; }
+    const liste = charger('rdv');
+    liste.push({ titre, date, lieu, note });
+    liste.sort((a,b) => new Date(a.date) - new Date(b.date));
+    sauvegarder('rdv', liste);
+    document.getElementById('rdv-titre').value = '';
+    document.getElementById('rdv-lieu').value = '';
+    document.getElementById('rdv-note').value = '';
+    afficherRdv();
+  }
+  function supprimerRdv(i) {
+    const l = charger('rdv'); l.splice(i,1); sauvegarder('rdv',l); afficherRdv();
+  }
+  function afficherRdv() {
+    const liste = charger('rdv');
+    const el = document.getElementById('rdv-liste');
+    if (!liste.length) { el.innerHTML = '<p style="color:#aaa;font-size:14px">Aucun rendez-vous.</p>'; return; }
+    el.innerHTML = liste.map((r,i) => `
+      <div class="entry">
+        <span>
+          <span class="badge badge-purple">${r.titre}</span><br>
+          ${r.date ? r.date.replace('T',' à ') : ''}
+          ${r.lieu ? '<br>📍 ' + r.lieu : ''}
+          ${r.note ? '<br><em>' + r.note + '</em>' : ''}
+        </span>
+        <button onclick="supprimerRdv(${i})">×</button>
+      </div>`).join('');
+  }
+
+  afficherRepas();
+  afficherSommeil();
+  afficherSante();
+  afficherCourses();
+  afficherRdv();
+</script>
+</body>
+</html>

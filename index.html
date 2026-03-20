@@ -1,200 +1,299 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>App Bébé 👶</title>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #0f0f1a; color: #ccd6f6; min-height: 100vh; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Bébé App 👶</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:-apple-system,BlinkMacSystemFont,sans-serif;background:#f8f4ff;color:#1f2937;min-height:100vh;}
 
-    header { background: linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%); padding: 48px 24px 28px; text-align: center; }
-    header .label { font-size:11px; color:#8892b0; font-weight:600; letter-spacing:2.5px; text-transform:uppercase; margin-bottom:12px; }
-    header h1 { font-size:26px; font-weight:700; color:#ccd6f6; line-height:1.3; margin-bottom:8px; }
-    header h1 span { color:#7f91e8; }
-    header .subtitle { font-size:13px; color:#8892b0; margin-bottom:16px; }
-    header .date-pill { display:inline-block; background:rgba(100,120,220,0.12); border:1px solid rgba(100,120,220,0.25); border-radius:20px; padding:5px 16px; font-size:12px; color:#8892b0; }
+/* ── HEADER ── */
+header{
+  position:relative;overflow:hidden;
+  background:linear-gradient(135deg,#fce7f3 0%,#ede9fe 40%,#d1fae5 100%);
+  padding:52px 24px 32px;text-align:center;
+}
+header .hbg{
+  position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=50') center/cover;
+  opacity:0.08;
+}
+header .hcontent{position:relative;}
+header .htag{font-size:11px;color:#9c6ea8;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+header h1{font-size:28px;font-weight:800;background:linear-gradient(135deg,#7c3aed,#ec4899,#10b981);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.2;margin-bottom:6px;}
+header .hsub{font-size:14px;color:#6b7280;margin-bottom:14px;}
+header .hdate{display:inline-block;background:white;border-radius:20px;padding:6px 18px;font-size:12px;color:#7c3aed;font-weight:600;box-shadow:0 4px 12px rgba(124,58,237,0.15);}
 
-    #accueil { display:block; }
-    .accueil-wrap { padding:28px 20px 60px; max-width:600px; margin:0 auto; }
-    .sec-label { font-size:10px; color:#8892b0; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:14px; }
-    .sec-divider { height:1px; background:rgba(255,255,255,0.07); margin:24px 0; }
+/* ── ACCUEIL ── */
+#accueil{display:block;}
+.acc-wrap{padding:28px 18px 60px;max-width:600px;margin:0 auto;}
+.sec-lbl{font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.sec-div{height:1px;background:linear-gradient(90deg,transparent,#e5e7eb,transparent);margin:22px 0;}
 
-    .grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-    .grid-card { border-radius:20px; padding:20px 16px 16px; display:flex; flex-direction:column; align-items:flex-start; gap:6px; cursor:pointer; border:1px solid rgba(255,255,255,0.06); transition:transform 0.15s,opacity 0.15s; }
-    .grid-card:active { transform:scale(0.97); opacity:0.85; }
-    .grid-card .card-icon { font-size:28px; line-height:1; }
-    .grid-card .card-name { font-size:14px; font-weight:700; }
-    .grid-card .card-sub  { font-size:11px; opacity:0.5; }
-    .grid-card.full { grid-column:span 2; flex-direction:row; align-items:center; gap:16px; }
-    .grid-card.full .card-text { display:flex; flex-direction:column; gap:4px; }
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.gc{border-radius:20px;padding:20px 16px 16px;display:flex;flex-direction:column;gap:7px;cursor:pointer;border:none;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.gc:active{transform:scale(0.97);}
+.gc .gi{font-size:30px;line-height:1;}
+.gc .gn{font-size:14px;font-weight:800;}
+.gc .gs{font-size:11px;opacity:0.6;}
+.gc.wide{grid-column:span 2;flex-direction:row;align-items:center;gap:16px;}
+.gc.wide .gtxt{display:flex;flex-direction:column;gap:4px;}
 
-    .c-mindmap   { background:linear-gradient(135deg,#1e1432,#2a1e4a); } .c-mindmap .card-name   { color:#c8b4f0; }
-    .c-repas     { background:linear-gradient(135deg,#1a2a4a,#1e3a5f); } .c-repas .card-name     { color:#90cdf4; }
-    .c-sommeil   { background:linear-gradient(135deg,#1a2e2a,#1e3d35); } .c-sommeil .card-name   { color:#9ae6b4; }
-    .c-sante     { background:linear-gradient(135deg,#2e1a2e,#3d1e3d); } .c-sante .card-name     { color:#d6bcfa; }
-    .c-courses   { background:linear-gradient(135deg,#2e2a1a,#3d351e); } .c-courses .card-name   { color:#fbd38d; }
-    .c-rdv       { background:linear-gradient(135deg,#2e1a1a,#3d2020); } .c-rdv .card-name       { color:#feb2b2; }
-    .c-mobilier  { background:linear-gradient(135deg,#1a2a1a,#1e3a1e); } .c-mobilier .card-name  { color:#b7e4b7; }
-    .c-pieces    { background:linear-gradient(135deg,#1a1e2e,#1e2e4a); } .c-pieces .card-name    { color:#a0c4ff; }
-    .c-vetements { background:linear-gradient(135deg,#2e1a2a,#3d1e38); } .c-vetements .card-name { color:#f0b4e8; }
-    .c-admin     { background:linear-gradient(135deg,#2e2e1a,#3d3d1e); } .c-admin .card-name     { color:#f0e68c; }
-    .c-maternite { background:linear-gradient(135deg,#2e1a1e,#3d1e2a); } .c-maternite .card-name { color:#ffb3c1; }
-    .c-events    { background:linear-gradient(135deg,#1e1a2e,#2a1e3d); } .c-events .card-name    { color:#c8b4f0; }
+.c-todo   {background:linear-gradient(135deg,#fce7f3,#fdf2f8);} .c-todo .gn{color:#9d174d;}
+.c-mind   {background:linear-gradient(135deg,#ede9fe,#f5f3ff);} .c-mind .gn{color:#5b21b6;}
+.c-achat  {background:linear-gradient(135deg,#d1fae5,#ecfdf5);} .c-achat .gn{color:#065f46;}
+.c-rdv    {background:linear-gradient(135deg,#dbeafe,#eff6ff);} .c-rdv .gn{color:#1e40af;}
+.c-admin  {background:linear-gradient(135deg,#fef3c7,#fffbeb);} .c-admin .gn{color:#92400e;}
+.c-signes {background:linear-gradient(135deg,#fce7f3,#fdf4ff);} .c-signes .gn{color:#86198f;}
 
-    .section { display:none; max-width:700px; margin:0 auto; }
-    .section.active { display:block; }
-    .back-btn { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:12px; padding:8px 16px; font-size:13px; cursor:pointer; margin:20px 20px 0; transition:background 0.15s; }
-    .back-btn:hover { background:rgba(255,255,255,0.1); }
-    .section-inner { padding:16px 20px 80px; }
+/* ── SECTIONS ── */
+.section{display:none;max-width:700px;margin:0 auto;}
+.section.active{display:block;}
+.back-btn{display:inline-flex;align-items:center;gap:6px;background:white;border:1.5px solid #e5e7eb;color:#6b7280;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:600;cursor:pointer;margin:20px 20px 0;box-shadow:0 2px 6px rgba(0,0,0,0.06);transition:all 0.15s;}
+.back-btn:hover{background:#f9fafb;border-color:#d1d5db;}
+.sec-inner{padding:16px 20px 80px;}
 
-    .card { background:#16213e; border:1px solid rgba(255,255,255,0.07); border-radius:20px; padding:22px; margin-bottom:16px; }
-    .card h2 { font-size:17px; font-weight:700; color:#ccd6f6; margin-bottom:16px; }
-    label { display:block; font-size:12px; color:#8892b0; margin-bottom:5px; margin-top:14px; font-weight:500; letter-spacing:0.5px; }
-    input, select, textarea { width:100%; padding:11px 14px; border:1px solid rgba(255,255,255,0.1); border-radius:12px; font-size:14px; background:rgba(255,255,255,0.05); color:#ccd6f6; outline:none; transition:border-color 0.2s; }
-    input:focus, select:focus, textarea:focus { border-color:rgba(127,145,232,0.6); background:rgba(255,255,255,0.08); }
-    select option { background:#16213e; color:#ccd6f6; }
-    textarea { min-height:80px; resize:vertical; }
-    .btn { display:block; margin-top:18px; padding:14px 24px; background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:14px; font-size:15px; cursor:pointer; width:100%; font-weight:700; transition:opacity 0.15s; }
-    .btn:active { opacity:0.8; }
-    .entry-list { margin-top:4px; }
-    .entry { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07); border-radius:14px; padding:14px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:flex-start; font-size:13px; color:#a8b2d8; line-height:1.6; }
-    .entry button { background:none; border:none; color:#e74c3c; font-size:20px; cursor:pointer; margin-left:10px; flex-shrink:0; opacity:0.6; }
-    .badge { display:inline-block; padding:2px 10px; border-radius:20px; font-size:11px; font-weight:700; margin-bottom:4px; }
-    .badge-blue   { background:rgba(144,205,244,0.15); color:#90cdf4; }
-    .badge-teal   { background:rgba(154,230,180,0.15); color:#9ae6b4; }
-    .badge-purple { background:rgba(214,188,250,0.15); color:#d6bcfa; }
-    .badge-amber  { background:rgba(251,211,141,0.15); color:#fbd38d; }
-    .badge-red    { background:rgba(254,178,178,0.15); color:#feb2b2; }
-    .badge-green  { background:rgba(183,228,183,0.15); color:#b7e4b7; }
-    .badge-pink   { background:rgba(240,180,232,0.15); color:#f0b4e8; }
-    .badge-yellow { background:rgba(240,230,140,0.15); color:#f0e68c; }
-    .badge-rose   { background:rgba(255,179,193,0.15); color:#ffb3c1; }
-    .badge-violet { background:rgba(200,180,240,0.15); color:#c8b4f0; }
-    .badge-sky    { background:rgba(160,196,255,0.15); color:#a0c4ff; }
-    .checklist-item { display:flex; align-items:center; gap:12px; padding:11px 0; border-bottom:1px solid rgba(255,255,255,0.05); font-size:13px; color:#a8b2d8; }
-    .checklist-item input[type="checkbox"] { width:18px; height:18px; accent-color:#7f91e8; flex-shrink:0; }
-    .checklist-item label { margin:0; cursor:pointer; flex:1; }
-    .checklist-item.checked label { text-decoration:line-through; color:#4a5568; }
-    .checklist-item button { background:none; border:none; color:#e74c3c; font-size:18px; cursor:pointer; opacity:0.5; }
+/* ── CARTES FORMULAIRE ── */
+.card{background:white;border:1.5px solid #f3f4f6;border-radius:20px;padding:22px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.card h2{font-size:18px;font-weight:800;color:#1f2937;margin-bottom:18px;}
+label{display:block;font-size:12px;color:#6b7280;margin-bottom:5px;margin-top:14px;font-weight:600;letter-spacing:0.3px;}
+input,select,textarea{width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;background:#fafafa;color:#1f2937;outline:none;transition:border-color 0.2s,background 0.2s;font-family:inherit;}
+input:focus,select:focus,textarea:focus{border-color:#7c3aed;background:white;}
+textarea{min-height:80px;resize:vertical;}
+.btn{display:block;margin-top:18px;padding:14px 24px;background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:14px;font-size:15px;cursor:pointer;width:100%;font-weight:700;transition:opacity 0.15s;box-shadow:0 4px 14px rgba(124,58,237,0.3);}
+.btn:active{opacity:0.85;}
+.entry{background:#fafafa;border:1.5px solid #f3f4f6;border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;font-size:13px;color:#374151;line-height:1.6;}
+.entry button{background:none;border:none;color:#ef4444;font-size:20px;cursor:pointer;margin-left:10px;flex-shrink:0;opacity:0.5;}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:4px;}
+.b-rose   {background:#fce7f3;color:#9d174d;}
+.b-violet {background:#ede9fe;color:#5b21b6;}
+.b-vert   {background:#d1fae5;color:#065f46;}
+.b-bleu   {background:#dbeafe;color:#1e40af;}
+.b-jaune  {background:#fef3c7;color:#92400e;}
+.b-rose2  {background:#fdf4ff;color:#86198f;}
+.b-gris   {background:#f3f4f6;color:#374151;}
 
-    /* CARTES MENTALES */
-    .mm-list { padding:16px 20px 80px; max-width:700px; margin:0 auto; }
-    .mm-header-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
-    .mm-header-row h2 { font-size:18px; font-weight:700; color:#ccd6f6; }
-    .mm-new-btn { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:12px; padding:10px 18px; font-size:13px; font-weight:700; cursor:pointer; }
-    .mm-card { background:linear-gradient(135deg,#1e1432,#2a1e4a); border:1px solid rgba(200,180,240,0.15); border-radius:18px; padding:18px; margin-bottom:14px; cursor:pointer; transition:transform 0.15s; }
-    .mm-card:active { transform:scale(0.98); }
-    .mm-card-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:10px; }
-    .mm-card-title { font-size:16px; font-weight:700; color:#c8b4f0; }
-    .mm-card-meta  { font-size:11px; color:#8892b0; margin-top:3px; }
-    .mm-card-del { background:none; border:none; color:#e74c3c; font-size:18px; cursor:pointer; opacity:0.5; padding:0 4px; }
-    .mm-bubbles { display:flex; gap:6px; flex-wrap:wrap; }
-    .mm-bubble-pill { background:rgba(200,180,240,0.12); border:1px solid rgba(200,180,240,0.25); color:#c8b4f0; border-radius:20px; padding:3px 10px; font-size:11px; font-weight:600; }
-    .mm-empty { text-align:center; padding:60px 20px; color:#4a5568; font-size:14px; }
-    .mm-empty .mm-empty-icon { font-size:48px; margin-bottom:12px; }
-    .mm-editor-header { background:linear-gradient(135deg,#1e1432,#2a1e4a); padding:20px; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; align-items:center; gap:12px; }
-    .mm-editor-header h3 { font-size:17px; font-weight:700; color:#c8b4f0; flex:1; }
-    .mm-edit-title-btn { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:10px; padding:6px 12px; font-size:12px; cursor:pointer; }
-    .mm-canvas-wrap { position:relative; background:#0d0d18; overflow:hidden; touch-action:none; }
-    #mm-svg { display:block; cursor:grab; }
-    #mm-svg:active { cursor:grabbing; }
-    .mm-toolbar { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); border-bottom:1px solid rgba(255,255,255,0.07); padding:12px 20px; display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .mm-tool-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ccd6f6; border-radius:10px; padding:8px 14px; font-size:12px; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:6px; transition:background 0.15s; }
-    .mm-tool-btn:hover { background:rgba(255,255,255,0.12); }
-    .mm-tool-sep { width:1px; height:28px; background:rgba(255,255,255,0.1); }
-    .mm-zoom-label { font-size:12px; color:#8892b0; margin-left:auto; }
-    .mm-add-panel { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); padding:16px 20px; display:none; }
-    .mm-add-panel.open { display:block; }
-    .mm-add-panel h4 { font-size:13px; font-weight:700; color:#ccd6f6; margin-bottom:12px; }
-    .mm-add-row { display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
-    .mm-add-row input, .mm-add-row select { flex:1; min-width:140px; padding:10px 12px; border:1px solid rgba(255,255,255,0.1); border-radius:10px; font-size:13px; background:rgba(255,255,255,0.05); color:#ccd6f6; outline:none; }
-    .mm-add-row input:focus { border-color:rgba(127,145,232,0.6); }
-    .mm-add-row select option { background:#16213e; }
-    .mm-confirm-btn { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; border:none; border-radius:10px; padding:10px 18px; font-size:13px; font-weight:700; cursor:pointer; white-space:nowrap; }
-    .mm-cancel-btn  { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#8892b0; border-radius:10px; padding:10px 14px; font-size:13px; cursor:pointer; }
-    .mm-node-panel { background:#16213e; border-top:1px solid rgba(255,255,255,0.07); padding:14px 20px; display:none; align-items:center; gap:10px; flex-wrap:wrap; }
-    .mm-node-panel.open { display:flex; }
-    .mm-node-panel span { font-size:13px; color:#ccd6f6; font-weight:600; flex:1; }
-    .mm-node-btn { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:#ccd6f6; border-radius:10px; padding:8px 14px; font-size:12px; cursor:pointer; }
-    .mm-node-del-btn { background:rgba(231,76,60,0.15); border:1px solid rgba(231,76,60,0.3); color:#e74c3c; border-radius:10px; padding:8px 14px; font-size:12px; cursor:pointer; }
-    .mm-modal-bg { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:200; align-items:center; justify-content:center; padding:20px; }
-    .mm-modal-bg.open { display:flex; }
-    .mm-modal { background:#16213e; border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:24px; width:100%; max-width:360px; }
-    .mm-modal h3 { font-size:16px; font-weight:700; color:#ccd6f6; margin-bottom:16px; }
-    .mm-modal input { width:100%; padding:12px 14px; border:1px solid rgba(255,255,255,0.15); border-radius:12px; font-size:15px; background:rgba(255,255,255,0.07); color:#ccd6f6; outline:none; margin-bottom:8px; }
-    .mm-modal input:focus { border-color:rgba(127,145,232,0.6); }
-    .mm-modal p { font-size:12px; color:#8892b0; margin-bottom:16px; }
-    .mm-modal-btns { display:flex; gap:10px; }
-    .mm-modal-btns button { flex:1; padding:12px; border:none; border-radius:12px; font-size:14px; font-weight:700; cursor:pointer; }
-    .mm-modal-ok  { background:linear-gradient(135deg,#3a4fd4,#5a3fa0); color:white; }
-    .mm-modal-cancel { background:rgba(255,255,255,0.07); color:#8892b0; }
+/* ── TO DO LISTE ── */
+.todo-tabs{display:flex;gap:8px;margin-bottom:18px;}
+.todo-tab{flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:12px;background:white;font-size:13px;font-weight:700;cursor:pointer;text-align:center;color:#6b7280;transition:all 0.15s;}
+.todo-tab.active{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(124,58,237,0.3);}
+.todo-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:white;border:1.5px solid #f3f4f6;border-radius:14px;margin-bottom:10px;transition:all 0.2s;}
+.todo-item.done{opacity:0.5;background:#f9fafb;}
+.todo-item input[type="checkbox"]{width:20px;height:20px;accent-color:#7c3aed;flex-shrink:0;cursor:pointer;}
+.todo-item .todo-txt{flex:1;font-size:14px;color:#1f2937;}
+.todo-item.done .todo-txt{text-decoration:line-through;color:#9ca3af;}
+.todo-item .todo-cat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;}
+.todo-item button{background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;flex-shrink:0;}
+.todo-add{display:flex;gap:8px;margin-bottom:16px;}
+.todo-add input{flex:1;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:14px;background:white;color:#1f2937;outline:none;}
+.todo-add input:focus{border-color:#7c3aed;}
+.todo-add button{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:12px;padding:12px 18px;font-size:18px;font-weight:700;cursor:pointer;}
 
-    /* MOBILIER MAISON */
-    .maison-wrap { background:linear-gradient(180deg,#0a1628 0%,#0d1f3c 60%,#0a1200 100%); border-radius:16px; padding:12px; margin-bottom:16px; }
-    .maison-info { background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:14px; padding:14px 16px; min-height:60px; display:flex; align-items:center; gap:12px; margin-bottom:16px; }
-    .mob-add-form { background:#16213e; border:1px solid rgba(255,255,255,0.07); border-radius:16px; padding:18px; margin-bottom:12px; display:none; }
-    .mob-add-form.open { display:block; }
-    .mob-add-form h3 { font-size:14px; font-weight:700; color:#ccd6f6; margin-bottom:12px; }
-  </style>
+/* ── CARTES MENTALES ── */
+.mm-list{padding:16px 20px 80px;}
+.mm-hrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.mm-hrow h2{font-size:18px;font-weight:800;color:#1f2937;}
+.mm-new-btn{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:12px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(124,58,237,0.3);}
+.mm-card{background:white;border:1.5px solid #ede9fe;border-radius:18px;padding:18px;margin-bottom:14px;cursor:pointer;transition:transform 0.15s;box-shadow:0 2px 8px rgba(124,58,237,0.08);}
+.mm-card:active{transform:scale(0.98);}
+.mm-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.mm-card-title{font-size:16px;font-weight:800;color:#5b21b6;}
+.mm-card-meta{font-size:11px;color:#9ca3af;margin-top:3px;}
+.mm-card-del{background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;padding:0 4px;}
+.mm-bubbles{display:flex;gap:6px;flex-wrap:wrap;}
+.mm-bubble-pill{background:#ede9fe;color:#5b21b6;border-radius:20px;padding:3px 10px;font-size:11px;font-weight:700;}
+.mm-empty{text-align:center;padding:60px 20px;color:#9ca3af;font-size:14px;}
+.mm-empty-icon{font-size:48px;margin-bottom:12px;}
+.mm-editor-header{background:linear-gradient(135deg,#ede9fe,#fce7f3);padding:20px;border-bottom:1.5px solid #e5e7eb;display:flex;align-items:center;gap:12px;}
+.mm-editor-header h3{font-size:17px;font-weight:800;color:#5b21b6;flex:1;}
+.mm-edit-title-btn{background:white;border:1.5px solid #e5e7eb;color:#6b7280;border-radius:10px;padding:6px 12px;font-size:12px;font-weight:600;cursor:pointer;}
+.mm-canvas-wrap{position:relative;background:#fafafa;overflow:hidden;touch-action:none;}
+#mm-svg{display:block;cursor:grab;}
+#mm-svg:active{cursor:grabbing;}
+.mm-toolbar{background:white;border-top:1.5px solid #f3f4f6;border-bottom:1.5px solid #f3f4f6;padding:12px 20px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+.mm-tool-btn{background:#f9fafb;border:1.5px solid #e5e7eb;color:#374151;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.15s;}
+.mm-tool-btn:hover{background:#ede9fe;border-color:#7c3aed;color:#5b21b6;}
+.mm-tool-sep{width:1px;height:28px;background:#e5e7eb;}
+.mm-zoom-label{font-size:12px;color:#9ca3af;margin-left:auto;}
+.mm-add-panel{background:white;border-top:1.5px solid #f3f4f6;padding:16px 20px;display:none;}
+.mm-add-panel.open{display:block;}
+.mm-add-panel h4{font-size:13px;font-weight:800;color:#1f2937;margin-bottom:12px;}
+.mm-add-row{display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap;}
+.mm-add-row input,.mm-add-row select{flex:1;min-width:140px;padding:10px 12px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;background:#fafafa;color:#1f2937;outline:none;}
+.mm-add-row input:focus{border-color:#7c3aed;}
+.mm-confirm-btn{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:700;cursor:pointer;}
+.mm-cancel-btn{background:#f9fafb;border:1.5px solid #e5e7eb;color:#6b7280;border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;}
+.mm-node-panel{background:white;border-top:1.5px solid #f3f4f6;padding:14px 20px;display:none;align-items:center;gap:10px;flex-wrap:wrap;}
+.mm-node-panel.open{display:flex;}
+.mm-node-panel span{font-size:13px;color:#1f2937;font-weight:700;flex:1;}
+.mm-node-btn{background:#f9fafb;border:1.5px solid #e5e7eb;color:#374151;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;}
+.mm-node-del-btn{background:#fef2f2;border:1.5px solid #fecaca;color:#ef4444;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer;}
+.mm-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:200;align-items:center;justify-content:center;padding:20px;}
+.mm-modal-bg.open{display:flex;}
+.mm-modal{background:white;border-radius:20px;padding:24px;width:100%;max-width:360px;box-shadow:0 20px 40px rgba(0,0,0,0.15);}
+.mm-modal h3{font-size:16px;font-weight:800;color:#1f2937;margin-bottom:16px;}
+.mm-modal input{width:100%;padding:12px 14px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:15px;background:#fafafa;color:#1f2937;outline:none;margin-bottom:8px;}
+.mm-modal input:focus{border-color:#7c3aed;}
+.mm-modal p{font-size:12px;color:#9ca3af;margin-bottom:16px;}
+.mm-modal-btns{display:flex;gap:10px;}
+.mm-modal-btns button{flex:1;padding:12px;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;}
+.mm-modal-ok{background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;}
+.mm-modal-cancel{background:#f3f4f6;color:#6b7280;}
+
+/* ── ACHAT BÉBÉ (MAISON) ── */
+.maison-wrap{border-radius:16px;overflow:hidden;border:1.5px solid #e5e7eb;background:white;margin-bottom:16px;}
+.maison-info{background:#f9fafb;border-top:1.5px solid #f3f4f6;padding:16px;display:flex;align-items:center;gap:12px;min-height:64px;}
+.mob-form{background:white;border:1.5px solid #e5e7eb;border-radius:16px;padding:18px;margin-bottom:12px;display:none;}
+.mob-form.open{display:block;}
+.mob-form h3{font-size:14px;font-weight:800;color:#1f2937;margin-bottom:12px;}
+
+/* PIÈCE DÉTAIL */
+.piece-header{background:linear-gradient(135deg,#d1fae5,#ecfdf5);padding:20px;margin-bottom:0;}
+.piece-header h2{font-size:20px;font-weight:800;color:#065f46;}
+.piece-header p{font-size:13px;color:#6b7280;margin-top:4px;}
+
+/* ── RENDEZ-VOUS ── */
+.rdv-view-tabs{display:flex;gap:8px;margin-bottom:18px;}
+.rdv-tab{flex:1;padding:10px;border:1.5px solid #e5e7eb;border-radius:12px;background:white;font-size:13px;font-weight:700;cursor:pointer;text-align:center;color:#6b7280;transition:all 0.15s;}
+.rdv-tab.active{background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;border-color:transparent;box-shadow:0 4px 12px rgba(59,130,246,0.3);}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:12px;}
+.cal-day-hdr{text-align:center;font-size:10px;font-weight:700;color:#9ca3af;padding:4px 0;}
+.cal-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border-radius:8px;font-size:12px;font-weight:600;color:#374151;cursor:pointer;position:relative;transition:all 0.15s;}
+.cal-day:hover{background:#eff6ff;}
+.cal-day.today{background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;}
+.cal-day.has-rdv::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:#ec4899;}
+.cal-day.today.has-rdv::after{background:white;}
+.cal-day.other-month{color:#d1d5db;}
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.cal-nav h3{font-size:15px;font-weight:800;color:#1f2937;}
+.cal-nav button{background:#f3f4f6;border:none;border-radius:8px;padding:6px 12px;font-size:14px;cursor:pointer;font-weight:700;color:#374151;}
+.rdv-item{background:white;border:1.5px solid #dbeafe;border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:flex-start;}
+.rdv-item .rdv-date-badge{background:linear-gradient(135deg,#3b82f6,#6366f1);color:white;border-radius:10px;padding:6px 12px;text-align:center;flex-shrink:0;margin-right:12px;}
+.rdv-item .rdv-date-badge .rdv-day{font-size:18px;font-weight:800;line-height:1;}
+.rdv-item .rdv-date-badge .rdv-month{font-size:10px;font-weight:600;opacity:0.9;}
+.rdv-item .rdv-info{flex:1;}
+.rdv-item .rdv-title{font-size:14px;font-weight:700;color:#1f2937;}
+.rdv-item .rdv-meta{font-size:12px;color:#6b7280;margin-top:2px;}
+.rdv-item button{background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;flex-shrink:0;}
+
+/* ── ADMINISTRATION ── */
+.admin-tabs{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.admin-tab{padding:8px 14px;border:1.5px solid #e5e7eb;border-radius:10px;background:white;font-size:12px;font-weight:700;cursor:pointer;color:#6b7280;transition:all 0.15s;}
+.admin-tab.active{background:#fef3c7;border-color:#f59e0b;color:#92400e;}
+.contact-card{background:white;border:1.5px solid #f3f4f6;border-radius:16px;padding:16px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;box-shadow:0 2px 6px rgba(0,0,0,0.04);}
+.contact-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#fef3c7,#fde68a);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.contact-info{flex:1;}
+.contact-name{font-size:14px;font-weight:800;color:#1f2937;}
+.contact-role{font-size:12px;color:#6b7280;margin-top:2px;}
+.contact-tel{font-size:13px;color:#2563eb;margin-top:4px;font-weight:600;}
+.doc-item{background:white;border:1.5px solid #f3f4f6;border-radius:14px;padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px;}
+.doc-icon{font-size:24px;flex-shrink:0;}
+.doc-info{flex:1;}
+.doc-name{font-size:14px;font-weight:700;color:#1f2937;}
+.doc-detail{font-size:12px;color:#6b7280;margin-top:2px;}
+.doc-status{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;flex-shrink:0;}
+.checklist-item{display:flex;align-items:center;gap:12px;padding:14px 16px;background:white;border:1.5px solid #f3f4f6;border-radius:14px;margin-bottom:10px;}
+.checklist-item input[type="checkbox"]{width:20px;height:20px;accent-color:#7c3aed;flex-shrink:0;cursor:pointer;}
+.checklist-item label{flex:1;font-size:13px;color:#1f2937;cursor:pointer;}
+.checklist-item.done label{text-decoration:line-through;color:#9ca3af;}
+.checklist-item button{background:none;border:none;color:#ef4444;font-size:16px;cursor:pointer;opacity:0.4;}
+
+/* ── SIGNES BÉBÉ ── */
+.signes-cats{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap;}
+.signe-cat-btn{padding:8px 14px;border:1.5px solid #e5e7eb;border-radius:20px;background:white;font-size:12px;font-weight:700;cursor:pointer;color:#6b7280;transition:all 0.15s;}
+.signe-cat-btn.active{background:linear-gradient(135deg,#fce7f3,#fdf4ff);border-color:#f0abfc;color:#86198f;}
+.signes-board{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.signe-card{border-radius:18px;padding:18px;cursor:pointer;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 2px 8px rgba(0,0,0,0.06);}
+.signe-card:active{transform:scale(0.97);}
+.signe-card .sc-icon{font-size:32px;margin-bottom:10px;}
+.signe-card .sc-title{font-size:13px;font-weight:800;margin-bottom:4px;}
+.signe-card .sc-cat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;display:inline-block;}
+
+/* Modal fiche */
+.fiche-modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.4);z-index:300;align-items:flex-end;justify-content:center;padding:20px;}
+.fiche-modal.open{display:flex;}
+.fiche-content{background:white;border-radius:24px 24px 20px 20px;padding:28px;width:100%;max-width:500px;max-height:80vh;overflow-y:auto;}
+.fiche-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;}
+.fiche-icon{font-size:44px;flex-shrink:0;}
+.fiche-title-wrap{flex:1;}
+.fiche-title{font-size:20px;font-weight:800;color:#1f2937;}
+.fiche-cat-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;display:inline-block;margin-top:4px;}
+.fiche-close{background:#f3f4f6;border:none;border-radius:10px;padding:8px 14px;font-size:13px;font-weight:700;cursor:pointer;color:#6b7280;}
+.fiche-section{margin-bottom:16px;}
+.fiche-section h4{font-size:13px;font-weight:800;color:#374151;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;}
+.fiche-section p,.fiche-section li{font-size:14px;color:#4b5563;line-height:1.7;}
+.fiche-section ul{padding-left:18px;}
+.fiche-tip{background:linear-gradient(135deg,#fce7f3,#fdf4ff);border-radius:12px;padding:14px;margin-top:4px;}
+.fiche-tip p{font-size:13px;color:#86198f;}
+</style>
 </head>
 <body>
 
 <header>
-  <div class="label">Votre espace famille</div>
-  <h1>Bienvenue <span>Guillaume</span><br>& <span>Estelle</span> 👶</h1>
-  <div class="subtitle">Tout pour organiser l'arrivée de bébé</div>
-  <div class="date-pill" id="date-header"></div>
+  <div class="hbg"></div>
+  <div class="hcontent">
+    <div class="htag">Votre espace famille</div>
+    <h1>Guillaume & Estelle 👶</h1>
+    <div class="hsub">Bébé arrive bientôt !</div>
+    <div class="hdate" id="date-header"></div>
+  </div>
 </header>
 
 <!-- ACCUEIL -->
 <div id="accueil">
-  <div class="accueil-wrap">
-    <div class="sec-label">Idées & organisation</div>
+  <div class="acc-wrap">
+    <div class="sec-lbl">Organisation</div>
     <div class="grid">
-      <div class="grid-card c-mindmap full" onclick="ouvrirSection('mindmap')">
-        <span class="card-icon">🧠</span>
-        <div class="card-text"><span class="card-name">Cartes mentales</span><span class="card-sub">Visualisez vos idées en bulles connectées</span></div>
-      </div>
+      <div class="gc c-todo" onclick="ouvrirSection('todo')"><span class="gi">✅</span><span class="gn">To do liste</span><span class="gs">Tâches & check</span></div>
+      <div class="gc c-mind" onclick="ouvrirSection('mindmap')"><span class="gi">🧠</span><span class="gn">Cartes mentales</span><span class="gs">Idées & schémas</span></div>
+      <div class="gc c-achat wide" onclick="ouvrirSection('achat')"><span class="gi">🏠</span><div class="gtxt"><span class="gn">Achat bébé</span><span class="gs">Mobilier par pièce de la maison</span></div></div>
     </div>
-    <div class="sec-label">Finances</div>
-<div class="grid">
-  <div class="grid-card full" onclick="ouvrirSection('budget');setTimeout(majBudget,100)" style="background:linear-gradient(135deg,#1a2e1a,#1e3d1e)">
-    <span class="card-icon">💰</span>
-    <div class="card-text">
-      <span class="card-name" style="color:#9ae6b4">Budget</span>
-      <span class="card-sub">Graphiques · suivi des dépenses</span>
-    </div>
-  </div>
-</div>
-<div class="sec-divider"></div>
-    <div class="sec-divider"></div>
-    <div class="sec-label">Quotidien bébé</div>
+    <div class="sec-div"></div>
+    <div class="sec-lbl">Suivi & santé</div>
     <div class="grid">
-      <div class="grid-card c-repas"   onclick="ouvrirSection('repas')"><span class="card-icon">🍼</span><span class="card-name">Repas</span><span class="card-sub">Tétées & biberons</span></div>
-      <div class="grid-card c-sommeil" onclick="ouvrirSection('sommeil')"><span class="card-icon">😴</span><span class="card-name">Sommeil</span><span class="card-sub">Siestes & nuits</span></div>
-      <div class="grid-card c-sante"   onclick="ouvrirSection('sante')"><span class="card-icon">🏥</span><span class="card-name">Santé</span><span class="card-sub">Vaccins & notes</span></div>
-      <div class="grid-card c-courses" onclick="ouvrirSection('courses')"><span class="card-icon">🛒</span><span class="card-name">Courses</span><span class="card-sub">Liste & layette</span></div>
-      <div class="grid-card c-rdv full" onclick="ouvrirSection('rdv')"><span class="card-icon">📅</span><div class="card-text"><span class="card-name">Rendez-vous</span><span class="card-sub">Agenda médical</span></div></div>
-    </div>
-    <div class="sec-divider"></div>
-    <div class="sec-label">Avant l'accouchement</div>
-    <div class="grid">
-      <div class="grid-card c-mobilier full" onclick="ouvrirSection('mobilier')"><span class="card-icon">🏠</span><div class="card-text"><span class="card-name">Mobilier par pièce</span><span class="card-sub">Cliquez sur une pièce de la maison</span></div></div>
-      <div class="grid-card c-vetements" onclick="ouvrirSection('vetements')"><span class="card-icon">👕</span><span class="card-name">Vêtements</span><span class="card-sub">Layette par taille</span></div>
-      <div class="grid-card c-maternite" onclick="ouvrirSection('maternite')"><span class="card-icon">🏥</span><span class="card-name">Maternité</span><span class="card-sub">Valise & check-list</span></div>
-      <div class="grid-card c-admin"     onclick="ouvrirSection('admin')"><span class="card-icon">📋</span><span class="card-name">Administratif</span><span class="card-sub">CAF, congé, mutuelle</span></div>
-      <div class="grid-card c-events full" onclick="ouvrirSection('events')"><span class="card-icon">🎉</span><div class="card-text"><span class="card-name">Événements</span><span class="card-sub">Baby shower, échographies</span></div></div>
+      <div class="gc c-rdv" onclick="ouvrirSection('rdv')"><span class="gi">📅</span><span class="gn">Rendez-vous</span><span class="gs">Calendrier & liste</span></div>
+      <div class="gc c-admin" onclick="ouvrirSection('admin')"><span class="gi">📋</span><span class="gn">Administration</span><span class="gs">Docs & démarches</span></div>
+      <div class="gc c-signes wide" onclick="ouvrirSection('signes')"><span class="gi">👶</span><div class="gtxt"><span class="gn">Signes du bébé</span><span class="gs">Fiches · fatigue · faim · santé</span></div></div>
     </div>
   </div>
 </div>
 
-<!-- CARTES MENTALES -->
+<!-- ══ TO DO LISTE ══ -->
+<div id="todo" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="card">
+      <h2>✅ To do liste</h2>
+      <div class="todo-tabs">
+        <button class="todo-tab active" onclick="switchTodoTab('en-cours',this)">En cours</button>
+        <button class="todo-tab" onclick="switchTodoTab('termine',this)">Terminées</button>
+      </div>
+      <div class="todo-add">
+        <input type="text" id="todo-input" placeholder="Ajouter une tâche..." onkeydown="if(event.key==='Enter')ajouterTodo()">
+        <button onclick="ajouterTodo()">+</button>
+      </div>
+      <div style="margin-bottom:10px;">
+        <select id="todo-cat" style="width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;background:#fafafa;color:#374151;outline:none;">
+          <option value="général">Général</option>
+          <option value="maison">Maison</option>
+          <option value="médical">Médical</option>
+          <option value="admin">Administratif</option>
+          <option value="courses">Courses</option>
+          <option value="bébé">Bébé</option>
+        </select>
+      </div>
+      <div id="todo-liste"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CARTES MENTALES ══ -->
 <div id="mindmap" class="section">
   <button class="back-btn" onclick="retourAccueil()">← Retour</button>
   <div id="mm-list-view">
     <div class="mm-list">
-      <div class="mm-header-row">
+      <div class="mm-hrow">
         <h2>🧠 Cartes mentales</h2>
         <button class="mm-new-btn" onclick="ouvrirModalNouvelleCarte()">+ Nouvelle carte</button>
       </div>
@@ -208,11 +307,11 @@
       <button class="mm-edit-title-btn" onclick="renommerCarte()">✏️ Renommer</button>
     </div>
     <div class="mm-toolbar">
-      <button class="mm-tool-btn" onclick="togglePanelAjout()">＋ Ajouter une bulle</button>
+      <button class="mm-tool-btn" onclick="togglePanelAjout()">＋ Ajouter bulle</button>
       <div class="mm-tool-sep"></div>
-      <button class="mm-tool-btn" onclick="zoomIn()">＋ Zoom</button>
-      <button class="mm-tool-btn" onclick="zoomOut()">－ Zoom</button>
-      <button class="mm-tool-btn" onclick="centrerVue()">⊙ Centrer</button>
+      <button class="mm-tool-btn" onclick="zoomIn()">＋</button>
+      <button class="mm-tool-btn" onclick="zoomOut()">－</button>
+      <button class="mm-tool-btn" onclick="centrerVue()">⊙</button>
       <span class="mm-zoom-label" id="zoom-label">100%</span>
     </div>
     <div class="mm-canvas-wrap" id="mm-canvas-wrap">
@@ -223,10 +322,12 @@
       <div class="mm-add-row">
         <input type="text" id="mm-new-label" placeholder="Texte de la bulle...">
         <select id="mm-new-color">
-          <option value="#90cdf4">Bleu</option><option value="#9ae6b4">Vert</option>
-          <option value="#d6bcfa">Violet</option><option value="#fbd38d">Ambre</option>
-          <option value="#feb2b2">Rose</option><option value="#a0c4ff">Ciel</option>
-          <option value="#f0b4e8">Mauve</option><option value="#f0e68c">Jaune</option>
+          <option value="#7c3aed">Violet</option>
+          <option value="#ec4899">Rose</option>
+          <option value="#10b981">Vert</option>
+          <option value="#3b82f6">Bleu</option>
+          <option value="#f59e0b">Ambre</option>
+          <option value="#ef4444">Rouge</option>
         </select>
       </div>
       <div class="mm-add-row" style="margin-top:10px">
@@ -246,8 +347,8 @@
   <div class="mm-modal">
     <h3>🧠 Nouvelle carte mentale</h3>
     <input type="text" id="mm-modal-title" placeholder="Titre (ex : Prénoms bébé)">
-    <input type="text" id="mm-modal-center" placeholder="Idée centrale (ex : Notre bébé)">
-    <p>L'idée centrale sera la bulle principale au centre.</p>
+    <input type="text" id="mm-modal-center" placeholder="Idée centrale">
+    <p>L'idée centrale sera la bulle principale.</p>
     <div class="mm-modal-btns">
       <button class="mm-modal-ok" onclick="creerCarte()">Créer</button>
       <button class="mm-modal-cancel" onclick="fermerModal()">Annuler</button>
@@ -255,473 +356,447 @@
   </div>
 </div>
 
-<!-- MOBILIER PAR PIÈCE -->
-<div id="mobilier" class="section">
+<!-- ══ ACHAT BÉBÉ (MAISON) ══ -->
+<div id="achat" class="section">
   <button class="back-btn" onclick="retourAccueil()">← Retour</button>
-  <div class="section-inner">
+  <div class="sec-inner">
     <div class="maison-wrap">
       <svg width="100%" viewBox="0 0 500 530" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="msky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#1a2a4a"/></linearGradient>
-          <linearGradient id="mgrass" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a3a0a"/><stop offset="100%" stop-color="#0a1a04"/></linearGradient>
-          <linearGradient id="mroof1" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#3a2a1a"/><stop offset="100%" stop-color="#2a1a0a"/></linearGradient>
-          <linearGradient id="mroof2" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#4a3a2a"/><stop offset="100%" stop-color="#2a1a0a"/></linearGradient>
-          <linearGradient id="mwall" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2a2a3a"/><stop offset="100%" stop-color="#1e1e2e"/></linearGradient>
+          <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#f0f9ff"/></linearGradient>
+          <linearGradient id="grass2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bbf7d0"/><stop offset="100%" stop-color="#86efac"/></linearGradient>
+          <linearGradient id="road2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e2e8f0"/><stop offset="100%" stop-color="#cbd5e1"/></linearGradient>
+          <linearGradient id="roof2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#f87171"/></linearGradient>
+          <linearGradient id="roof2b" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#ef4444"/></linearGradient>
+          <linearGradient id="wall2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fef9f0"/><stop offset="100%" stop-color="#fef3e2"/></linearGradient>
         </defs>
-        <rect x="0" y="0" width="500" height="530" fill="url(#msky)"/>
-        <circle cx="40" cy="20" r="1" fill="#fff" opacity="0.6"/><circle cx="120" cy="35" r="0.8" fill="#fff" opacity="0.5"/>
-        <circle cx="200" cy="15" r="1.2" fill="#fff" opacity="0.7"/><circle cx="320" cy="28" r="0.9" fill="#fff" opacity="0.5"/>
-        <circle cx="420" cy="18" r="1" fill="#fff" opacity="0.6"/><circle cx="80" cy="50" r="0.8" fill="#fff" opacity="0.3"/>
-        <circle cx="380" cy="12" r="1.1" fill="#fff" opacity="0.6"/>
-        <circle cx="450" cy="35" r="18" fill="#2a3a5a"/><circle cx="440" cy="28" r="16" fill="#0a1628"/><circle cx="458" cy="32" r="14" fill="#c8d8f0" opacity="0.12"/>
-        <rect x="18" y="310" width="8" height="50" fill="#3a2a1a"/>
-        <polygon points="22,262 4,318 40,318" fill="#1a3a1a"/><polygon points="22,280 6,328 38,328" fill="#1e4a1e"/>
-        <rect x="55" y="320" width="6" height="40" fill="#3a2a1a"/><polygon points="58,280 43,326 73,326" fill="#163016"/>
-        <rect x="462" y="310" width="8" height="50" fill="#3a2a1a"/>
-        <polygon points="466,262 448,320 484,320" fill="#1a3a1a"/><polygon points="466,280 450,330 482,330" fill="#1e4a1e"/>
-        <rect x="428" y="318" width="7" height="42" fill="#3a2a1a"/><polygon points="431,278 416,324 446,324" fill="#163016"/>
-        <rect x="0" y="356" width="500" height="60" fill="url(#mgrass)"/>
-        <rect x="0" y="416" width="500" height="40" fill="#1a1a28"/>
-        <line x1="0" y1="436" x2="500" y2="436" stroke="#4a4a6a" stroke-width="1" stroke-dasharray="30 15"/>
-        <rect x="215" y="356" width="70" height="62" fill="#2a2a3a" rx="2"/>
-        <line x1="250" y1="358" x2="250" y2="418" stroke="#3a3a5a" stroke-width="1" stroke-dasharray="8 6"/>
-        <circle cx="130" cy="368" r="4" fill="#d4537e" opacity="0.8"/><circle cx="145" cy="364" r="3" fill="#fbd38d" opacity="0.8"/>
-        <circle cx="158" cy="370" r="4" fill="#90cdf4" opacity="0.7"/><circle cx="345" cy="366" r="4" fill="#d6bcfa" opacity="0.8"/>
-        <circle cx="360" cy="370" r="3" fill="#feb2b2" opacity="0.8"/><circle cx="375" cy="364" r="4" fill="#fbd38d" opacity="0.7"/>
-        <rect x="92" y="148" width="318" height="210" fill="#111118" rx="3"/>
-        <rect x="90" y="145" width="320" height="212" fill="url(#mwall)" rx="3"/>
-        <rect x="90" y="145" width="320" height="212" fill="none" stroke="#3a3a5a" stroke-width="1" rx="3"/>
-        <rect x="90" y="330" width="320" height="28" fill="#252535"/>
-        <rect x="90" y="328" width="320" height="4" fill="#1a1a2a"/>
-        <polygon points="80,148 250,58 420,148" fill="url(#mroof1)" stroke="#5a4a3a" stroke-width="1.5"/>
-        <polygon points="420,148 440,158 260,68 250,58" fill="url(#mroof2)" stroke="#4a3a2a" stroke-width="1"/>
-        <line x1="130" y1="148" x2="190" y2="100" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
-        <line x1="170" y1="148" x2="220" y2="105" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
-        <line x1="250" y1="148" x2="250" y2="58" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
-        <line x1="310" y1="100" x2="370" y2="148" stroke="#4a3a2a" stroke-width="0.5" opacity="0.5"/>
-        <rect x="88" y="144" width="334" height="8" fill="#2a2a3a" rx="2"/>
-        <rect x="300" y="72" width="28" height="50" fill="#2e2018" stroke="#4a3020" stroke-width="1"/>
-        <rect x="296" y="68" width="36" height="8" fill="#3a2820" rx="1"/>
-        <circle cx="314" cy="55" r="8" fill="#2a2a3a" opacity="0.4"/>
-        <circle cx="310" cy="44" r="6" fill="#2a2a3a" opacity="0.3"/>
-        <rect x="200" y="100" width="40" height="32" fill="#1a2040" rx="3" stroke="#4a5a8a" stroke-width="1"/>
-        <polygon points="195,103 220,85 245,103" fill="#3a2a1a" stroke="#5a4a3a" stroke-width="0.8"/>
-        <line x1="220" y1="100" x2="220" y2="132" stroke="#4a5a8a" stroke-width="0.8"/>
-        <line x1="200" y1="116" x2="240" y2="116" stroke="#4a5a8a" stroke-width="0.8"/>
-        <rect x="90" y="238" width="320" height="5" fill="#1a1a2e"/>
+        <rect x="0" y="0" width="500" height="530" fill="url(#sky2)"/>
+        <circle cx="420" cy="40" r="28" fill="#fde68a" opacity="0.8"/>
+        <circle cx="420" cy="40" r="22" fill="#fbbf24" opacity="0.6"/>
+        <circle cx="80" cy="60" r="20" fill="white" opacity="0.6"/>
+        <circle cx="110" cy="50" r="28" fill="white" opacity="0.5"/>
+        <circle cx="140" cy="58" r="22" fill="white" opacity="0.55"/>
+        <circle cx="300" cy="35" r="18" fill="white" opacity="0.4"/>
+        <circle cx="330" cy="28" r="24" fill="white" opacity="0.45"/>
+        <rect x="18" y="280" width="8" height="76" fill="#a16207"/>
+        <polygon points="22,238 2,284 42,284" fill="#16a34a"/>
+        <polygon points="22,256 4,292 40,292" fill="#22c55e"/>
+        <rect x="58" y="295" width="6" height="61" fill="#a16207"/>
+        <polygon points="61,256 44,300 78,300" fill="#15803d"/>
+        <rect x="462" y="280" width="8" height="76" fill="#a16207"/>
+        <polygon points="466,238 446,284 486,284" fill="#16a34a"/>
+        <polygon points="466,256 448,292 484,292" fill="#22c55e"/>
+        <rect x="430" y="295" width="7" height="61" fill="#a16207"/>
+        <polygon points="433,258 418,300 448,300" fill="#15803d"/>
+        <rect x="0" y="356" width="500" height="62" fill="url(#grass2)"/>
+        <rect x="0" y="418" width="500" height="38" fill="url(#road2)"/>
+        <line x1="0" y1="437" x2="500" y2="437" stroke="#94a3b8" stroke-width="1" stroke-dasharray="30 15"/>
+        <rect x="215" y="356" width="70" height="64" fill="#e2e8f0" rx="2"/>
+        <line x1="250" y1="358" x2="250" y2="420" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="8 6"/>
+        <circle cx="140" cy="372" r="5" fill="#f9a8d4"/>
+        <circle cx="155" cy="366" r="4" fill="#86efac"/>
+        <circle cx="168" cy="374" r="5" fill="#93c5fd"/>
+        <circle cx="345" cy="370" r="5" fill="#c4b5fd"/>
+        <circle cx="360" cy="374" r="4" fill="#fca5a5"/>
+        <circle cx="374" cy="368" r="5" fill="#fde68a"/>
+        <rect x="92" y="148" width="318" height="210" fill="#fef9f0" rx="3"/>
+        <rect x="90" y="145" width="320" height="212" fill="url(#wall2)" rx="3" stroke="#fcd9a8" stroke-width="1.5"/>
+        <rect x="90" y="330" width="320" height="28" fill="#fde68a" opacity="0.4"/>
+        <rect x="90" y="328" width="320" height="4" fill="#f59e0b" opacity="0.3"/>
+        <polygon points="80,148 250,55 420,148" fill="url(#roof2a)" stroke="#fca5a5" stroke-width="1.5"/>
+        <polygon points="420,148 440,158 260,65 250,55" fill="url(#roof2b)" stroke="#ef4444" stroke-width="1"/>
+        <rect x="88" y="144" width="334" height="8" fill="#fca5a5" rx="2" opacity="0.6"/>
+        <rect x="300" y="72" width="26" height="48" fill="#d4a574" stroke="#b8874e" stroke-width="1"/>
+        <rect x="296" y="68" width="34" height="7" fill="#c4956a" rx="1"/>
+        <circle cx="313" cy="52" r="8" fill="#94a3b8" opacity="0.3"/>
+        <circle cx="309" cy="42" r="6" fill="#94a3b8" opacity="0.2"/>
+        <rect x="200" y="98" width="40" height="32" fill="#bfdbfe" rx="3" stroke="#93c5fd" stroke-width="1"/>
+        <polygon points="195,101 220,83 245,101" fill="#fca5a5" stroke="#f87171" stroke-width="0.8"/>
+        <line x1="220" y1="98" x2="220" y2="130" stroke="#93c5fd" stroke-width="0.8"/>
+        <line x1="200" y1="114" x2="240" y2="114" stroke="#93c5fd" stroke-width="0.8"/>
+        <rect x="90" y="236" width="320" height="5" fill="#fde68a" opacity="0.5"/>
 
         <!-- Chambre parents -->
-        <g id="mp-parents" style="cursor:pointer" onclick="selectPiece('parents')">
-          <rect x="91" y="146" width="104" height="91" fill="#1a2040"/>
-          <rect x="93" y="195" width="60" height="36" fill="#2a1a0a" rx="4"/>
-          <rect x="93" y="195" width="60" height="12" fill="#3a2a1a" rx="2"/>
-          <rect x="93" y="195" width="28" height="18" fill="#4a3a2a" rx="2"/>
-          <rect x="123" y="195" width="28" height="18" fill="#4a3a2a" rx="2"/>
-          <rect x="95" y="197" width="22" height="10" fill="#e8d8c8" rx="2" opacity="0.6"/>
-          <rect x="127" y="197" width="22" height="10" fill="#e8d8c8" rx="2" opacity="0.6"/>
-          <rect x="157" y="200" width="18" height="20" fill="#2a1a0a" rx="2"/>
-          <rect x="93" y="150" width="22" height="44" fill="#2a1a0a" rx="2"/>
-          <line x1="104" y1="150" x2="104" y2="194" stroke="#3a2a1a" stroke-width="0.8"/>
+        <g id="p-parents" style="cursor:pointer" onclick="ouvrirPiece('parents')">
+          <rect x="91" y="146" width="104" height="89" fill="#eff6ff" opacity="0.8"/>
+          <rect x="95" y="195" width="56" height="34" fill="#bfdbfe" rx="4"/>
+          <rect x="95" y="195" width="56" height="11" fill="#93c5fd" rx="2"/>
+          <rect x="95" y="195" width="26" height="17" fill="#60a5fa" rx="2" opacity="0.7"/>
+          <rect x="123" y="195" width="26" height="17" fill="#60a5fa" rx="2" opacity="0.7"/>
+          <rect x="97" y="197" width="20" height="9" fill="white" rx="2" opacity="0.8"/>
+          <rect x="125" y="197" width="20" height="9" fill="white" rx="2" opacity="0.8"/>
+          <rect x="155" y="199" width="16" height="18" fill="#93c5fd" rx="2"/>
+          <rect x="93" y="149" width="20" height="43" fill="#93c5fd" rx="2" opacity="0.8"/>
+          <line x1="103" y1="149" x2="103" y2="192" stroke="#60a5fa" stroke-width="0.8"/>
         </g>
-        <rect x="194" y="146" width="3" height="91" fill="#1a1a2e"/>
+        <rect x="194" y="146" width="3" height="89" fill="#e5e7eb"/>
 
         <!-- Chambre bébé -->
-        <g id="mp-bebe" style="cursor:pointer" onclick="selectPiece('bebe')">
-          <rect x="197" y="146" width="108" height="91" fill="#1a2818"/>
-          <rect x="210" y="185" width="50" height="38" fill="#2a1a0a" rx="3"/>
-          <rect x="210" y="185" width="50" height="8" fill="#3a2a1a" rx="2"/>
-          <rect x="210" y="215" width="50" height="8" fill="#3a2a1a" rx="2"/>
-          <line x1="218" y1="185" x2="218" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
-          <line x1="226" y1="185" x2="226" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
-          <line x1="234" y1="185" x2="234" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
-          <line x1="242" y1="185" x2="242" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
-          <line x1="250" y1="185" x2="250" y2="223" stroke="#4a3a2a" stroke-width="1.5"/>
-          <rect x="212" y="193" width="46" height="18" fill="#e8f0e8" opacity="0.4" rx="2"/>
-          <line x1="240" y1="160" x2="240" y2="184" stroke="#9ae6b4" stroke-width="0.8"/>
-          <line x1="228" y1="166" x2="252" y2="166" stroke="#9ae6b4" stroke-width="0.8"/>
-          <circle cx="225" cy="169" r="3" fill="#d4537e" opacity="0.7"/>
-          <circle cx="240" cy="171" r="3" fill="#90cdf4" opacity="0.7"/>
-          <circle cx="255" cy="169" r="3" fill="#fbd38d" opacity="0.7"/>
-          <rect x="268" y="190" width="28" height="32" fill="#2a1a0a" rx="2"/>
-          <line x1="268" y1="202" x2="296" y2="202" stroke="#3a2a1a" stroke-width="0.8"/>
+        <g id="p-bebe" style="cursor:pointer" onclick="ouvrirPiece('bebe')">
+          <rect x="197" y="146" width="108" height="89" fill="#f0fdf4" opacity="0.8"/>
+          <rect x="210" y="185" width="48" height="36" fill="#bbf7d0" rx="3"/>
+          <rect x="210" y="185" width="48" height="8" fill="#86efac" rx="2"/>
+          <rect x="210" y="213" width="48" height="8" fill="#86efac" rx="2"/>
+          <line x1="218" y1="185" x2="218" y2="221" stroke="#4ade80" stroke-width="1.5"/>
+          <line x1="226" y1="185" x2="226" y2="221" stroke="#4ade80" stroke-width="1.5"/>
+          <line x1="234" y1="185" x2="234" y2="221" stroke="#4ade80" stroke-width="1.5"/>
+          <line x1="242" y1="185" x2="242" y2="221" stroke="#4ade80" stroke-width="1.5"/>
+          <line x1="238" y1="160" x2="238" y2="184" stroke="#86efac" stroke-width="0.8"/>
+          <line x1="227" y1="165" x2="249" y2="165" stroke="#86efac" stroke-width="0.8"/>
+          <circle cx="224" cy="168" r="3" fill="#fca5a5"/>
+          <circle cx="238" cy="170" r="3" fill="#93c5fd"/>
+          <circle cx="252" cy="168" r="3" fill="#fde68a"/>
+          <rect x="266" y="190" width="26" height="30" fill="#bbf7d0" rx="2"/>
+          <line x1="266" y1="202" x2="292" y2="202" stroke="#86efac" stroke-width="0.8"/>
         </g>
-        <rect x="304" y="146" width="3" height="91" fill="#1a1a2e"/>
+        <rect x="304" y="146" width="3" height="89" fill="#e5e7eb"/>
 
         <!-- Salle de bain -->
-        <g id="mp-sdb" style="cursor:pointer" onclick="selectPiece('sdb')">
-          <rect x="307" y="146" width="102" height="91" fill="#1a2830"/>
-          <line x1="325" y1="146" x2="325" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
-          <line x1="345" y1="146" x2="345" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
-          <line x1="365" y1="146" x2="365" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
-          <line x1="385" y1="146" x2="385" y2="237" stroke="#2a3a40" stroke-width="0.5"/>
-          <line x1="307" y1="175" x2="409" y2="175" stroke="#2a3a40" stroke-width="0.5"/>
-          <line x1="307" y1="190" x2="409" y2="190" stroke="#2a3a40" stroke-width="0.5"/>
-          <rect x="315" y="197" width="70" height="30" fill="#1e3040" rx="8" stroke="#3a5060" stroke-width="1"/>
-          <rect x="320" y="200" width="60" height="22" fill="#243848" rx="6"/>
-          <rect x="322" y="202" width="56" height="16" fill="#1a4060" rx="5" opacity="0.4"/>
-          <rect x="356" y="195" width="6" height="6" fill="#8a9aaa" rx="1"/>
-          <rect x="352" y="193" width="14" height="3" fill="#8a9aaa" rx="1"/>
-          <rect x="315" y="172" width="26" height="20" fill="#1e3040" rx="4" stroke="#3a5060" stroke-width="1"/>
-          <circle cx="328" cy="182" r="3" fill="#243848"/>
-          <line x1="328" y1="172" x2="328" y2="168" stroke="#8a9aaa" stroke-width="1.5"/>
+        <g id="p-sdb" style="cursor:pointer" onclick="ouvrirPiece('sdb')">
+          <rect x="307" y="146" width="102" height="89" fill="#f0f9ff" opacity="0.8"/>
+          <line x1="322" y1="146" x2="322" y2="235" stroke="#bae6fd" stroke-width="0.6"/>
+          <line x1="342" y1="146" x2="342" y2="235" stroke="#bae6fd" stroke-width="0.6"/>
+          <line x1="362" y1="146" x2="362" y2="235" stroke="#bae6fd" stroke-width="0.6"/>
+          <line x1="382" y1="146" x2="382" y2="235" stroke="#bae6fd" stroke-width="0.6"/>
+          <line x1="307" y1="172" x2="409" y2="172" stroke="#bae6fd" stroke-width="0.6"/>
+          <line x1="307" y1="188" x2="409" y2="188" stroke="#bae6fd" stroke-width="0.6"/>
+          <rect x="314" y="197" width="68" height="28" fill="#bae6fd" rx="8" stroke="#7dd3fc" stroke-width="1"/>
+          <rect x="319" y="200" width="58" height="20" fill="#e0f2fe" rx="6"/>
+          <rect x="321" y="202" width="54" height="14" fill="#93c5fd" rx="5" opacity="0.3"/>
+          <rect x="354" y="195" width="6" height="5" fill="#94a3b8" rx="1"/>
+          <rect x="350" y="193" width="14" height="3" fill="#94a3b8" rx="1"/>
+          <rect x="314" y="171" width="24" height="18" fill="#bae6fd" rx="4" stroke="#7dd3fc" stroke-width="1"/>
+          <circle cx="326" cy="180" r="3" fill="#e0f2fe"/>
+          <line x1="326" y1="171" x2="326" y2="167" stroke="#94a3b8" stroke-width="1.5"/>
         </g>
 
         <!-- Fenêtres étage -->
-        <rect x="117" y="157" width="22" height="16" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
-        <line x1="128" y1="157" x2="128" y2="173" stroke="#4a6090" stroke-width="0.6"/>
-        <line x1="117" y1="165" x2="139" y2="165" stroke="#4a6090" stroke-width="0.6"/>
-        <rect x="342" y="157" width="22" height="16" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
-        <line x1="353" y1="157" x2="353" y2="173" stroke="#4a6090" stroke-width="0.6"/>
-        <line x1="342" y1="165" x2="364" y2="165" stroke="#4a6090" stroke-width="0.6"/>
+        <rect x="116" y="155" width="22" height="16" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/>
+        <line x1="127" y1="155" x2="127" y2="171" stroke="#93c5fd" stroke-width="0.6"/>
+        <line x1="116" y1="163" x2="138" y2="163" stroke="#93c5fd" stroke-width="0.6"/>
+        <rect x="340" y="155" width="22" height="16" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/>
+        <line x1="351" y1="155" x2="351" y2="171" stroke="#93c5fd" stroke-width="0.6"/>
+        <line x1="340" y1="163" x2="362" y2="163" stroke="#93c5fd" stroke-width="0.6"/>
 
         <!-- Salon -->
-        <g id="mp-salon" style="cursor:pointer" onclick="selectPiece('salon')">
-          <rect x="91" y="243" width="148" height="114" fill="#201a30"/>
-          <line x1="91" y1="310" x2="239" y2="310" stroke="#2a1a0a" stroke-width="0.5"/>
-          <line x1="91" y1="325" x2="239" y2="325" stroke="#2a1a0a" stroke-width="0.5"/>
-          <line x1="91" y1="340" x2="239" y2="340" stroke="#2a1a0a" stroke-width="0.5"/>
-          <rect x="98" y="293" width="80" height="26" fill="#2a1a40" rx="4"/>
-          <rect x="98" y="293" width="80" height="9" fill="#3a2a50" rx="3"/>
-          <rect x="96" y="291" width="10" height="28" fill="#3a2a50" rx="3"/>
-          <rect x="170" y="291" width="10" height="28" fill="#3a2a50" rx="3"/>
-          <rect x="104" y="296" width="18" height="9" fill="#d6bcfa" rx="2" opacity="0.5"/>
-          <rect x="126" y="296" width="18" height="9" fill="#b794f4" rx="2" opacity="0.4"/>
-          <rect x="148" y="296" width="18" height="9" fill="#d6bcfa" rx="2" opacity="0.5"/>
-          <rect x="116" y="322" width="44" height="16" fill="#2a1a0a" rx="3"/>
-          <rect x="98" y="249" width="50" height="28" fill="#0a0a14" rx="3" stroke="#3a3a5a" stroke-width="0.8"/>
-          <rect x="100" y="251" width="46" height="24" fill="#1a3060" opacity="0.2" rx="2"/>
-          <ellipse cx="155" cy="316" rx="34" ry="10" fill="#3a2a5a" opacity="0.35"/>
-          <line x1="218" y1="248" x2="218" y2="290" stroke="#5a4a3a" stroke-width="2"/>
-          <ellipse cx="218" cy="246" rx="10" ry="4" fill="#3a2a0a"/>
+        <g id="p-salon" style="cursor:pointer" onclick="ouvrirPiece('salon')">
+          <rect x="91" y="241" width="148" height="112" fill="#fdf4ff" opacity="0.8"/>
+          <line x1="91" y1="305" x2="239" y2="305" stroke="#f5d0fe" stroke-width="0.5"/>
+          <line x1="91" y1="320" x2="239" y2="320" stroke="#f5d0fe" stroke-width="0.5"/>
+          <line x1="91" y1="335" x2="239" y2="335" stroke="#f5d0fe" stroke-width="0.5"/>
+          <rect x="98" y="292" width="78" height="24" fill="#e9d5ff" rx="4"/>
+          <rect x="98" y="292" width="78" height="9" fill="#d8b4fe" rx="3"/>
+          <rect x="96" y="290" width="10" height="26" fill="#d8b4fe" rx="3"/>
+          <rect x="168" y="290" width="10" height="26" fill="#d8b4fe" rx="3"/>
+          <rect x="104" y="295" width="16" height="8" fill="#c4b5fd" rx="2" opacity="0.7"/>
+          <rect x="124" y="295" width="16" height="8" fill="#a78bfa" rx="2" opacity="0.6"/>
+          <rect x="144" y="295" width="16" height="8" fill="#c4b5fd" rx="2" opacity="0.7"/>
+          <rect x="115" y="318" width="42" height="14" fill="#e9d5ff" rx="3"/>
+          <rect x="98" y="248" width="48" height="26" fill="#1e1b4b" rx="3" opacity="0.8"/>
+          <rect x="100" y="250" width="44" height="22" fill="#4f46e5" opacity="0.3" rx="2"/>
+          <ellipse cx="150" cy="316" rx="32" ry="9" fill="#e9d5ff" opacity="0.5"/>
+          <line x1="217" y1="246" x2="217" y2="288" stroke="#a78bfa" stroke-width="2"/>
+          <ellipse cx="217" cy="244" rx="9" ry="4" fill="#c4b5fd"/>
         </g>
-        <rect x="238" y="243" width="3" height="114" fill="#1a1a2e"/>
+        <rect x="238" y="241" width="3" height="112" fill="#e5e7eb"/>
 
         <!-- Couloir -->
-        <rect x="241" y="243" width="58" height="114" fill="#181828"/>
-        <line x1="260" y1="243" x2="260" y2="357" stroke="#252535" stroke-width="0.8"/>
-        <line x1="280" y1="243" x2="280" y2="357" stroke="#252535" stroke-width="0.8"/>
-        <line x1="241" y1="270" x2="299" y2="270" stroke="#252535" stroke-width="0.8"/>
-        <line x1="241" y1="300" x2="299" y2="300" stroke="#252535" stroke-width="0.8"/>
-        <line x1="241" y1="330" x2="299" y2="330" stroke="#252535" stroke-width="0.8"/>
-        <rect x="252" y="296" width="36" height="61" fill="#2a1a0a" rx="3" stroke="#4a3020" stroke-width="1.2"/>
-        <rect x="255" y="299" width="13" height="20" fill="#1a0a00" rx="1" opacity="0.7"/>
-        <rect x="270" y="299" width="13" height="20" fill="#1a0a00" rx="1" opacity="0.7"/>
-        <circle cx="287" cy="328" r="2.5" fill="#c8a870"/>
-        <rect x="254" y="354" width="32" height="5" fill="#2a1a0a" rx="1"/>
-        <rect x="244" y="280" width="22" height="14" fill="#2a1a0a" rx="2"/>
-        <text x="255" y="291" text-anchor="middle" font-size="9" font-weight="700" fill="#c8a870" font-family="-apple-system,sans-serif">17</text>
-        <rect x="298" y="243" width="3" height="114" fill="#1a1a2e"/>
+        <rect x="241" y="241" width="58" height="112" fill="#f8fafc" opacity="0.7"/>
+        <line x1="259" y1="241" x2="259" y2="353" stroke="#e2e8f0" stroke-width="0.8"/>
+        <line x1="278" y1="241" x2="278" y2="353" stroke="#e2e8f0" stroke-width="0.8"/>
+        <line x1="241" y1="268" x2="299" y2="268" stroke="#e2e8f0" stroke-width="0.8"/>
+        <line x1="241" y1="298" x2="299" y2="298" stroke="#e2e8f0" stroke-width="0.8"/>
+        <line x1="241" y1="328" x2="299" y2="328" stroke="#e2e8f0" stroke-width="0.8"/>
+        <rect x="252" y="294" width="34" height="59" fill="#d4a574" rx="3" stroke="#b8874e" stroke-width="1.2"/>
+        <rect x="255" y="297" width="12" height="19" fill="#b8874e" rx="1" opacity="0.5"/>
+        <rect x="269" y="297" width="12" height="19" fill="#b8874e" rx="1" opacity="0.5"/>
+        <circle cx="285" cy="323" r="2.5" fill="#fbbf24"/>
+        <rect x="253" y="350" width="30" height="5" fill="#d4a574" rx="1"/>
+        <rect x="244" y="278" width="21" height="13" fill="#fde68a" rx="2"/>
+        <text x="254" y="289" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e" font-family="-apple-system,sans-serif">17</text>
+        <rect x="298" y="241" width="3" height="112" fill="#e5e7eb"/>
 
         <!-- Cuisine -->
-        <g id="mp-cuisine" style="cursor:pointer" onclick="selectPiece('cuisine')">
-          <rect x="301" y="243" width="108" height="114" fill="#1e1e14"/>
-          <line x1="301" y1="258" x2="409" y2="258" stroke="#2a2a1a" stroke-width="0.5"/>
-          <line x1="301" y1="315" x2="409" y2="315" stroke="#2a2a1a" stroke-width="0.5"/>
-          <line x1="301" y1="330" x2="409" y2="330" stroke="#2a2a1a" stroke-width="0.5"/>
-          <line x1="301" y1="345" x2="409" y2="345" stroke="#2a2a1a" stroke-width="0.5"/>
-          <line x1="318" y1="243" x2="318" y2="357" stroke="#2a2a1a" stroke-width="0.5"/>
-          <line x1="365" y1="243" x2="365" y2="357" stroke="#2a2a1a" stroke-width="0.5"/>
-          <rect x="303" y="275" width="104" height="33" fill="#2a2a1a" rx="2"/>
-          <rect x="303" y="273" width="104" height="5" fill="#4a4a3a" rx="1"/>
-          <circle cx="328" cy="284" r="7" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
-          <circle cx="328" cy="284" r="3" fill="#3a2a1a"/>
-          <circle cx="348" cy="282" r="5" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
-          <circle cx="328" cy="296" r="5" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
-          <circle cx="348" cy="296" r="7" fill="#1a1a0a" stroke="#4a4a3a" stroke-width="0.8"/>
-          <circle cx="348" cy="296" r="3" fill="#3a2a1a"/>
-          <rect x="318" y="249" width="44" height="14" fill="#2a2a2a" rx="2" stroke="#3a3a3a" stroke-width="0.8"/>
-          <rect x="365" y="277" width="36" height="24" fill="#1a1a2a" rx="3" stroke="#3a3a4a" stroke-width="0.8"/>
-          <rect x="367" y="279" width="32" height="18" fill="#141420" rx="2"/>
-          <line x1="383" y1="277" x2="383" y2="273" stroke="#8a9aaa" stroke-width="1.5"/>
-          <rect x="303" y="312" width="58" height="45" fill="#2a2a1a" rx="2" stroke="#3a3a2a" stroke-width="0.8"/>
-          <line x1="332" y1="312" x2="332" y2="357" stroke="#3a3a2a" stroke-width="0.8"/>
-          <rect x="373" y="316" width="18" height="28" fill="#2a3a4a" rx="3"/>
-          <rect x="371" y="314" width="22" height="7" fill="#3a4a5a" rx="2"/>
-          <rect x="390" y="276" width="17" height="78" fill="#2a2a3a" rx="2" stroke="#3a3a4a" stroke-width="0.8"/>
-          <line x1="390" y1="320" x2="407" y2="320" stroke="#3a3a4a" stroke-width="0.8"/>
+        <g id="p-cuisine" style="cursor:pointer" onclick="ouvrirPiece('cuisine')">
+          <rect x="301" y="241" width="108" height="112" fill="#fffbeb" opacity="0.8"/>
+          <line x1="301" y1="256" x2="409" y2="256" stroke="#fde68a" stroke-width="0.5"/>
+          <line x1="301" y1="313" x2="409" y2="313" stroke="#fde68a" stroke-width="0.5"/>
+          <line x1="301" y1="328" x2="409" y2="328" stroke="#fde68a" stroke-width="0.5"/>
+          <line x1="301" y1="343" x2="409" y2="343" stroke="#fde68a" stroke-width="0.5"/>
+          <line x1="316" y1="241" x2="316" y2="353" stroke="#fde68a" stroke-width="0.5"/>
+          <line x1="363" y1="241" x2="363" y2="353" stroke="#fde68a" stroke-width="0.5"/>
+          <rect x="303" y="273" width="104" height="31" fill="#fde68a" rx="2" opacity="0.5"/>
+          <rect x="303" y="271" width="104" height="5" fill="#f59e0b" rx="1" opacity="0.6"/>
+          <circle cx="326" cy="282" r="7" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="326" cy="282" r="3" fill="#d97706" opacity="0.8"/>
+          <circle cx="346" cy="280" r="5" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="326" cy="294" r="5" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="346" cy="294" r="7" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="346" cy="294" r="3" fill="#d97706" opacity="0.8"/>
+          <rect x="316" y="247" width="43" height="13" fill="#d4a574" rx="2" stroke="#b8874e" stroke-width="0.8" opacity="0.7"/>
+          <rect x="363" y="275" width="34" height="22" fill="#e0f2fe" rx="3" stroke="#93c5fd" stroke-width="0.8"/>
+          <rect x="365" y="277" width="30" height="16" fill="#bae6fd" rx="2"/>
+          <line x1="381" y1="275" x2="381" y2="271" stroke="#94a3b8" stroke-width="1.5"/>
+          <rect x="303" y="310" width="56" height="43" fill="#fde68a" rx="2" opacity="0.5" stroke="#f59e0b" stroke-width="0.8"/>
+          <line x1="331" y1="310" x2="331" y2="353" stroke="#f59e0b" stroke-width="0.8" opacity="0.5"/>
+          <rect x="371" y="314" width="17" height="26" fill="#dbeafe" rx="3"/>
+          <rect x="369" y="312" width="21" height="6" fill="#93c5fd" rx="2"/>
+          <rect x="389" y="274" width="16" height="76" fill="#e2e8f0" rx="2" stroke="#cbd5e1" stroke-width="0.8"/>
+          <line x1="389" y1="318" x2="405" y2="318" stroke="#cbd5e1" stroke-width="0.8"/>
         </g>
 
         <!-- Fenêtres RDC -->
-        <rect x="155" y="252" width="24" height="18" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
-        <line x1="167" y1="252" x2="167" y2="270" stroke="#4a6090" stroke-width="0.6"/>
-        <line x1="155" y1="261" x2="179" y2="261" stroke="#4a6090" stroke-width="0.6"/>
-        <rect x="352" y="252" width="24" height="18" fill="#1a3060" rx="2" stroke="#4a6090" stroke-width="0.8"/>
-        <line x1="364" y1="252" x2="364" y2="270" stroke="#4a6090" stroke-width="0.6"/>
-        <line x1="352" y1="261" x2="376" y2="261" stroke="#4a6090" stroke-width="0.6"/>
+        <rect x="154" y="250" width="23" height="17" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/>
+        <line x1="165" y1="250" x2="165" y2="267" stroke="#93c5fd" stroke-width="0.6"/>
+        <line x1="154" y1="258" x2="177" y2="258" stroke="#93c5fd" stroke-width="0.6"/>
+        <rect x="350" y="250" width="23" height="17" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/>
+        <line x1="361" y1="250" x2="361" y2="267" stroke="#93c5fd" stroke-width="0.6"/>
+        <line x1="350" y1="258" x2="373" y2="258" stroke="#93c5fd" stroke-width="0.6"/>
 
         <!-- Jardin -->
-        <g id="mp-jardin" style="cursor:pointer" onclick="selectPiece('jardin')">
-          <rect x="0" y="280" width="88" height="80" fill="rgba(20,40,10,0.55)" rx="6"/>
-          <rect x="2" y="308" width="84" height="7" fill="#1a3a0a" rx="3"/>
-          <line x1="5" y1="322" x2="85" y2="322" stroke="#1a3a0a" stroke-width="0.8"/>
-          <line x1="5" y1="334" x2="85" y2="334" stroke="#1a3a0a" stroke-width="0.8"/>
-          <line x1="18" y1="284" x2="18" y2="355" stroke="#5a4a3a" stroke-width="1.5"/>
-          <line x1="52" y1="284" x2="52" y2="355" stroke="#5a4a3a" stroke-width="1.5"/>
-          <line x1="18" y1="285" x2="52" y2="285" stroke="#5a4a3a" stroke-width="2"/>
-          <line x1="24" y1="285" x2="24" y2="310" stroke="#6a5a4a" stroke-width="1"/>
-          <line x1="46" y1="285" x2="46" y2="310" stroke="#6a5a4a" stroke-width="1"/>
-          <rect x="21" y="310" width="28" height="9" fill="#4a3a2a" rx="3"/>
+        <g id="p-jardin" style="cursor:pointer" onclick="ouvrirPiece('jardin')">
+          <rect x="0" y="278" width="88" height="82" fill="#d1fae5" rx="6" opacity="0.8"/>
+          <rect x="2" y="306" width="84" height="6" fill="#86efac" rx="3"/>
+          <line x1="5" y1="320" x2="85" y2="320" stroke="#4ade80" stroke-width="0.8"/>
+          <line x1="5" y1="332" x2="85" y2="332" stroke="#4ade80" stroke-width="0.8"/>
+          <line x1="5" y1="344" x2="85" y2="344" stroke="#4ade80" stroke-width="0.8"/>
+          <line x1="18" y1="282" x2="18" y2="356" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="52" y1="282" x2="52" y2="356" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="18" y1="283" x2="52" y2="283" stroke="#a16207" stroke-width="2"/>
+          <line x1="24" y1="283" x2="24" y2="308" stroke="#92400e" stroke-width="1"/>
+          <line x1="46" y1="283" x2="46" y2="308" stroke="#92400e" stroke-width="1"/>
+          <rect x="21" y="308" width="27" height="8" fill="#92400e" rx="3"/>
         </g>
 
         <!-- Voiture -->
-        <g id="mp-voiture" style="cursor:pointer" onclick="selectPiece('voiture')">
-          <rect x="412" y="280" width="88" height="80" fill="rgba(20,16,35,0.55)" rx="6"/>
-          <rect x="414" y="322" width="84" height="36" fill="#1a1a28" rx="3"/>
-          <line x1="456" y1="324" x2="456" y2="356" stroke="#3a3a5a" stroke-width="1" stroke-dasharray="6 4"/>
-          <rect x="418" y="303" width="76" height="30" fill="#1e2a40" rx="6" stroke="#3a4a60" stroke-width="1"/>
-          <rect x="424" y="295" width="64" height="18" fill="#243050" rx="5"/>
-          <rect x="428" y="297" width="24" height="12" fill="#1a3060" rx="2" opacity="0.7"/>
-          <rect x="455" y="297" width="28" height="12" fill="#1a3060" rx="2" opacity="0.7"/>
-          <circle cx="422" cy="313" r="4" fill="#ffd080" opacity="0.5"/>
-          <circle cx="490" cy="313" r="4" fill="#ff6060" opacity="0.4"/>
-          <circle cx="435" cy="333" r="7" fill="#0a0a14" stroke="#3a3a4a" stroke-width="1.5"/>
-          <circle cx="435" cy="333" r="3" fill="#1a1a2a"/>
-          <circle cx="475" cy="333" r="7" fill="#0a0a14" stroke="#3a3a4a" stroke-width="1.5"/>
-          <circle cx="475" cy="333" r="3" fill="#1a1a2a"/>
+        <g id="p-voiture" style="cursor:pointer" onclick="ouvrirPiece('voiture')">
+          <rect x="412" y="278" width="88" height="82" fill="#fce7f3" rx="6" opacity="0.8"/>
+          <rect x="414" y="320" width="84" height="34" fill="#fbcfe8" rx="3"/>
+          <line x1="456" y1="322" x2="456" y2="352" stroke="#f9a8d4" stroke-width="1" stroke-dasharray="6 4"/>
+          <rect x="418" y="301" width="74" height="28" fill="#f9a8d4" rx="6" stroke="#f472b6" stroke-width="1"/>
+          <rect x="424" y="293" width="62" height="17" fill="#fbcfe8" rx="5"/>
+          <rect x="428" y="295" width="23" height="11" fill="#bfdbfe" rx="2" opacity="0.8"/>
+          <rect x="454" y="295" width="27" height="11" fill="#bfdbfe" rx="2" opacity="0.8"/>
+          <circle cx="422" cy="311" r="4" fill="#fde68a" opacity="0.8"/>
+          <circle cx="488" cy="311" r="4" fill="#fca5a5" opacity="0.7"/>
+          <circle cx="434" cy="329" r="7" fill="#374151" stroke="#6b7280" stroke-width="1.5"/>
+          <circle cx="434" cy="329" r="3" fill="#94a3b8"/>
+          <circle cx="474" cy="329" r="7" fill="#374151" stroke="#6b7280" stroke-width="1.5"/>
+          <circle cx="474" cy="329" r="3" fill="#94a3b8"/>
+          <rect x="449" y="295" width="15" height="9" fill="#fca5a5" opacity="0.5" rx="2"/>
         </g>
 
         <!-- Sorties -->
-        <g id="mp-ext" style="cursor:pointer" onclick="selectPiece('ext')">
-          <rect x="90" y="418" width="320" height="50" fill="rgba(18,18,10,0.5)" rx="4"/>
-          <ellipse cx="170" cy="444" rx="6" ry="6" fill="none" stroke="#f0e68c" stroke-width="1.5"/>
-          <ellipse cx="190" cy="444" rx="6" ry="6" fill="none" stroke="#f0e68c" stroke-width="1.5"/>
-          <rect x="172" y="424" width="22" height="18" fill="#2a3a4a" rx="3" stroke="#f0e68c" stroke-width="1"/>
-          <line x1="172" y1="424" x2="160" y2="436" stroke="#f0e68c" stroke-width="1.2"/>
-          <line x1="194" y1="424" x2="194" y2="434" stroke="#f0e68c" stroke-width="1.2"/>
-          <line x1="194" y1="434" x2="202" y2="444" stroke="#f0e68c" stroke-width="1.2"/>
-          <ellipse cx="265" cy="436" rx="9" ry="11" fill="#3a2a4a" stroke="#c8b4f0" stroke-width="1"/>
-          <circle cx="265" cy="428" r="5" fill="#2a1a3a" stroke="#c8b4f0" stroke-width="0.8"/>
+        <g id="p-ext" style="cursor:pointer" onclick="ouvrirPiece('ext')">
+          <rect x="90" y="418" width="320" height="50" fill="#f0f9ff" rx="4" opacity="0.8"/>
+          <ellipse cx="170" cy="444" rx="6" ry="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+          <ellipse cx="190" cy="444" rx="6" ry="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+          <rect x="172" y="424" width="21" height="18" fill="#dbeafe" rx="3" stroke="#3b82f6" stroke-width="1"/>
+          <line x1="172" y1="424" x2="160" y2="436" stroke="#3b82f6" stroke-width="1.2"/>
+          <line x1="193" y1="424" x2="193" y2="434" stroke="#3b82f6" stroke-width="1.2"/>
+          <line x1="193" y1="434" x2="201" y2="444" stroke="#3b82f6" stroke-width="1.2"/>
+          <ellipse cx="264" cy="436" rx="9" ry="11" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+          <circle cx="264" cy="428" r="5" fill="#ddd6fe" stroke="#7c3aed" stroke-width="0.8"/>
         </g>
 
-        <!-- BADGES EN DERNIER (toujours au premier plan) -->
-        <g onclick="selectPiece('parents')" style="cursor:pointer">
-          <rect x="96" y="152" width="92" height="22" fill="#0d1a30" rx="6" stroke="#3a4fd4" stroke-width="1"/>
-          <text x="142" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#a0b4ff" font-family="-apple-system,sans-serif">🛏️ Ch. parents</text>
+        <!-- BADGES EN DERNIER -->
+        <g onclick="ouvrirPiece('parents')" style="cursor:pointer">
+          <rect x="92" y="150" width="94" height="22" fill="white" rx="6" stroke="#93c5fd" stroke-width="1.5" opacity="0.95"/>
+          <text x="139" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#1e40af" font-family="-apple-system,sans-serif">🛏️ Ch. parents</text>
         </g>
-        <g onclick="selectPiece('bebe')" style="cursor:pointer">
-          <rect x="200" y="152" width="100" height="22" fill="#0d1a14" rx="6" stroke="#1a6a3a" stroke-width="1"/>
-          <text x="250" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#9ae6b4" font-family="-apple-system,sans-serif">🍼 Ch. bébé</text>
+        <g onclick="ouvrirPiece('bebe')" style="cursor:pointer">
+          <rect x="198" y="150" width="100" height="22" fill="white" rx="6" stroke="#86efac" stroke-width="1.5" opacity="0.95"/>
+          <text x="248" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#065f46" font-family="-apple-system,sans-serif">🍼 Ch. bébé</text>
         </g>
-        <g onclick="selectPiece('sdb')" style="cursor:pointer">
-          <rect x="310" y="152" width="96" height="22" fill="#0d1820" rx="6" stroke="#1a5a7a" stroke-width="1"/>
-          <text x="358" y="167" text-anchor="middle" font-size="10" font-weight="700" fill="#90cdf4" font-family="-apple-system,sans-serif">🚿 Salle de bain</text>
+        <g onclick="ouvrirPiece('sdb')" style="cursor:pointer">
+          <rect x="308" y="150" width="98" height="22" fill="white" rx="6" stroke="#7dd3fc" stroke-width="1.5" opacity="0.95"/>
+          <text x="357" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#0369a1" font-family="-apple-system,sans-serif">🚿 Salle de bain</text>
         </g>
-        <g onclick="selectPiece('salon')" style="cursor:pointer">
-          <rect x="94" y="248" width="64" height="22" fill="#140e20" rx="6" stroke="#5a3a8a" stroke-width="1"/>
-          <text x="126" y="263" text-anchor="middle" font-size="10" font-weight="700" fill="#d6bcfa" font-family="-apple-system,sans-serif">🛋️ Salon</text>
+        <g onclick="ouvrirPiece('salon')" style="cursor:pointer">
+          <rect x="92" y="246" width="64" height="22" fill="white" rx="6" stroke="#d8b4fe" stroke-width="1.5" opacity="0.95"/>
+          <text x="124" y="261" text-anchor="middle" font-size="10" font-weight="800" fill="#6b21a8" font-family="-apple-system,sans-serif">🛋️ Salon</text>
         </g>
-        <g onclick="selectPiece('cuisine')" style="cursor:pointer">
-          <rect x="304" y="248" width="72" height="22" fill="#14120a" rx="6" stroke="#7a6a1a" stroke-width="1"/>
-          <text x="340" y="263" text-anchor="middle" font-size="10" font-weight="700" fill="#fbd38d" font-family="-apple-system,sans-serif">🍳 Cuisine</text>
+        <g onclick="ouvrirPiece('cuisine')" style="cursor:pointer">
+          <rect x="302" y="246" width="76" height="22" fill="white" rx="6" stroke="#fde68a" stroke-width="1.5" opacity="0.95"/>
+          <text x="340" y="261" text-anchor="middle" font-size="10" font-weight="800" fill="#92400e" font-family="-apple-system,sans-serif">🍳 Cuisine</text>
         </g>
-        <g onclick="selectPiece('jardin')" style="cursor:pointer">
-          <rect x="3" y="282" width="82" height="22" fill="#0a1408" rx="6" stroke="#2a6a1a" stroke-width="1"/>
-          <text x="44" y="297" text-anchor="middle" font-size="10" font-weight="700" fill="#b7e4b7" font-family="-apple-system,sans-serif">🌿 Jardin</text>
+        <g onclick="ouvrirPiece('jardin')" style="cursor:pointer">
+          <rect x="2" y="280" width="84" height="22" fill="white" rx="6" stroke="#86efac" stroke-width="1.5" opacity="0.95"/>
+          <text x="44" y="295" text-anchor="middle" font-size="10" font-weight="800" fill="#065f46" font-family="-apple-system,sans-serif">🌿 Jardin</text>
         </g>
-        <g onclick="selectPiece('voiture')" style="cursor:pointer">
-          <rect x="414" y="282" width="82" height="22" fill="#100e1a" rx="6" stroke="#7a3a6a" stroke-width="1"/>
-          <text x="455" y="297" text-anchor="middle" font-size="10" font-weight="700" fill="#f0b4e8" font-family="-apple-system,sans-serif">🚗 Voiture</text>
+        <g onclick="ouvrirPiece('voiture')" style="cursor:pointer">
+          <rect x="413" y="280" width="84" height="22" fill="white" rx="6" stroke="#f9a8d4" stroke-width="1.5" opacity="0.95"/>
+          <text x="455" y="295" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="-apple-system,sans-serif">🚗 Voiture</text>
         </g>
-        <g onclick="selectPiece('ext')" style="cursor:pointer">
-          <rect x="190" y="422" width="120" height="22" fill="#100e06" rx="6" stroke="#7a6a0a" stroke-width="1"/>
-          <text x="250" y="437" text-anchor="middle" font-size="10" font-weight="700" fill="#f0e68c" font-family="-apple-system,sans-serif">🏙️ Sorties & promenades</text>
+        <g onclick="ouvrirPiece('ext')" style="cursor:pointer">
+          <rect x="188" y="422" width="124" height="22" fill="white" rx="6" stroke="#93c5fd" stroke-width="1.5" opacity="0.95"/>
+          <text x="250" y="437" text-anchor="middle" font-size="10" font-weight="800" fill="#1e40af" font-family="-apple-system,sans-serif">🏙️ Sorties & promenades</text>
         </g>
       </svg>
 
-      <!-- Info pièce sélectionnée -->
       <div class="maison-info" id="maison-info">
-        <span style="font-size:20px">👆</span>
-        <span style="font-size:13px;color:#4a5568;margin-left:8px">Touchez une pièce pour gérer le mobilier</span>
+        <span style="font-size:22px">👆</span>
+        <span style="font-size:14px;color:#9ca3af;margin-left:8px;font-weight:600">Touchez une pièce pour gérer le mobilier</span>
       </div>
+    </div>
+  </div>
+</div>
 
-      <!-- Formulaire ajout -->
-      <div class="mob-add-form" id="mob-add-form">
-        <h3 id="mob-form-title">Ajouter un article</h3>
-        <label>Article</label>
-        <input type="text" id="mob-item" placeholder="ex : lit à barreaux, chaise haute...">
-        <label>Marque / Modèle (optionnel)</label>
-        <input type="text" id="mob-modele" placeholder="ex : Stokke, IKEA...">
-        <label>Prix estimé (optionnel)</label>
-        <input type="text" id="mob-prix" placeholder="ex : 250 €">
-        <label>Statut</label>
-        <select id="mob-statut">
-          <option>À acheter</option>
-          <option>Commandé</option>
-          <option>Reçu ✓</option>
-        </select>
-        <label>Note</label>
-        <input type="text" id="mob-note" placeholder="ex : cadeau de grand-mère...">
-        <button class="btn" onclick="ajouterArticleMaison()">Ajouter</button>
-      </div>
-
-      <!-- Liste des articles -->
+<!-- PIÈCE DÉTAIL (sous-menu) -->
+<div id="piece-detail" class="section">
+  <button class="back-btn" onclick="retourAccueil();ouvrirSection('achat')">← Maison</button>
+  <div class="piece-header" id="piece-detail-header"></div>
+  <div class="sec-inner">
+    <div class="card">
+      <h2 id="piece-detail-title">Ajouter un article</h2>
+      <label>Article</label>
+      <input type="text" id="mob-item" placeholder="ex : lit à barreaux, chaise haute...">
+      <label>Marque / Modèle (optionnel)</label>
+      <input type="text" id="mob-modele" placeholder="ex : Stokke, IKEA...">
+      <label>Prix estimé (optionnel)</label>
+      <input type="text" id="mob-prix" placeholder="ex : 250 €">
+      <label>Statut</label>
+      <select id="mob-statut">
+        <option>À acheter</option>
+        <option>Commandé</option>
+        <option>Reçu ✓</option>
+      </select>
+      <label>Note</label>
+      <input type="text" id="mob-note" placeholder="ex : cadeau de grand-mère...">
+      <button class="btn" onclick="ajouterArticlePiece()">Ajouter</button>
+    </div>
+    <div class="card">
+      <h2>Articles</h2>
       <div id="mob-liste"></div>
     </div>
   </div>
 </div>
-<!-- BUDGET -->
-<div id="budget" class="section">
+
+<!-- ══ RENDEZ-VOUS ══ -->
+<div id="rdv" class="section">
   <button class="back-btn" onclick="retourAccueil()">← Retour</button>
-  <div class="section-inner">
+  <div class="sec-inner">
+    <div class="rdv-view-tabs">
+      <button class="rdv-tab active" onclick="switchRdvTab('calendrier',this)">📅 Calendrier</button>
+      <button class="rdv-tab" onclick="switchRdvTab('liste',this)">📋 Liste</button>
+      <button class="rdv-tab" onclick="switchRdvTab('ajouter',this)">＋ Ajouter</button>
+    </div>
 
-    <div style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:16px;padding:20px;margin-bottom:14px;">
-      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;">💰 Budget total prévu</div>
-      <div style="position:relative;margin-bottom:14px;">
-        <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);color:#8892b0;font-size:14px">€</span>
-        <input type="number" id="budget-total" value="" placeholder="Ex : 5000"
-          style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:10px;padding:10px 14px 10px 30px;font-size:18px;font-weight:700;color:#ccd6f6;outline:none;"
-          oninput="majBudget()">
-      </div>
-      <div style="display:flex;justify-content:space-between;font-size:11px;color:#8892b0;margin-bottom:4px;">
-        <span>Dépensé</span><span id="b-pct">0%</span><span>Budget</span>
-      </div>
-      <div style="height:14px;background:rgba(255,255,255,0.08);border-radius:7px;overflow:hidden;margin-bottom:12px;">
-        <div id="b-jauge" style="height:100%;border-radius:7px;background:linear-gradient(90deg,#3a4fd4,#9ae6b4);width:0%;transition:width 0.5s;"></div>
-      </div>
-      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
-          <div id="b-stat-total" style="font-size:15px;font-weight:700;color:#90cdf4">—</div>
-          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Budget</div>
+    <!-- Vue calendrier -->
+    <div id="rdv-cal-view">
+      <div class="card">
+        <div class="cal-nav">
+          <button onclick="navMois(-1)">‹</button>
+          <h3 id="cal-title">Mars 2026</h3>
+          <button onclick="navMois(1)">›</button>
         </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
-          <div id="b-stat-dep" style="font-size:15px;font-weight:700;color:#feb2b2">0 €</div>
-          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Dépensé</div>
+        <div class="cal-grid">
+          <div class="cal-day-hdr">Lun</div>
+          <div class="cal-day-hdr">Mar</div>
+          <div class="cal-day-hdr">Mer</div>
+          <div class="cal-day-hdr">Jeu</div>
+          <div class="cal-day-hdr">Ven</div>
+          <div class="cal-day-hdr">Sam</div>
+          <div class="cal-day-hdr">Dim</div>
         </div>
-        <div style="background:rgba(255,255,255,0.05);border-radius:10px;padding:10px;text-align:center;">
-          <div id="b-stat-reste" style="font-size:15px;font-weight:700;color:#9ae6b4">—</div>
-          <div style="font-size:9px;color:#8892b0;margin-top:2px;text-transform:uppercase;letter-spacing:0.5px;">Restant</div>
+        <div class="cal-grid" id="cal-days"></div>
+        <div id="cal-rdv-jour" style="margin-top:14px;display:none;">
+          <div style="font-size:13px;font-weight:800;color:#1e40af;margin-bottom:10px;" id="cal-jour-titre"></div>
+          <div id="cal-rdv-liste"></div>
         </div>
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
-      <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;">
-        <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Par pièce</div>
-        <div style="position:relative;height:160px"><canvas id="b-chart-pie"></canvas></div>
-        <div id="b-legend-pie" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;"></div>
+    <!-- Vue liste -->
+    <div id="rdv-list-view" style="display:none">
+      <div id="rdv-liste-complete"></div>
+    </div>
+
+    <!-- Vue ajout -->
+    <div id="rdv-add-view" style="display:none">
+      <div class="card">
+        <h2>📅 Nouveau rendez-vous</h2>
+        <label>Titre</label>
+        <input type="text" id="rdv-titre" placeholder="ex : Pédiatre, Sage-femme, Échographie...">
+        <label>Date</label>
+        <input type="date" id="rdv-date">
+        <label>Heure</label>
+        <input type="time" id="rdv-heure">
+        <label>Type</label>
+        <select id="rdv-type">
+          <option>Médical</option>
+          <option>Échographie</option>
+          <option>Administratif</option>
+          <option>Personnel</option>
+          <option>Autre</option>
+        </select>
+        <label>Lieu (optionnel)</label>
+        <input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
+        <label>Note</label>
+        <input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
+        <button class="btn" onclick="ajouterRdv()">Ajouter le rendez-vous</button>
       </div>
-      <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;">
-        <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Par statut</div>
-        <div style="position:relative;height:160px"><canvas id="b-chart-statut"></canvas></div>
-        <div id="b-legend-statut" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;"></div>
-      </div>
     </div>
-
-    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Dépenses par pièce</div>
-      <div style="position:relative;height:200px"><canvas id="b-chart-bar"></canvas></div>
-    </div>
-
-    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;">Évolution des achats</div>
-      <div style="position:relative;height:180px"><canvas id="b-chart-line"></canvas></div>
-    </div>
-
-    <div style="background:#16213e;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:14px;margin-bottom:10px;">
-      <div style="font-size:10px;color:#8892b0;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;">Détail des articles</div>
-      <div id="b-detail-liste"></div>
-    </div>
-
   </div>
 </div>
-<!-- REPAS -->
-<div id="repas" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>🍼 Ajouter un repas</h2>
-    <label>Type</label><select id="repas-type"><option>Tétée</option><option>Biberon</option><option>Repas solide</option></select>
-    <label>Heure</label><input type="time" id="repas-heure">
-    <label>Durée / Quantité (optionnel)</label><input type="text" id="repas-details" placeholder="ex : 15 min ou 120 ml">
-    <label>Note</label><input type="text" id="repas-note" placeholder="ex : a bien mangé">
-    <button class="btn" onclick="ajouterRepas()">Ajouter ce repas</button>
-  </div>
-  <div class="card"><h2>Historique</h2><div class="entry-list" id="repas-liste"></div></div>
-</div></div>
 
-<div id="sommeil" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>😴 Ajouter un sommeil</h2>
-    <label>Type</label><select id="sommeil-type"><option>Nuit</option><option>Sieste</option></select>
-    <label>Début</label><input type="datetime-local" id="sommeil-debut">
-    <label>Fin</label><input type="datetime-local" id="sommeil-fin">
-    <label>Note</label><input type="text" id="sommeil-note" placeholder="ex : agité, bien dormi...">
-    <button class="btn" onclick="ajouterSommeil()">Ajouter ce sommeil</button>
-  </div>
-  <div class="card"><h2>Historique</h2><div class="entry-list" id="sommeil-liste"></div></div>
-</div></div>
+<!-- ══ ADMINISTRATION ══ -->
+<div id="admin" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('checklist',this)">✅ Démarches</button>
+      <button class="admin-tab" onclick="switchAdminTab('contacts',this)">📞 Contacts</button>
+      <button class="admin-tab" onclick="switchAdminTab('documents',this)">📄 Documents</button>
+    </div>
 
-<div id="sante" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>🏥 Ajouter une note santé</h2>
-    <label>Type</label><select id="sante-type"><option>Vaccin</option><option>Médicament</option><option>Symptôme</option><option>Mesure (poids / taille)</option><option>Autre</option></select>
-    <label>Date</label><input type="date" id="sante-date">
-    <label>Description</label><textarea id="sante-desc" placeholder="ex : Vaccin DTP, 5,2 kg..."></textarea>
-    <button class="btn" onclick="ajouterSante()">Ajouter</button>
-  </div>
-  <div class="card"><h2>Carnet de santé</h2><div class="entry-list" id="sante-liste"></div></div>
-</div></div>
+    <!-- Checklist démarches -->
+    <div id="admin-checklist">
+      <div class="card">
+        <h2>✅ Checklist administrative</h2>
+        <div class="todo-add" style="margin-bottom:12px;">
+          <input type="text" id="admin-todo-input" placeholder="Ajouter une démarche..." onkeydown="if(event.key==='Enter')ajouterAdminTodo()">
+          <button onclick="ajouterAdminTodo()">+</button>
+        </div>
+        <div id="admin-todo-liste"></div>
+      </div>
+    </div>
 
-<div id="courses" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>🛒 Ajouter un article</h2>
-    <label>Article</label><input type="text" id="courses-item" placeholder="ex : couches taille 2...">
-    <label>Quantité (optionnel)</label><input type="text" id="courses-qte" placeholder="ex : 2 paquets">
-    <button class="btn" onclick="ajouterCourse()">Ajouter à la liste</button>
-  </div>
-  <div class="card"><h2>Liste de courses</h2><div class="entry-list" id="courses-liste"></div></div>
-</div></div>
+    <!-- Contacts -->
+    <div id="admin-contacts" style="display:none">
+      <div class="card">
+        <h2>📞 Contacts importants</h2>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+          <input type="text" id="contact-nom" placeholder="Nom / Rôle" style="flex:1;min-width:120px;">
+          <input type="text" id="contact-tel" placeholder="Téléphone" style="flex:1;min-width:120px;">
+          <button onclick="ajouterContact()" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;white-space:nowrap;">+ Ajouter</button>
+        </div>
+        <div id="contacts-liste"></div>
+      </div>
+    </div>
 
-<div id="rdv" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>📅 Ajouter un rendez-vous</h2>
-    <label>Titre</label><input type="text" id="rdv-titre" placeholder="ex : Pédiatre...">
-    <label>Date et heure</label><input type="datetime-local" id="rdv-date">
-    <label>Lieu (optionnel)</label><input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
-    <label>Note</label><input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
-    <button class="btn" onclick="ajouterRdv()">Ajouter le rendez-vous</button>
+    <!-- Documents -->
+    <div id="admin-documents" style="display:none">
+      <div class="card">
+        <h2>📄 Documents à préparer</h2>
+        <div id="docs-liste"></div>
+      </div>
+    </div>
   </div>
-  <div class="card"><h2>Prochains rendez-vous</h2><div class="entry-list" id="rdv-liste"></div></div>
-</div></div>
+</div>
 
-<div id="vetements" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>👕 Ajouter un vêtement</h2>
-    <label>Taille</label><select id="vetements-taille"><option>Naissance (50cm)</option><option>1 mois (56cm)</option><option>3 mois (62cm)</option><option>6 mois (68cm)</option><option>9 mois (74cm)</option><option>12 mois (80cm)</option><option>18 mois (86cm)</option></select>
-    <label>Article</label><input type="text" id="vetements-item" placeholder="ex : bodies, pyjama...">
-    <label>Quantité</label><input type="text" id="vetements-qte" placeholder="ex : 5 bodies">
-    <label>Note</label><input type="text" id="vetements-note" placeholder="ex : reçu en cadeau...">
-    <button class="btn" onclick="ajouterVetement()">Ajouter</button>
+<!-- ══ SIGNES DU BÉBÉ ══ -->
+<div id="signes" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="signes-cats" id="signes-cats"></div>
+    <div class="signes-board" id="signes-board"></div>
   </div>
-  <div class="card"><h2>Layette</h2><div class="entry-list" id="vetements-liste"></div></div>
-</div></div>
+</div>
 
-<div id="maternite" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>🏥 Valise maternité</h2>
-    <label>Valise</label><select id="maternite-valise"><option>Valise maman</option><option>Valise bébé</option><option>Valise papa / accompagnant</option><option>Documents</option></select>
-    <label>Article</label><input type="text" id="maternite-item" placeholder="ex : chemise de nuit...">
-    <label>Quantité (optionnel)</label><input type="text" id="maternite-qte" placeholder="ex : 2">
-    <label>Note</label><input type="text" id="maternite-note" placeholder="ex : déjà dans la valise...">
-    <button class="btn" onclick="ajouterMaternite()">Ajouter</button>
-  </div>
-  <div class="card"><h2>Contenu</h2><div class="entry-list" id="maternite-liste"></div></div>
-</div></div>
-
-<div id="admin" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>📋 Ajouter une démarche</h2>
-    <label>Catégorie</label><select id="admin-cat"><option>Congé maternité / paternité</option><option>CAF / Allocations</option><option>Mutuelle</option><option>Employeur</option><option>Mairie / État civil</option><option>Médecin / Maternité</option><option>Autre</option></select>
-    <label>Démarche</label><input type="text" id="admin-item" placeholder="ex : Déclarer la grossesse à la CAF...">
-    <label>Date limite (optionnel)</label><input type="date" id="admin-date">
-    <label>Statut</label><select id="admin-statut"><option>À faire</option><option>En cours</option><option>Fait ✓</option></select>
-    <label>Note</label><input type="text" id="admin-note" placeholder="ex : appeler le 01 23 45 67 89...">
-    <button class="btn" onclick="ajouterAdmin()">Ajouter</button>
-  </div>
-  <div class="card"><h2>Démarches</h2><div class="entry-list" id="admin-liste"></div></div>
-</div></div>
-
-<div id="events" class="section"><button class="back-btn" onclick="retourAccueil()">← Retour</button><div class="section-inner">
-  <div class="card"><h2>🎉 Ajouter un événement</h2>
-    <label>Type</label><select id="events-type"><option>Échographie</option><option>Baby shower</option><option>Séance photo</option><option>Cours de préparation</option><option>Visite médicale</option><option>Fête / Célébration</option><option>Autre</option></select>
-    <label>Titre</label><input type="text" id="events-titre" placeholder="ex : Échographie du 5ème mois...">
-    <label>Date</label><input type="datetime-local" id="events-date">
-    <label>Lieu (optionnel)</label><input type="text" id="events-lieu" placeholder="ex : Clinique Saint-Joseph">
-    <label>Note</label><input type="text" id="events-note" placeholder="ex : amener le carnet...">
-    <button class="btn" onclick="ajouterEvent()">Ajouter l'événement</button>
-  </div>
-  <div class="card"><h2>Calendrier</h2><div class="entry-list" id="events-liste"></div></div>
-</div></div>
+<div class="fiche-modal" id="fiche-modal">
+  <div class="fiche-content" id="fiche-content"></div>
+</div>
 
 <script>
 // ══════════════════════════════════
@@ -729,9 +804,10 @@
 // ══════════════════════════════════
 const now=new Date();
 const JOURS=['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
-const MOIS=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
-document.getElementById('date-header').textContent=JOURS[now.getDay()]+' '+now.getDate()+' '+MOIS[now.getMonth()]+' '+now.getFullYear();
-document.getElementById('repas-heure').value=now.toTimeString().slice(0,5);
+const MOIS_FR=['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+const MOIS_COURT=['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+document.getElementById('date-header').textContent=JOURS[now.getDay()]+' '+now.getDate()+' '+MOIS_FR[now.getMonth()]+' '+now.getFullYear();
+
 function sv(k,d){localStorage.setItem(k,JSON.stringify(d));}
 function ld(k){return JSON.parse(localStorage.getItem(k)||'[]');}
 
@@ -739,8 +815,12 @@ function ouvrirSection(id){
   document.getElementById('accueil').style.display='none';
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  if(id==='mindmap') afficherListeCartes();
   window.scrollTo(0,0);
+  if(id==='mindmap')afficherListeCartes();
+  if(id==='rdv'){renderCalendrier();afficherRdvListe();}
+  if(id==='admin'){afficherAdminTodos();afficherContacts();afficherDocuments();}
+  if(id==='signes')renderSignes();
+  if(id==='todo')afficherTodos();
 }
 function retourAccueil(){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
@@ -749,84 +829,72 @@ function retourAccueil(){
 }
 
 // ══════════════════════════════════
-//  MOBILIER PAR PIÈCE
+//  TO DO LISTE
 // ══════════════════════════════════
-const PIECES_INFO={
-  parents:{icon:'🛏️',nom:'Chambre parents',col:'#a0b4ff'},
-  bebe:   {icon:'🍼',nom:'Chambre bébé',   col:'#9ae6b4'},
-  sdb:    {icon:'🚿',nom:'Salle de bain',  col:'#90cdf4'},
-  salon:  {icon:'🛋️',nom:'Salon',          col:'#d6bcfa'},
-  cuisine:{icon:'🍳',nom:'Cuisine',         col:'#fbd38d'},
-  jardin: {icon:'🌿',nom:'Jardin',          col:'#b7e4b7'},
-  voiture:{icon:'🚗',nom:'Voiture',         col:'#f0b4e8'},
-  ext:    {icon:'🏙️',nom:'Sorties',         col:'#f0e68c'}
+let todoTab='en-cours';
+const TODO_CAT_COLORS={
+  'général':'#f3f4f6','maison':'#d1fae5','médical':'#dbeafe',
+  'admin':'#fef3c7','courses':'#fce7f3','bébé':'#ede9fe'
 };
-let pieceActive=null;
+const TODO_CAT_TEXT={
+  'général':'#374151','maison':'#065f46','médical':'#1e40af',
+  'admin':'#92400e','courses':'#9d174d','bébé':'#5b21b6'
+};
 
-function selectPiece(id){
-  pieceActive=id;
-  const p=PIECES_INFO[id];
-  const items=ld('mob_'+id);
-
-  document.getElementById('maison-info').innerHTML=`
-    <span style="font-size:24px">${p.icon}</span>
-    <div style="flex:1">
-      <div style="font-size:15px;font-weight:700;color:${p.col}">${p.nom}</div>
-      <div style="font-size:11px;color:#8892b0">${items.length} article${items.length>1?'s':''}</div>
-    </div>
-    <button onclick="document.getElementById('mob-add-form').classList.toggle('open')" style="background:linear-gradient(135deg,#3a4fd4,#5a3fa0);color:white;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:700;cursor:pointer">+ Ajouter</button>`;
-
-  document.getElementById('mob-form-title').textContent='Ajouter dans : '+p.nom;
-  afficherArticlesMaison();
+function switchTodoTab(tab,btn){
+  todoTab=tab;
+  document.querySelectorAll('.todo-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  afficherTodos();
 }
 
-function ajouterArticleMaison(){
-  if(!pieceActive){alert('Sélectionnez une pièce.');return;}
-  const item=document.getElementById('mob-item').value.trim();
-  if(!item){alert('Indiquez un article.');return;}
-  const modele=document.getElementById('mob-modele').value.trim();
-  const prix=document.getElementById('mob-prix').value.trim();
-  const statut=document.getElementById('mob-statut').value;
-  const note=document.getElementById('mob-note').value.trim();
-  const l=ld('mob_'+pieceActive);
-  l.unshift({item,modele,prix,statut,note});
-  sv('mob_'+pieceActive,l);
-  document.getElementById('mob-item').value='';
-  document.getElementById('mob-modele').value='';
-  document.getElementById('mob-prix').value='';
-  document.getElementById('mob-note').value='';
-  document.getElementById('mob-add-form').classList.remove('open');
-  selectPiece(pieceActive);
+function ajouterTodo(){
+  const txt=document.getElementById('todo-input').value.trim();
+  const cat=document.getElementById('todo-cat').value;
+  if(!txt)return;
+  const l=ld('todos');
+  l.push({id:Date.now(),txt,cat,done:false,date:now.toLocaleDateString('fr-FR')});
+  sv('todos',l);
+  document.getElementById('todo-input').value='';
+  afficherTodos();
 }
 
-function supprimerArticleMaison(id,i){
-  const l=ld('mob_'+id);l.splice(i,1);sv('mob_'+id,l);selectPiece(id);
+function toggleTodo(id){
+  const l=ld('todos');
+  const t=l.find(x=>x.id===id);
+  if(t)t.done=!t.done;
+  sv('todos',l);
+  afficherTodos();
 }
 
-const STATUT_COL={'À acheter':'badge-red','Commandé':'badge-amber','Reçu ✓':'badge-teal'};
-function afficherArticlesMaison(){
-  if(!pieceActive)return;
-  const l=ld('mob_'+pieceActive);
-  const el=document.getElementById('mob-liste');
-  if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px;padding:8px 0">Aucun article pour cette pièce.</p>';return;}
-  el.innerHTML=l.map((m,i)=>`
-    <div class="entry">
-      <span>
-        <span class="badge ${STATUT_COL[m.statut]||'badge-sky'}">${m.statut}</span><br>
-        <strong style="color:#ccd6f6">${m.item}</strong>
-        ${m.modele?' — '+m.modele:''}${m.prix?' · <span style="color:#fbd38d">'+m.prix+'</span>':''}
-        ${m.note?'<br><em style="color:#8892b0">'+m.note+'</em>':''}
-      </span>
-      <button onclick="supprimerArticleMaison('${pieceActive}',${i})">×</button>
+function supprimerTodo(id){
+  sv('todos',ld('todos').filter(x=>x.id!==id));
+  afficherTodos();
+}
+
+function afficherTodos(){
+  const l=ld('todos');
+  const filtre=todoTab==='en-cours'?l.filter(t=>!t.done):l.filter(t=>t.done);
+  const el=document.getElementById('todo-liste');
+  if(!filtre.length){
+    el.innerHTML=`<p style="color:#9ca3af;font-size:13px;text-align:center;padding:20px 0">${todoTab==='en-cours'?'Aucune tâche en cours 🎉':'Aucune tâche terminée'}</p>`;
+    return;
+  }
+  el.innerHTML=filtre.map(t=>`
+    <div class="todo-item ${t.done?'done':''}">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})">
+      <span class="todo-txt">${t.txt}</span>
+      <span class="todo-cat" style="background:${TODO_CAT_COLORS[t.cat]||'#f3f4f6'};color:${TODO_CAT_TEXT[t.cat]||'#374151'}">${t.cat}</span>
+      <button onclick="supprimerTodo(${t.id})">×</button>
     </div>`).join('');
 }
 
 // ══════════════════════════════════
-//  CARTES MENTALES
+//  CARTES MENTALES (corrigé - sans freeze)
 // ══════════════════════════════════
 let carteActive=null,nodesData=[],selectedNode=null,ajoutParent=null;
-let scale=1,panX=0,panY=0,isPanning=false,lastPan={x:0,y:0};
-const COULEURS_BG={'#90cdf4':'#1a2a4a','#9ae6b4':'#1a2e2a','#d6bcfa':'#2e1a2e','#fbd38d':'#2e2a1a','#feb2b2':'#2e1a1a','#a0c4ff':'#1a1e2e','#f0b4e8':'#2e1a2a','#f0e68c':'#2e2e1a'};
+let scale=1,panX=0,panY=0;
+const MM_COLORS={'#7c3aed':'#ede9fe','#ec4899':'#fce7f3','#10b981':'#d1fae5','#3b82f6':'#dbeafe','#f59e0b':'#fef3c7','#ef4444':'#fee2e2'};
 
 function getCartes(){return ld('mm_cartes');}
 function saveCartes(c){sv('mm_cartes',c);}
@@ -836,7 +904,7 @@ function afficherListeCartes(){
   document.getElementById('mm-editor').style.display='none';
   const cartes=getCartes();
   const el=document.getElementById('mm-cards-list');
-  if(!cartes.length){el.innerHTML='<div class="mm-empty"><div class="mm-empty-icon">🧠</div><p>Aucune carte mentale.<br>Créez votre première carte !</p></div>';return;}
+  if(!cartes.length){el.innerHTML='<div class="mm-empty"><div class="mm-empty-icon">🧠</div><p>Créez votre première carte mentale !</p></div>';return;}
   el.innerHTML=cartes.map((c,i)=>{
     const branches=(c.nodes||[]).filter(n=>n.parentId!==null);
     const pills=(c.nodes||[]).slice(0,4).map(n=>`<span class="mm-bubble-pill">${n.label}</span>`).join('');
@@ -853,296 +921,689 @@ function fermerModal(){document.getElementById('mm-modal').classList.remove('ope
 function creerCarte(){
   const title=document.getElementById('mm-modal-title').value.trim();
   const center=document.getElementById('mm-modal-center').value.trim();
-  if(!title){alert('Donnez un titre à la carte.');return;}
+  if(!title){alert('Donnez un titre.');return;}
   const cartes=getCartes();
-  cartes.unshift({title,updated:new Date().toLocaleDateString('fr-FR'),nodes:center?[{id:1,label:center,x:0,y:0,color:'#c8b4f0',parentId:null}]:[]});
+  cartes.unshift({title,updated:now.toLocaleDateString('fr-FR'),nodes:center?[{id:1,label:center,x:0,y:0,color:'#7c3aed',parentId:null}]:[]});
   saveCartes(cartes);fermerModal();ouvrirCarte(0);
 }
-function supprimerCarte(i){if(!confirm('Supprimer cette carte ?'))return;const c=getCartes();c.splice(i,1);saveCartes(c);afficherListeCartes();}
+function supprimerCarte(i){if(!confirm('Supprimer ?'))return;const c=getCartes();c.splice(i,1);saveCartes(c);afficherListeCartes();}
 
 function ouvrirCarte(i){
-  const cartes=getCartes();carteActive=i;nodesData=JSON.parse(JSON.stringify(cartes[i].nodes||[]));selectedNode=null;
-  document.getElementById('mm-list-view').style.display='none';document.getElementById('mm-editor').style.display='block';
+  const cartes=getCartes();carteActive=i;
+  nodesData=JSON.parse(JSON.stringify(cartes[i].nodes||[]));
+  selectedNode=null;scale=1;panX=0;panY=0;
+  document.getElementById('mm-list-view').style.display='none';
+  document.getElementById('mm-editor').style.display='block';
   document.getElementById('mm-editor-title').textContent=cartes[i].title;
-  scale=1;panX=0;panY=0;ajusterCanvas();fermerPanelAjout();fermerPanelNoeud();dessinerCarte();
+  ajusterCanvas();fermerPanelAjout();fermerPanelNoeud();dessinerCarte();
 }
 function retourListeCartes(){document.getElementById('mm-editor').style.display='none';document.getElementById('mm-list-view').style.display='block';afficherListeCartes();}
-function sauvegarderNoeuds(){const c=getCartes();c[carteActive].nodes=nodesData;c[carteActive].updated=new Date().toLocaleDateString('fr-FR');saveCartes(c);}
-function renommerCarte(){const c=getCartes();const n=prompt('Nouveau titre :',c[carteActive].title);if(n&&n.trim()){c[carteActive].title=n.trim();saveCartes(c);document.getElementById('mm-editor-title').textContent=n.trim();}}
+function sauvegarderNoeuds(){const c=getCartes();if(carteActive===null)return;c[carteActive].nodes=nodesData;c[carteActive].updated=now.toLocaleDateString('fr-FR');saveCartes(c);}
+function renommerCarte(){const c=getCartes();if(carteActive===null)return;const n=prompt('Titre :',c[carteActive].title);if(n&&n.trim()){c[carteActive].title=n.trim();saveCartes(c);document.getElementById('mm-editor-title').textContent=n.trim();}}
 
 function ajusterCanvas(){
   const wrap=document.getElementById('mm-canvas-wrap');
   const svg=document.getElementById('mm-svg');
-  const h=Math.max(window.innerHeight*0.55,320);
-  wrap.style.height=h+'px';svg.setAttribute('width',wrap.clientWidth);svg.setAttribute('height',h);
+  const h=Math.max(window.innerHeight*0.55,300);
+  wrap.style.height=h+'px';
+  svg.setAttribute('width',wrap.clientWidth);
+  svg.setAttribute('height',h);
 }
-function getTransform(){return `translate(${panX+document.getElementById('mm-canvas-wrap').clientWidth/2},${panY+document.getElementById('mm-canvas-wrap').offsetHeight/2}) scale(${scale})`;}
+
+function getTransform(){
+  const wrap=document.getElementById('mm-canvas-wrap');
+  return `translate(${wrap.clientWidth/2+panX},${wrap.offsetHeight/2+panY}) scale(${scale})`;
+}
 
 function dessinerCarte(){
-  const svg=document.getElementById('mm-svg');svg.innerHTML='';
-  const g=document.createElementNS('http://www.w3.org/2000/svg','g');g.setAttribute('id','mm-root');g.setAttribute('transform',getTransform());svg.appendChild(g);
+  const svg=document.getElementById('mm-svg');
+  // Retirer les anciens événements en recréant le SVG proprement
+  const newSvg=svg.cloneNode(false);
+  svg.parentNode.replaceChild(newSvg,document.getElementById('mm-svg'));
+  const s=document.getElementById('mm-svg');
+
+  const g=document.createElementNS('http://www.w3.org/2000/svg','g');
+  g.setAttribute('id','mm-root');
+  g.setAttribute('transform',getTransform());
+  s.appendChild(g);
+
   nodesData.forEach(n=>{
     if(n.parentId===null)return;
     const parent=nodesData.find(p=>p.id===n.parentId);if(!parent)return;
     const line=document.createElementNS('http://www.w3.org/2000/svg','line');
-    line.setAttribute('x1',parent.x);line.setAttribute('y1',parent.y);line.setAttribute('x2',n.x);line.setAttribute('y2',n.y);
-    line.setAttribute('stroke',n.color||'#7f91e8');line.setAttribute('stroke-width','1.5');line.setAttribute('stroke-opacity','0.45');g.appendChild(line);
+    line.setAttribute('x1',parent.x);line.setAttribute('y1',parent.y);
+    line.setAttribute('x2',n.x);line.setAttribute('y2',n.y);
+    line.setAttribute('stroke',n.color||'#7c3aed');
+    line.setAttribute('stroke-width','2');
+    line.setAttribute('stroke-opacity','0.4');
+    line.setAttribute('stroke-linecap','round');
+    g.appendChild(line);
   });
+
   nodesData.forEach(n=>{
-    const depth=getDepth(n);const rx=depth===0?58:depth===1?46:36;const ry=depth===0?26:depth===1?20:16;
-    const isSelected=selectedNode&&selectedNode.id===n.id;const bg=COULEURS_BG[n.color]||'#1e1432';
-    const nodeG=document.createElementNS('http://www.w3.org/2000/svg','g');nodeG.setAttribute('cursor','pointer');nodeG.setAttribute('data-id',n.id);
+    const depth=getDepth(n);
+    const rx=depth===0?62:depth===1?50:38;
+    const ry=depth===0?28:depth===1?22:17;
+    const isSelected=selectedNode&&selectedNode.id===n.id;
+    const bgColor=MM_COLORS[n.color]||'#ede9fe';
+
+    const nodeG=document.createElementNS('http://www.w3.org/2000/svg','g');
+    nodeG.setAttribute('data-id',String(n.id));
+    nodeG.style.cursor='pointer';
+
     const ellipse=document.createElementNS('http://www.w3.org/2000/svg','ellipse');
-    ellipse.setAttribute('cx',n.x);ellipse.setAttribute('cy',n.y);ellipse.setAttribute('rx',rx);ellipse.setAttribute('ry',ry);
-    ellipse.setAttribute('fill',bg);ellipse.setAttribute('stroke',n.color||'#7f91e8');ellipse.setAttribute('stroke-width',isSelected?'2.5':'1.5');ellipse.setAttribute('stroke-opacity',isSelected?'1':'0.7');nodeG.appendChild(ellipse);
+    ellipse.setAttribute('cx',String(n.x));ellipse.setAttribute('cy',String(n.y));
+    ellipse.setAttribute('rx',String(rx));ellipse.setAttribute('ry',String(ry));
+    ellipse.setAttribute('fill',bgColor);
+    ellipse.setAttribute('stroke',n.color||'#7c3aed');
+    ellipse.setAttribute('stroke-width',isSelected?'3':'1.5');
+    nodeG.appendChild(ellipse);
+
     const text=document.createElementNS('http://www.w3.org/2000/svg','text');
-    text.setAttribute('x',n.x);text.setAttribute('y',n.y+1);text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');
-    text.setAttribute('fill',n.color||'#ccd6f6');text.setAttribute('font-size',depth===0?'13':depth===1?'11':'10');text.setAttribute('font-weight',depth===0?'700':'600');
-    text.setAttribute('font-family','-apple-system,sans-serif');text.setAttribute('pointer-events','none');
-    const maxLen=depth===0?14:depth===1?11:9;text.textContent=n.label.length>maxLen?n.label.slice(0,maxLen)+'…':n.label;nodeG.appendChild(text);
-    attacherEvenementsNoeud(nodeG,n.id);g.appendChild(nodeG);
+    text.setAttribute('x',String(n.x));text.setAttribute('y',String(n.y));
+    text.setAttribute('text-anchor','middle');text.setAttribute('dominant-baseline','central');
+    text.setAttribute('fill',n.color||'#7c3aed');
+    text.setAttribute('font-size',depth===0?'13':depth===1?'11':'10');
+    text.setAttribute('font-weight','700');
+    text.setAttribute('font-family','-apple-system,sans-serif');
+    text.setAttribute('pointer-events','none');
+    const maxLen=depth===0?14:12;
+    text.textContent=n.label.length>maxLen?n.label.slice(0,maxLen)+'…':n.label;
+    nodeG.appendChild(text);
+
+    attacherNoeud(nodeG,n.id,s);
+    g.appendChild(nodeG);
   });
-  svg.onclick=()=>{selectionnerNoeud(null);};activerPanFond(svg);
+
+  // Pan sur fond uniquement
+  activerPanFond(s,g);
   document.getElementById('zoom-label').textContent=Math.round(scale*100)+'%';
 }
 
-function getDepth(n){let d=0,cur=n;while(cur.parentId!==null){cur=nodesData.find(x=>x.id===cur.parentId);if(!cur)break;d++;}return d;}
-
-function attacherEvenementsNoeud(el,nodeId){
-  let dragActif=false,startClient={x:0,y:0},startPos={x:0,y:0},moved=false;const SEUIL=6;
-  function startDrag(cx,cy){const n=nodesData.find(x=>x.id===nodeId);if(!n)return;dragActif=true;moved=false;startClient={x:cx,y:cy};startPos={x:n.x,y:n.y};}
-  function moveDrag(cx,cy){if(!dragActif)return;const dx=cx-startClient.x,dy=cy-startClient.y;if(!moved&&Math.hypot(dx,dy)<SEUIL)return;moved=true;const n=nodesData.find(x=>x.id===nodeId);if(!n)return;n.x=startPos.x+dx/scale;n.y=startPos.y+dy/scale;dessinerCarte();}
-  function endDrag(){if(!dragActif)return;dragActif=false;if(moved){sauvegarderNoeuds();}else{selectionnerNoeud(nodeId);}moved=false;}
-  el.addEventListener('mousedown',e=>{e.stopPropagation();startDrag(e.clientX,e.clientY);const onMove=e2=>moveDrag(e2.clientX,e2.clientY);const onUp=()=>{endDrag();window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);});
-  el.addEventListener('touchstart',e=>{if(e.touches.length!==1)return;e.stopPropagation();startDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:true});
-  el.addEventListener('touchmove',e=>{if(e.touches.length!==1)return;e.stopPropagation();moveDrag(e.touches[0].clientX,e.touches[0].clientY);},{passive:false});
-  el.addEventListener('touchend',e=>{e.stopPropagation();endDrag();},{passive:true});
+function getDepth(n){
+  let d=0,cur=n;
+  const visited=new Set();
+  while(cur&&cur.parentId!==null&&!visited.has(cur.id)){
+    visited.add(cur.id);
+    cur=nodesData.find(x=>x.id===cur.parentId);
+    d++;
+    if(d>10)break;
+  }
+  return d;
 }
 
-function activerPanFond(svg){
-  svg.addEventListener('mousedown',e=>{if(e.target!==svg&&!e.target.isSameNode(document.getElementById('mm-root')))return;isPanning=true;lastPan={x:e.clientX,y:e.clientY};const onMove=e2=>{if(!isPanning)return;panX+=e2.clientX-lastPan.x;panY+=e2.clientY-lastPan.y;lastPan={x:e2.clientX,y:e2.clientY};dessinerCarte();};const onUp=()=>{isPanning=false;window.removeEventListener('mousemove',onMove);window.removeEventListener('mouseup',onUp);};window.addEventListener('mousemove',onMove);window.addEventListener('mouseup',onUp);});
-  let lastTouchFond=null;
-  svg.addEventListener('touchstart',e=>{if(e.touches.length===1)lastTouchFond={x:e.touches[0].clientX,y:e.touches[0].clientY};},{passive:true});
-  svg.addEventListener('touchmove',e=>{if(e.touches.length===1&&lastTouchFond){panX+=e.touches[0].clientX-lastTouchFond.x;panY+=e.touches[0].clientY-lastTouchFond.y;lastTouchFond={x:e.touches[0].clientX,y:e.touches[0].clientY};dessinerCarte();}},{passive:true});
-  svg.addEventListener('touchend',()=>lastTouchFond=null,{passive:true});
+function svgPoint(clientX,clientY){
+  const wrap=document.getElementById('mm-canvas-wrap');
+  const rect=wrap.getBoundingClientRect();
+  const cx=wrap.clientWidth/2+panX;
+  const cy=wrap.offsetHeight/2+panY;
+  return{x:(clientX-rect.left-cx)/scale,y:(clientY-rect.top-cy)/scale};
+}
+
+function attacherNoeud(el,nodeId,svg){
+  let dragging=false,moved=false;
+  let startClient={x:0,y:0},startPos={x:0,y:0};
+  const SEUIL=8;
+
+  function onStart(cx,cy){
+    const n=nodesData.find(x=>x.id===nodeId);if(!n)return;
+    dragging=true;moved=false;
+    startClient={x:cx,y:cy};startPos={x:n.x,y:n.y};
+  }
+  function onMove(cx,cy){
+    if(!dragging)return;
+    const dx=cx-startClient.x,dy=cy-startClient.y;
+    if(!moved&&Math.hypot(dx,dy)<SEUIL)return;
+    moved=true;
+    const n=nodesData.find(x=>x.id===nodeId);if(!n)return;
+    n.x=startPos.x+dx/scale;n.y=startPos.y+dy/scale;
+    dessinerCarte();
+  }
+  function onEnd(){
+    if(!dragging)return;
+    dragging=false;
+    if(moved){sauvegarderNoeuds();}
+    else{selectionnerNoeud(nodeId);}
+    moved=false;
+  }
+
+  el.addEventListener('mousedown',e=>{
+    e.stopPropagation();e.preventDefault();
+    onStart(e.clientX,e.clientY);
+    function mm(e2){onMove(e2.clientX,e2.clientY);}
+    function mu(){onEnd();window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);}
+    window.addEventListener('mousemove',mm);window.addEventListener('mouseup',mu);
+  });
+
+  el.addEventListener('touchstart',e=>{
+    if(e.touches.length!==1)return;
+    e.stopPropagation();
+    onStart(e.touches[0].clientX,e.touches[0].clientY);
+  },{passive:true});
+
+  el.addEventListener('touchmove',e=>{
+    if(e.touches.length!==1||!dragging)return;
+    e.stopPropagation();e.preventDefault();
+    onMove(e.touches[0].clientX,e.touches[0].clientY);
+  },{passive:false});
+
+  el.addEventListener('touchend',e=>{
+    e.stopPropagation();
+    onEnd();
+  },{passive:true});
+}
+
+function activerPanFond(svg,g){
+  let panning=false,lastP={x:0,y:0};
+
+  svg.addEventListener('mousedown',e=>{
+    if(e.target!==svg&&e.target!==g)return;
+    panning=true;lastP={x:e.clientX,y:e.clientY};
+    function mm(e2){
+      if(!panning)return;
+      panX+=e2.clientX-lastP.x;panY+=e2.clientY-lastP.y;
+      lastP={x:e2.clientX,y:e2.clientY};dessinerCarte();
+    }
+    function mu(){panning=false;window.removeEventListener('mousemove',mm);window.removeEventListener('mouseup',mu);}
+    window.addEventListener('mousemove',mm);window.addEventListener('mouseup',mu);
+  });
+
+  let lastTouch=null;
+  svg.addEventListener('touchstart',e=>{
+    if(e.target!==svg&&e.target!==g)return;
+    if(e.touches.length===1)lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};
+  },{passive:true});
+  svg.addEventListener('touchmove',e=>{
+    if(e.target!==svg&&e.target!==g)return;
+    if(e.touches.length===1&&lastTouch){
+      panX+=e.touches[0].clientX-lastTouch.x;panY+=e.touches[0].clientY-lastTouch.y;
+      lastTouch={x:e.touches[0].clientX,y:e.touches[0].clientY};dessinerCarte();
+    }
+    if(e.touches.length===2&&lastDist){
+      const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+      scale=Math.max(0.3,Math.min(3,scale*(d/lastDist)));lastDist=d;dessinerCarte();
+    }
+  },{passive:true});
+  svg.addEventListener('touchend',e=>{
+    if(e.touches.length<1)lastTouch=null;
+    if(e.touches.length<2)lastDist=null;
+  },{passive:true});
+
   let lastDist=null;
-  svg.addEventListener('touchstart',e=>{if(e.touches.length===2)lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);},{passive:true});
-  svg.addEventListener('touchmove',e=>{if(e.touches.length===2&&lastDist){const d=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);scale=Math.max(0.3,Math.min(3,scale*(d/lastDist)));lastDist=d;dessinerCarte();}},{passive:true});
-  svg.addEventListener('touchend',e=>{if(e.touches.length<2)lastDist=null;},{passive:true});
+  svg.addEventListener('touchstart',e=>{
+    if(e.touches.length===2)lastDist=Math.hypot(e.touches[0].clientX-e.touches[1].clientX,e.touches[0].clientY-e.touches[1].clientY);
+  },{passive:true});
+
+  svg.addEventListener('click',e=>{
+    if(e.target===svg||e.target===g)selectionnerNoeud(null);
+  });
 }
 
-function selectionnerNoeud(id){selectedNode=id?nodesData.find(n=>n.id===id):null;if(selectedNode){document.getElementById('mm-node-label-display').textContent=selectedNode.label;document.getElementById('mm-node-panel').classList.add('open');document.getElementById('mm-add-panel').classList.remove('open');}else{fermerPanelNoeud();}dessinerCarte();}
+function selectionnerNoeud(id){
+  selectedNode=id?nodesData.find(n=>n.id===id):null;
+  if(selectedNode){
+    document.getElementById('mm-node-label-display').textContent=selectedNode.label;
+    document.getElementById('mm-node-panel').classList.add('open');
+    document.getElementById('mm-add-panel').classList.remove('open');
+  }else{fermerPanelNoeud();}
+  dessinerCarte();
+}
 function fermerPanelNoeud(){document.getElementById('mm-node-panel').classList.remove('open');selectedNode=null;}
 
-function togglePanelAjout(){const panel=document.getElementById('mm-add-panel');if(panel.classList.contains('open')){fermerPanelAjout();return;}ajoutParent=nodesData.find(n=>n.parentId===null)||null;document.getElementById('mm-add-title').textContent=ajoutParent?`Branche depuis "${ajoutParent.label}"`:'Nouvelle bulle centrale';panel.classList.add('open');fermerPanelNoeud();setTimeout(()=>document.getElementById('mm-new-label').focus(),100);}
-function ajouterSousBulle(){if(!selectedNode){alert('Sélectionnez d\'abord une bulle.');return;}ajoutParent=selectedNode;document.getElementById('mm-add-title').textContent=`Sous-bulle de "${ajoutParent.label}"`;document.getElementById('mm-add-panel').classList.add('open');fermerPanelNoeud();setTimeout(()=>document.getElementById('mm-new-label').focus(),100);}
+function togglePanelAjout(){
+  const p=document.getElementById('mm-add-panel');
+  if(p.classList.contains('open')){fermerPanelAjout();return;}
+  ajoutParent=nodesData.find(n=>n.parentId===null)||null;
+  document.getElementById('mm-add-title').textContent=ajoutParent?`Branche de "${ajoutParent.label}"`:'Bulle centrale';
+  p.classList.add('open');fermerPanelNoeud();
+  setTimeout(()=>document.getElementById('mm-new-label').focus(),100);
+}
+function ajouterSousBulle(){
+  if(!selectedNode){alert('Sélectionnez une bulle.');return;}
+  ajoutParent=selectedNode;
+  document.getElementById('mm-add-title').textContent=`Sous-bulle de "${ajoutParent.label}"`;
+  document.getElementById('mm-add-panel').classList.add('open');fermerPanelNoeud();
+  setTimeout(()=>document.getElementById('mm-new-label').focus(),100);
+}
 function fermerPanelAjout(){document.getElementById('mm-add-panel').classList.remove('open');document.getElementById('mm-new-label').value='';}
 
 function confirmerAjoutBulle(){
-  const label=document.getElementById('mm-new-label').value.trim();const color=document.getElementById('mm-new-color').value;
-  if(!label){alert('Écrivez le texte de la bulle.');return;}
-  const newId=nodesData.length?Math.max(...nodesData.map(n=>n.id))+1:1;let x=0,y=0;
+  const label=document.getElementById('mm-new-label').value.trim();
+  const color=document.getElementById('mm-new-color').value;
+  if(!label){alert('Écrivez le texte.');return;}
+  const newId=nodesData.length?Math.max(...nodesData.map(n=>n.id))+1:1;
+  let x=0,y=0;
   if(ajoutParent){
-    const siblings=nodesData.filter(n=>n.parentId===ajoutParent.id);const depth=getDepth(ajoutParent)+1;const radius=depth===1?160:110;
-    let angle=0;const existingAngles=siblings.map(s=>Math.atan2(s.y-ajoutParent.y,s.x-ajoutParent.x));
-    for(let a=0;a<Math.PI*2;a+=Math.PI/4){if(existingAngles.every(ea=>Math.abs(ea-a)>Math.PI/5)){angle=a;break;}}
-    x=ajoutParent.x+Math.cos(angle)*radius;y=ajoutParent.y+Math.sin(angle)*radius;
+    const siblings=nodesData.filter(n=>n.parentId===ajoutParent.id);
+    const depth=getDepth(ajoutParent)+1;
+    const radius=depth===1?170:120;
+    const total=siblings.length+1;
+    const angle=(total-1)*(Math.PI*2/Math.max(total,4));
+    x=ajoutParent.x+Math.cos(angle)*radius;
+    y=ajoutParent.y+Math.sin(angle)*radius;
   }
-  nodesData.push({id:newId,label,x,y,color,parentId:ajoutParent?ajoutParent.id:null});sauvegarderNoeuds();fermerPanelAjout();dessinerCarte();
+  nodesData.push({id:newId,label,x,y,color,parentId:ajoutParent?ajoutParent.id:null});
+  sauvegarderNoeuds();fermerPanelAjout();dessinerCarte();
 }
-function supprimerNoeud(){if(!selectedNode)return;function supprimerRec(id){const e=nodesData.filter(n=>n.parentId===id);e.forEach(e=>supprimerRec(e.id));nodesData=nodesData.filter(n=>n.id!==id);}supprimerRec(selectedNode.id);selectedNode=null;fermerPanelNoeud();sauvegarderNoeuds();dessinerCarte();}
+
+function supprimerNoeud(){
+  if(!selectedNode)return;
+  function rec(id){
+    nodesData.filter(n=>n.parentId===id).forEach(e=>rec(e.id));
+    nodesData=nodesData.filter(n=>n.id!==id);
+  }
+  rec(selectedNode.id);
+  selectedNode=null;fermerPanelNoeud();sauvegarderNoeuds();dessinerCarte();
+}
 function zoomIn(){scale=Math.min(scale*1.25,3);dessinerCarte();}
 function zoomOut(){scale=Math.max(scale/1.25,0.3);dessinerCarte();}
 function centrerVue(){scale=1;panX=0;panY=0;dessinerCarte();}
-window.addEventListener('resize',()=>{if(document.getElementById('mm-editor').style.display!=='none'){ajusterCanvas();dessinerCarte();}});
+window.addEventListener('resize',()=>{if(document.getElementById('mm-editor')&&document.getElementById('mm-editor').style.display!=='none'){ajusterCanvas();dessinerCarte();}});
 
 // ══════════════════════════════════
-//  SECTIONS STANDARDS
+//  ACHAT BÉBÉ (MAISON)
 // ══════════════════════════════════
-function ajouterRepas(){const type=document.getElementById('repas-type').value,heure=document.getElementById('repas-heure').value,details=document.getElementById('repas-details').value,note=document.getElementById('repas-note').value;if(!heure){alert('Heure requise.');return;}const l=ld('repas');l.unshift({type,heure,details,note,date:now.toLocaleDateString('fr-FR')});sv('repas',l);document.getElementById('repas-details').value='';document.getElementById('repas-note').value='';afficherRepas();}
-function supprimerRepas(i){const l=ld('repas');l.splice(i,1);sv('repas',l);afficherRepas();}
-function afficherRepas(){const l=ld('repas'),el=document.getElementById('repas-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun repas.</p>';return;}el.innerHTML=l.map((r,i)=>`<div class="entry"><span><span class="badge badge-blue">${r.type}</span><br>${r.date} à ${r.heure}${r.details?' — '+r.details:''}${r.note?'<br><em>'+r.note+'</em>':''}</span><button onclick="supprimerRepas(${i})">×</button></div>`).join('');}
+const PIECES_INFO={
+  parents:{icon:'🛏️',nom:'Chambre parents',color:'#1e40af',bg:'linear-gradient(135deg,#dbeafe,#eff6ff)'},
+  bebe:   {icon:'🍼',nom:'Chambre bébé',   color:'#065f46',bg:'linear-gradient(135deg,#d1fae5,#ecfdf5)'},
+  sdb:    {icon:'🚿',nom:'Salle de bain',  color:'#0369a1',bg:'linear-gradient(135deg,#e0f2fe,#f0f9ff)'},
+  salon:  {icon:'🛋️',nom:'Salon',          color:'#6b21a8',bg:'linear-gradient(135deg,#ede9fe,#fdf4ff)'},
+  cuisine:{icon:'🍳',nom:'Cuisine',         color:'#92400e',bg:'linear-gradient(135deg,#fef3c7,#fffbeb)'},
+  jardin: {icon:'🌿',nom:'Jardin / Terrasse',color:'#166534',bg:'linear-gradient(135deg,#dcfce7,#f0fdf4)'},
+  voiture:{icon:'🚗',nom:'Voiture',          color:'#9d174d',bg:'linear-gradient(135deg,#fce7f3,#fdf2f8)'},
+  ext:    {icon:'🏙️',nom:'Sorties & promenades',color:'#1e40af',bg:'linear-gradient(135deg,#dbeafe,#eff6ff)'}
+};
+let pieceActive=null;
 
-function ajouterSommeil(){const type=document.getElementById('sommeil-type').value,debut=document.getElementById('sommeil-debut').value,fin=document.getElementById('sommeil-fin').value,note=document.getElementById('sommeil-note').value;if(!debut){alert('Début requis.');return;}let duree='';if(debut&&fin){const diff=Math.round((new Date(fin)-new Date(debut))/60000);if(diff>0)duree=Math.floor(diff/60)+'h'+(diff%60?String(diff%60).padStart(2,'0'):'');}const l=ld('sommeil');l.unshift({type,debut,fin,duree,note});sv('sommeil',l);document.getElementById('sommeil-note').value='';afficherSommeil();}
-function supprimerSommeil(i){const l=ld('sommeil');l.splice(i,1);sv('sommeil',l);afficherSommeil();}
-function afficherSommeil(){const l=ld('sommeil'),el=document.getElementById('sommeil-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun sommeil.</p>';return;}el.innerHTML=l.map((s,i)=>`<div class="entry"><span><span class="badge badge-teal">${s.type}</span><br>Début : ${s.debut?s.debut.replace('T',' à '):'—'}${s.fin?'<br>Fin : '+s.fin.replace('T',' à '):''}${s.duree?' ('+s.duree+')':''}${s.note?'<br><em>'+s.note+'</em>':''}</span><button onclick="supprimerSommeil(${i})">×</button></div>`).join('');}
+function ouvrirPiece(id){
+  pieceActive=id;
+  const p=PIECES_INFO[id];
+  document.getElementById('accueil').style.display='none';
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('piece-detail').classList.add('active');
+  document.getElementById('piece-detail-header').innerHTML=`<h2 style="font-size:22px;font-weight:800;color:${p.color};margin-bottom:4px">${p.icon} ${p.nom}</h2><p style="font-size:13px;color:#6b7280">Gérez le mobilier de cette pièce</p>`;
+  document.getElementById('piece-detail-header').style.background=p.bg;
+  document.getElementById('piece-detail-header').style.padding='20px';
+  document.getElementById('piece-detail-title').textContent=`Ajouter dans ${p.nom}`;
+  afficherArticlesPiece();
+  window.scrollTo(0,0);
+}
 
-function ajouterSante(){const type=document.getElementById('sante-type').value,date=document.getElementById('sante-date').value,desc=document.getElementById('sante-desc').value;if(!desc){alert('Description requise.');return;}const l=ld('sante');l.unshift({type,date,desc});sv('sante',l);document.getElementById('sante-desc').value='';afficherSante();}
-function supprimerSante(i){const l=ld('sante');l.splice(i,1);sv('sante',l);afficherSante();}
-function afficherSante(){const l=ld('sante'),el=document.getElementById('sante-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucune note.</p>';return;}el.innerHTML=l.map((s,i)=>`<div class="entry"><span><span class="badge badge-purple">${s.type}</span><br>${s.date||''} ${s.desc}</span><button onclick="supprimerSante(${i})">×</button></div>`).join('');}
+function ajouterArticlePiece(){
+  if(!pieceActive)return;
+  const item=document.getElementById('mob-item').value.trim();
+  if(!item){alert('Indiquez un article.');return;}
+  const modele=document.getElementById('mob-modele').value.trim();
+  const prix=document.getElementById('mob-prix').value.trim();
+  const statut=document.getElementById('mob-statut').value;
+  const note=document.getElementById('mob-note').value.trim();
+  const l=ld('mob_'+pieceActive);
+  l.unshift({item,modele,prix,statut,note,date:now.toLocaleDateString('fr-FR')});
+  sv('mob_'+pieceActive,l);
+  ['mob-item','mob-modele','mob-prix','mob-note'].forEach(id=>document.getElementById(id).value='');
+  afficherArticlesPiece();
+}
 
-function ajouterCourse(){const item=document.getElementById('courses-item').value.trim(),qte=document.getElementById('courses-qte').value.trim();if(!item){alert('Article requis.');return;}const l=ld('courses');l.push({item,qte,fait:false});sv('courses',l);document.getElementById('courses-item').value='';document.getElementById('courses-qte').value='';afficherCourses();}
-function toggleCourse(i){const l=ld('courses');l[i].fait=!l[i].fait;sv('courses',l);afficherCourses();}
-function supprimerCourse(i){const l=ld('courses');l.splice(i,1);sv('courses',l);afficherCourses();}
-function afficherCourses(){const l=ld('courses'),el=document.getElementById('courses-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Liste vide.</p>';return;}el.innerHTML=l.map((c,i)=>`<div class="checklist-item ${c.fait?'checked':''}"><input type="checkbox" ${c.fait?'checked':''} onchange="toggleCourse(${i})"><label onclick="toggleCourse(${i})">${c.item}${c.qte?' — '+c.qte:''}</label><button onclick="supprimerCourse(${i})">×</button></div>`).join('');}
+function supprimerArticlePiece(i){
+  const l=ld('mob_'+pieceActive);l.splice(i,1);sv('mob_'+pieceActive,l);afficherArticlesPiece();
+}
 
-function ajouterRdv(){const titre=document.getElementById('rdv-titre').value.trim(),date=document.getElementById('rdv-date').value,lieu=document.getElementById('rdv-lieu').value.trim(),note=document.getElementById('rdv-note').value.trim();if(!titre||!date){alert('Titre et date requis.');return;}const l=ld('rdv');l.push({titre,date,lieu,note});l.sort((a,b)=>new Date(a.date)-new Date(b.date));sv('rdv',l);document.getElementById('rdv-titre').value='';document.getElementById('rdv-lieu').value='';document.getElementById('rdv-note').value='';afficherRdv();}
-function supprimerRdv(i){const l=ld('rdv');l.splice(i,1);sv('rdv',l);afficherRdv();}
-function afficherRdv(){const l=ld('rdv'),el=document.getElementById('rdv-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun rendez-vous.</p>';return;}el.innerHTML=l.map((r,i)=>`<div class="entry"><span><span class="badge badge-red">${r.titre}</span><br>${r.date?r.date.replace('T',' à '):''}${r.lieu?'<br>📍 '+r.lieu:''}${r.note?'<br><em>'+r.note+'</em>':''}</span><button onclick="supprimerRdv(${i})">×</button></div>`).join('');}
-
-function ajouterVetement(){const taille=document.getElementById('vetements-taille').value,item=document.getElementById('vetements-item').value.trim(),qte=document.getElementById('vetements-qte').value.trim(),note=document.getElementById('vetements-note').value.trim();if(!item){alert('Article requis.');return;}const l=ld('vetements');l.unshift({taille,item,qte,note});sv('vetements',l);document.getElementById('vetements-item').value='';document.getElementById('vetements-qte').value='';document.getElementById('vetements-note').value='';afficherVetements();}
-function supprimerVetement(i){const l=ld('vetements');l.splice(i,1);sv('vetements',l);afficherVetements();}
-function afficherVetements(){const l=ld('vetements'),el=document.getElementById('vetements-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun vêtement.</p>';return;}el.innerHTML=l.map((v,i)=>`<div class="entry"><span><span class="badge badge-pink">${v.taille}</span><br><strong style="color:#ccd6f6">${v.item}</strong>${v.qte?' — '+v.qte:''}${v.note?'<br><em>'+v.note+'</em>':''}</span><button onclick="supprimerVetement(${i})">×</button></div>`).join('');}
-
-function ajouterMaternite(){const valise=document.getElementById('maternite-valise').value,item=document.getElementById('maternite-item').value.trim(),qte=document.getElementById('maternite-qte').value.trim(),note=document.getElementById('maternite-note').value.trim();if(!item){alert('Article requis.');return;}const l=ld('maternite');l.unshift({valise,item,qte,note});sv('maternite',l);document.getElementById('maternite-item').value='';document.getElementById('maternite-qte').value='';document.getElementById('maternite-note').value='';afficherMaternite();}
-function supprimerMaternite(i){const l=ld('maternite');l.splice(i,1);sv('maternite',l);afficherMaternite();}
-function afficherMaternite(){const l=ld('maternite'),el=document.getElementById('maternite-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Valise vide.</p>';return;}el.innerHTML=l.map((m,i)=>`<div class="entry"><span><span class="badge badge-rose">${m.valise}</span><br><strong style="color:#ccd6f6">${m.item}</strong>${m.qte?' — '+m.qte:''}${m.note?'<br><em>'+m.note+'</em>':''}</span><button onclick="supprimerMaternite(${i})">×</button></div>`).join('');}
-
-function ajouterAdmin(){const cat=document.getElementById('admin-cat').value,item=document.getElementById('admin-item').value.trim(),date=document.getElementById('admin-date').value,statut=document.getElementById('admin-statut').value,note=document.getElementById('admin-note').value.trim();if(!item){alert('Démarche requise.');return;}const l=ld('admin');l.unshift({cat,item,date,statut,note});sv('admin',l);document.getElementById('admin-item').value='';document.getElementById('admin-date').value='';document.getElementById('admin-note').value='';afficherAdmin();}
-function supprimerAdmin(i){const l=ld('admin');l.splice(i,1);sv('admin',l);afficherAdmin();}
-function afficherAdmin(){const l=ld('admin'),el=document.getElementById('admin-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucune démarche.</p>';return;}const sc={'À faire':'badge-red','En cours':'badge-amber','Fait ✓':'badge-teal'};el.innerHTML=l.map((a,i)=>`<div class="entry"><span><span class="badge badge-yellow">${a.cat}</span> <span class="badge ${sc[a.statut]||'badge-amber'}">${a.statut}</span><br><strong style="color:#ccd6f6">${a.item}</strong>${a.date?'<br>📅 Avant le '+a.date:''}${a.note?'<br><em>'+a.note+'</em>':''}</span><button onclick="supprimerAdmin(${i})">×</button></div>`).join('');}
-
-function ajouterEvent(){const type=document.getElementById('events-type').value,titre=document.getElementById('events-titre').value.trim(),date=document.getElementById('events-date').value,lieu=document.getElementById('events-lieu').value.trim(),note=document.getElementById('events-note').value.trim();if(!titre||!date){alert('Titre et date requis.');return;}const l=ld('events');l.push({type,titre,date,lieu,note});l.sort((a,b)=>new Date(a.date)-new Date(b.date));sv('events',l);document.getElementById('events-titre').value='';document.getElementById('events-date').value='';document.getElementById('events-lieu').value='';document.getElementById('events-note').value='';afficherEvents();}
-function supprimerEvent(i){const l=ld('events');l.splice(i,1);sv('events',l);afficherEvents();}
-function afficherEvents(){const l=ld('events'),el=document.getElementById('events-liste');if(!l.length){el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun événement.</p>';return;}el.innerHTML=l.map((e,i)=>`<div class="entry"><span><span class="badge badge-violet">${e.type}</span><br><strong style="color:#ccd6f6">${e.titre}</strong><br>${e.date?e.date.replace('T',' à '):''}${e.lieu?'<br>📍 '+e.lieu:''}${e.note?'<br><em>'+e.note+'</em>':''}</span><button onclick="supprimerEvent(${i})">×</button></div>`).join('');}
-
-// Init
-const savedBudget=localStorage.getItem('budget_total');
-if(savedBudget)document.getElementById('budget-total').value=savedBudget;
-afficherRepas();afficherSommeil();afficherSante();afficherCourses();afficherRdv();
-afficherVetements();afficherMaternite();afficherAdmin();afficherEvents();
-// ══════════════════════════════════
-//  BUDGET
-// ══════════════════════════════════
-const B_PIECES={
-  parents:{label:'Ch. parents',color:'#7f91e8'},
-  bebe:   {label:'Ch. bébé',   color:'#9ae6b4'},
-  sdb:    {label:'Sdb',        color:'#90cdf4'},
-  salon:  {label:'Salon',      color:'#d6bcfa'},
-  cuisine:{label:'Cuisine',    color:'#fbd38d'},
-  jardin: {label:'Jardin',     color:'#b7e4b7'},
-  voiture:{label:'Voiture',    color:'#f0b4e8'},
-  ext:    {label:'Sorties',    color:'#f0e68c'}
+const STATUT_STYLE={
+  'À acheter':{bg:'#fee2e2',color:'#b91c1c'},
+  'Commandé':{bg:'#fef3c7',color:'#92400e'},
+  'Reçu ✓':{bg:'#d1fae5',color:'#065f46'}
 };
 
-function bParsePrice(s){if(!s)return 0;const n=parseFloat(String(s).replace(/[^0-9.,]/g,'').replace(',','.'));return isNaN(n)?0:n;}
-function bFmt(n){return Math.round(n).toLocaleString('fr-FR')+' €';}
-
-function bGetAllItems(){
-  const all=[];
-  Object.keys(B_PIECES).forEach(id=>{
-    const items=ld('mob_'+id);
-    items.forEach(it=>all.push({...it,piece:id,prixNum:bParsePrice(it.prix)}));
-  });
-  return all;
+function afficherArticlesPiece(){
+  if(!pieceActive)return;
+  const l=ld('mob_'+pieceActive);
+  const el=document.getElementById('mob-liste');
+  if(!l.length){el.innerHTML='<p style="color:#9ca3af;font-size:13px">Aucun article pour cette pièce.</p>';return;}
+  el.innerHTML=l.map((m,i)=>{
+    const st=STATUT_STYLE[m.statut]||{bg:'#f3f4f6',color:'#374151'};
+    return `<div class="entry">
+      <span>
+        <span style="background:${st.bg};color:${st.color};padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin-bottom:4px;display:inline-block">${m.statut}</span><br>
+        <strong style="color:#1f2937">${m.item}</strong>
+        ${m.modele?` <span style="color:#6b7280;font-size:12px">— ${m.modele}</span>`:''}
+        ${m.prix?` <span style="color:#059669;font-weight:700"> · ${m.prix}</span>`:''}
+        ${m.note?`<br><em style="color:#9ca3af;font-size:12px">${m.note}</em>`:''}
+      </span>
+      <button onclick="supprimerArticlePiece(${i})">×</button>
+    </div>`;
+  }).join('');
 }
 
-let bChartPie,bChartStatut,bChartBar,bChartLine;
+// ══════════════════════════════════
+//  RENDEZ-VOUS
+// ══════════════════════════════════
+let calDate=new Date(now.getFullYear(),now.getMonth(),1);
 
-function majBudget(){
-  const all=bGetAllItems();
-  const budget=parseFloat(document.getElementById('budget-total').value)||0;
-  const depense=all.filter(i=>i.statut==='Reçu ✓').reduce((s,i)=>s+i.prixNum,0);
-  const reste=budget-depense;
-  const pct=budget>0?Math.min(100,Math.round((depense/budget)*100)):0;
+function switchRdvTab(tab,btn){
+  document.querySelectorAll('.rdv-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('rdv-cal-view').style.display=tab==='calendrier'?'block':'none';
+  document.getElementById('rdv-list-view').style.display=tab==='liste'?'block':'none';
+  document.getElementById('rdv-add-view').style.display=tab==='ajouter'?'block':'none';
+  if(tab==='liste')afficherRdvListe();
+}
 
-  // Sauvegarder le budget saisi
-  localStorage.setItem('budget_total', document.getElementById('budget-total').value);
+function navMois(d){calDate=new Date(calDate.getFullYear(),calDate.getMonth()+d,1);renderCalendrier();}
 
-  document.getElementById('b-jauge').style.width=pct+'%';
-  document.getElementById('b-pct').textContent=pct+'%';
-  document.getElementById('b-stat-total').textContent=budget?bFmt(budget):'—';
-  document.getElementById('b-stat-dep').textContent=bFmt(depense);
-  document.getElementById('b-stat-reste').textContent=budget?bFmt(reste):'—';
-  document.getElementById('b-stat-reste').style.color=reste<0?'#feb2b2':'#9ae6b4';
-
-  const DARK='#0d0d18';
-  const CHART_OPTS={responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>bFmt(ctx.raw||0)}}}};
-
-  // Camembert par pièce
-  const pieData=Object.keys(B_PIECES).map(id=>({
-    label:B_PIECES[id].label,color:B_PIECES[id].color,
-    val:all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)
-  })).filter(d=>d.val>0);
-  const pieSrc=pieData.length?pieData:[{label:'Aucun article',color:'#4a5568',val:1}];
-  if(bChartPie)bChartPie.destroy();
-  bChartPie=new Chart(document.getElementById('b-chart-pie'),{
-    type:'doughnut',
-    data:{labels:pieSrc.map(d=>d.label),datasets:[{data:pieSrc.map(d=>d.val),backgroundColor:pieSrc.map(d=>d.color),borderColor:DARK,borderWidth:2}]},
-    options:{...CHART_OPTS,cutout:'65%'}
-  });
-  document.getElementById('b-legend-pie').innerHTML=pieSrc.map(d=>`<span style="display:flex;align-items:center;gap:3px;font-size:9px;color:#8892b0"><span style="width:8px;height:8px;border-radius:2px;background:${d.color};flex-shrink:0"></span>${d.label}</span>`).join('');
-
-  // Camembert par statut
-  const statutData=[
-    {label:'À acheter',color:'#feb2b2',val:all.filter(i=>i.statut==='À acheter').reduce((s,i)=>s+i.prixNum,0)},
-    {label:'Commandé', color:'#fbd38d',val:all.filter(i=>i.statut==='Commandé').reduce((s,i)=>s+i.prixNum,0)},
-    {label:'Reçu ✓',   color:'#9ae6b4',val:all.filter(i=>i.statut==='Reçu ✓').reduce((s,i)=>s+i.prixNum,0)}
-  ].filter(d=>d.val>0);
-  const statutSrc=statutData.length?statutData:[{label:'Aucun article',color:'#4a5568',val:1}];
-  if(bChartStatut)bChartStatut.destroy();
-  bChartStatut=new Chart(document.getElementById('b-chart-statut'),{
-    type:'doughnut',
-    data:{labels:statutSrc.map(d=>d.label),datasets:[{data:statutSrc.map(d=>d.val),backgroundColor:statutSrc.map(d=>d.color),borderColor:DARK,borderWidth:2}]},
-    options:{...CHART_OPTS,cutout:'65%'}
-  });
-  document.getElementById('b-legend-statut').innerHTML=statutSrc.map(d=>`<span style="display:flex;align-items:center;gap:3px;font-size:9px;color:#8892b0"><span style="width:8px;height:8px;border-radius:2px;background:${d.color};flex-shrink:0"></span>${d.label}</span>`).join('');
-
-  // Histogramme par pièce
-  const barLabels=Object.values(B_PIECES).map(p=>p.label);
-  const barVals=Object.keys(B_PIECES).map(id=>Math.round(all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)));
-  const barColors=Object.values(B_PIECES).map(p=>p.color);
-  if(bChartBar)bChartBar.destroy();
-  bChartBar=new Chart(document.getElementById('b-chart-bar'),{
-    type:'bar',
-    data:{labels:barLabels,datasets:[{data:barVals,backgroundColor:barColors,borderRadius:6,borderSkipped:false}]},
-    options:{...CHART_OPTS,scales:{
-      x:{ticks:{color:'#8892b0',font:{size:9},autoSkip:false,maxRotation:30},grid:{color:'rgba(255,255,255,0.04)'}},
-      y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>v+'€'},grid:{color:'rgba(255,255,255,0.06)'}}
-    }}
-  });
-
-  // Courbe d'évolution
-  const byDate={};
-  all.forEach(it=>{
-    if(it.prixNum>0){
-      const d=it.date||new Date().toLocaleDateString('fr-FR');
-      if(!byDate[d])byDate[d]=0;
-      byDate[d]+=it.prixNum;
-    }
-  });
-  const sortedDates=Object.keys(byDate).sort((a,b)=>{
-    const pa=a.split('/'),pb=b.split('/');
-    return new Date(pa[2],pa[1]-1,pa[0])-new Date(pb[2],pb[1]-1,pb[0]);
-  });
-  let cumul=0;
-  const lineVals=sortedDates.map(d=>{cumul+=byDate[d];return Math.round(cumul);});
-  const lineSrc=lineVals.length?{labels:sortedDates,vals:lineVals}:{labels:['Aujourd\'hui'],vals:[0]};
-  if(bChartLine)bChartLine.destroy();
-  bChartLine=new Chart(document.getElementById('b-chart-line'),{
-    type:'line',
-    data:{labels:lineSrc.labels,datasets:[{
-      data:lineSrc.vals,borderColor:'#7f91e8',backgroundColor:'rgba(127,145,232,0.12)',
-      borderWidth:2,pointBackgroundColor:'#7f91e8',pointRadius:4,fill:true,tension:0.4
-    }]},
-    options:{...CHART_OPTS,scales:{
-      x:{ticks:{color:'#8892b0',font:{size:9}},grid:{color:'rgba(255,255,255,0.04)'}},
-      y:{ticks:{color:'#8892b0',font:{size:9},callback:v=>v+'€'},grid:{color:'rgba(255,255,255,0.06)'}}
-    }}
-  });
-
-  // Détail articles avec prix
-  const avecPrix=all.filter(i=>i.prixNum>0).sort((a,b)=>b.prixNum-a.prixNum);
-  const el=document.getElementById('b-detail-liste');
-  if(!avecPrix.length){
-    el.innerHTML='<p style="color:#4a5568;font-size:13px">Aucun article avec prix saisi dans le mobilier.</p>';
-    return;
+function renderCalendrier(){
+  const mois=calDate.getMonth(),annee=calDate.getFullYear();
+  document.getElementById('cal-title').textContent=MOIS_FR[mois].charAt(0).toUpperCase()+MOIS_FR[mois].slice(1)+' '+annee;
+  const premier=new Date(annee,mois,1);
+  const dernier=new Date(annee,mois+1,0);
+  let jourDebut=premier.getDay();jourDebut=jourDebut===0?6:jourDebut-1;
+  const rdvList=ld('rdvs');
+  const rdvDates=new Set(rdvList.map(r=>r.date));
+  let html='';
+  for(let i=0;i<jourDebut;i++){
+    const d=new Date(annee,mois,1-jourDebut+i);
+    html+=`<div class="cal-day other-month">${d.getDate()}</div>`;
   }
-  const SCOL={'À acheter':'#feb2b2','Commandé':'#fbd38d','Reçu ✓':'#9ae6b4'};
-  el.innerHTML=avecPrix.map(i=>`
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
-      <div>
-        <span style="display:inline-block;background:rgba(255,255,255,0.05);border-radius:6px;padding:2px 8px;font-size:10px;color:${B_PIECES[i.piece]?.color||'#ccd6f6'};margin-right:6px">${B_PIECES[i.piece]?.label||i.piece}</span>
-        <span style="font-size:13px;color:#ccd6f6">${i.item}</span>
-        ${i.modele?`<span style="font-size:11px;color:#8892b0"> — ${i.modele}</span>`:''}
+  for(let d=1;d<=dernier.getDate();d++){
+    const dateStr=`${annee}-${String(mois+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday=d===now.getDate()&&mois===now.getMonth()&&annee===now.getFullYear();
+    const hasRdv=rdvDates.has(dateStr);
+    html+=`<div class="cal-day${isToday?' today':''}${hasRdv?' has-rdv':''}" onclick="afficherRdvJour('${dateStr}')">${d}</div>`;
+  }
+  document.getElementById('cal-days').innerHTML=html;
+  document.getElementById('cal-rdv-jour').style.display='none';
+}
+
+function afficherRdvJour(dateStr){
+  const rdvs=ld('rdvs').filter(r=>r.date===dateStr);
+  const el=document.getElementById('cal-rdv-jour');
+  const parts=dateStr.split('-');
+  document.getElementById('cal-jour-titre').textContent=`${parseInt(parts[2])} ${MOIS_FR[parseInt(parts[1])-1]} ${parts[0]}`;
+  if(!rdvs.length){
+    document.getElementById('cal-rdv-liste').innerHTML='<p style="color:#9ca3af;font-size:13px">Aucun rendez-vous ce jour.</p>';
+  }else{
+    document.getElementById('cal-rdv-liste').innerHTML=rdvs.map(r=>`
+      <div style="background:#eff6ff;border-radius:12px;padding:12px;margin-bottom:8px;">
+        <div style="font-size:14px;font-weight:700;color:#1e40af">${r.titre}</div>
+        <div style="font-size:12px;color:#6b7280">${r.heure||''}${r.lieu?' · '+r.lieu:''}</div>
+      </div>`).join('');
+  }
+  el.style.display='block';
+}
+
+function ajouterRdv(){
+  const titre=document.getElementById('rdv-titre').value.trim();
+  const date=document.getElementById('rdv-date').value;
+  if(!titre||!date){alert('Titre et date requis.');return;}
+  const heure=document.getElementById('rdv-heure').value;
+  const type=document.getElementById('rdv-type').value;
+  const lieu=document.getElementById('rdv-lieu').value.trim();
+  const note=document.getElementById('rdv-note').value.trim();
+  const l=ld('rdvs');
+  l.push({titre,date,heure,type,lieu,note});
+  l.sort((a,b)=>new Date(a.date)-new Date(b.date));
+  sv('rdvs',l);
+  ['rdv-titre','rdv-heure','rdv-lieu','rdv-note'].forEach(id=>document.getElementById(id).value='');
+  alert('Rendez-vous ajouté ! ✓');
+  renderCalendrier();
+  // Passer à la vue liste
+  switchRdvTab('liste',document.querySelectorAll('.rdv-tab')[1]);
+}
+
+function supprimerRdv(i){const l=ld('rdvs');l.splice(i,1);sv('rdvs',l);afficherRdvListe();}
+
+const RDV_TYPE_STYLE={
+  'Médical':{bg:'#dbeafe',c:'#1e40af'},
+  'Échographie':{bg:'#ede9fe',c:'#5b21b6'},
+  'Administratif':{bg:'#fef3c7',c:'#92400e'},
+  'Personnel':{bg:'#fce7f3',c:'#9d174d'},
+  'Autre':{bg:'#f3f4f6',c:'#374151'}
+};
+
+function afficherRdvListe(){
+  const l=ld('rdvs');
+  const el=document.getElementById('rdv-liste-complete');
+  if(!l.length){el.innerHTML='<div style="text-align:center;padding:40px;color:#9ca3af">Aucun rendez-vous.<br>Ajoutez-en via l\'onglet +</div>';return;}
+  el.innerHTML=l.map((r,i)=>{
+    const parts=r.date.split('-');
+    const st=RDV_TYPE_STYLE[r.type]||RDV_TYPE_STYLE['Autre'];
+    return `<div class="rdv-item">
+      <div class="rdv-date-badge"><div class="rdv-day">${parseInt(parts[2])}</div><div class="rdv-month">${MOIS_COURT[parseInt(parts[1])-1]}</div></div>
+      <div class="rdv-info">
+        <div class="rdv-title">${r.titre}</div>
+        <div class="rdv-meta">
+          ${r.heure?r.heure+' · ':''}
+          <span style="background:${st.bg};color:${st.c};padding:1px 7px;border-radius:10px;font-size:10px;font-weight:700">${r.type}</span>
+          ${r.lieu?' · '+r.lieu:''}
+        </div>
+        ${r.note?`<div style="font-size:11px;color:#9ca3af;margin-top:2px;font-style:italic">${r.note}</div>`:''}
       </div>
-      <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;margin-left:10px">
-        <span style="font-size:12px;color:${SCOL[i.statut]||'#ccd6f6'}">${i.statut}</span>
-        <span style="font-size:14px;font-weight:700;color:#fbd38d">${bFmt(i.prixNum)}</span>
-      </div>
+      <button onclick="supprimerRdv(${i})">×</button>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════
+//  ADMINISTRATION
+// ══════════════════════════════════
+const ADMIN_TODOS_DEFAULT=[
+  {txt:'Déclarer la grossesse à la CAF (avant 14 sem.)',done:false},
+  {txt:'Prévenir l\'employeur du congé maternité',done:false},
+  {txt:'Envoyer la déclaration de grossesse à la sécu',done:false},
+  {txt:'Choisir la maternité et visite',done:false},
+  {txt:'Mettre à jour la mutuelle',done:false},
+  {txt:'Préparer le dossier d\'admission maternité',done:false},
+  {txt:'Déclarer la naissance à la mairie (sous 5 jours)',done:false},
+  {txt:'Demander le congé paternité à l\'employeur',done:false},
+  {txt:'Inscrire bébé sur la carte vitale',done:false},
+  {txt:'Choisir un pédiatre',done:false},
+];
+
+const CONTACTS_DEFAULT=[
+  {nom:'Maternité',role:'Établissement de naissance',tel:'',icon:'🏥'},
+  {nom:'Médecin traitant',role:'Suivi grossesse',tel:'',icon:'👨‍⚕️'},
+  {nom:'Sage-femme',role:'Préparation & accouchement',tel:'',icon:'👩‍⚕️'},
+  {nom:'Pédiatre',role:'Suivi bébé',tel:'',icon:'👶'},
+  {nom:'CAF',role:'Allocations familiales',tel:'32 30',icon:'📋'},
+];
+
+const DOCS_DEFAULT=[
+  {nom:'Déclaration de grossesse',detail:'À envoyer à la CAF et sécu avant 14 semaines',statut:'À faire',icon:'📄'},
+  {nom:'Dossier maternité',detail:'Dossier d\'admission à préparer',statut:'À faire',icon:'🏥'},
+  {nom:'Acte de naissance',detail:'Déclaration en mairie sous 5 jours',statut:'À faire',icon:'📜'},
+  {nom:'Carte vitale bébé',detail:'Inscription de bébé sur la carte vitale',statut:'À faire',icon:'💳'},
+  {nom:'Allocations naissance (CAF)',detail:'Demande prime naissance',statut:'À faire',icon:'💰'},
+  {nom:'Congé maternité',detail:'Déclaration à l\'employeur & sécu',statut:'À faire',icon:'👩‍💼'},
+  {nom:'Congé paternité',detail:'Déclaration à l\'employeur',statut:'À faire',icon:'👨‍💼'},
+];
+
+function switchAdminTab(tab,btn){
+  document.querySelectorAll('.admin-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('admin-checklist').style.display=tab==='checklist'?'block':'none';
+  document.getElementById('admin-contacts').style.display=tab==='contacts'?'block':'none';
+  document.getElementById('admin-documents').style.display=tab==='documents'?'block':'none';
+}
+
+function ajouterAdminTodo(){
+  const txt=document.getElementById('admin-todo-input').value.trim();
+  if(!txt)return;
+  const l=ld('admin_todos');
+  l.push({txt,done:false});sv('admin_todos',l);
+  document.getElementById('admin-todo-input').value='';
+  afficherAdminTodos();
+}
+function toggleAdminTodo(i){
+  const l=ld('admin_todos');l[i].done=!l[i].done;sv('admin_todos',l);afficherAdminTodos();
+}
+function supprimerAdminTodo(i){
+  const l=ld('admin_todos');l.splice(i,1);sv('admin_todos',l);afficherAdminTodos();
+}
+function afficherAdminTodos(){
+  let l=ld('admin_todos');
+  if(!l.length){sv('admin_todos',ADMIN_TODOS_DEFAULT);l=ADMIN_TODOS_DEFAULT;}
+  document.getElementById('admin-todo-liste').innerHTML=l.map((t,i)=>`
+    <div class="checklist-item ${t.done?'done':''}">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleAdminTodo(${i})">
+      <label onclick="toggleAdminTodo(${i})">${t.txt}</label>
+      <button onclick="supprimerAdminTodo(${i})">×</button>
     </div>`).join('');
 }
+
+function ajouterContact(){
+  const nom=document.getElementById('contact-nom').value.trim();
+  const tel=document.getElementById('contact-tel').value.trim();
+  if(!nom)return;
+  const l=ld('contacts');
+  l.push({nom,role:'',tel,icon:'📞'});sv('contacts',l);
+  document.getElementById('contact-nom').value='';document.getElementById('contact-tel').value='';
+  afficherContacts();
+}
+function supprimerContact(i){
+  const l=ld('contacts');l.splice(i,1);sv('contacts',l);afficherContacts();
+}
+function afficherContacts(){
+  let custom=ld('contacts');
+  const all=[...CONTACTS_DEFAULT,...custom];
+  document.getElementById('contacts-liste').innerHTML=all.map((c,i)=>`
+    <div class="contact-card">
+      <div class="contact-avatar">${c.icon||'📞'}</div>
+      <div class="contact-info">
+        <div class="contact-name">${c.nom}</div>
+        ${c.role?`<div class="contact-role">${c.role}</div>`:''}
+        ${c.tel?`<div class="contact-tel">📞 ${c.tel}</div>`:''}
+      </div>
+      ${i>=CONTACTS_DEFAULT.length?`<button onclick="supprimerContact(${i-CONTACTS_DEFAULT.length})" style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4">×</button>`:''}
+    </div>`).join('');
+}
+
+function toggleDoc(i){
+  const l=ld('docs_status');
+  const current=l[i]||'À faire';
+  const next={'À faire':'En cours','En cours':'Fait ✓','Fait ✓':'À faire'};
+  l[i]=next[current]||'À faire';sv('docs_status',l);afficherDocuments();
+}
+function afficherDocuments(){
+  const statuses=ld('docs_status');
+  const DOC_ST={'À faire':{bg:'#fee2e2',c:'#b91c1c'},'En cours':{bg:'#fef3c7',c:'#92400e'},'Fait ✓':{bg:'#d1fae5',c:'#065f46'}};
+  document.getElementById('docs-liste').innerHTML=DOCS_DEFAULT.map((d,i)=>{
+    const st=statuses[i]||d.statut;
+    const style=DOC_ST[st]||DOC_ST['À faire'];
+    return `<div class="doc-item" onclick="toggleDoc(${i})" style="cursor:pointer">
+      <div class="doc-icon">${d.icon}</div>
+      <div class="doc-info"><div class="doc-name">${d.nom}</div><div class="doc-detail">${d.detail}</div></div>
+      <div class="doc-status" style="background:${style.bg};color:${style.c}">${st}</div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════════
+//  SIGNES DU BÉBÉ
+// ══════════════════════════════════
+const SIGNES_DATA=[
+  {id:1,cat:'Fatigue & sommeil',icon:'😴',title:'Se frotte les yeux',bg:'linear-gradient(135deg,#e0e7ff,#ede9fe)',color:'#4338ca',
+   signes:['Se frotte les yeux avec les poings','Regarde dans le vide','Bâille fréquemment','Tire ses oreilles','Perd intérêt aux jeux'],
+   quoiFaire:'Proposez une tétée ou un biberon, puis installez bébé dans un environnement calme et sombre. Ne dépassez pas les fenêtres d\'éveil recommandées pour son âge.',
+   astuce:'Un bébé qui se frotte les yeux est déjà trop fatigué ! Anticipez le signe suivant : regard dans le vide.'},
+  {id:2,cat:'Fatigue & sommeil',icon:'🌙',title:'Agitation au coucher',bg:'linear-gradient(135deg,#ddd6fe,#ede9fe)',color:'#5b21b6',
+   signes:['Pleure sans raison apparente','S\'arc-boute','Refuse le lit','Sursaute au moindre bruit'],
+   quoiFaire:'Instaurez un rituel du coucher régulier : bain tiède, berceuse, lumière tamisée. La cohérence est la clé.',
+   astuce:'Le rituel du coucher signale à son cerveau qu\'il est temps de dormir. Gardez la même routine chaque soir.'},
+  {id:3,cat:'Faim',icon:'🍼',title:'Signes de faim précoces',bg:'linear-gradient(135deg,#fce7f3,#fdf2f8)',color:'#9d174d',
+   signes:['Tourne la tête et ouvre la bouche','Porte les mains à la bouche','Fait des mouvements de succion','S\'agite et s\'étire'],
+   quoiFaire:'Proposez le sein ou le biberon dès ces premiers signes. Ne pas attendre les pleurs — ils signifient que bébé est trop affamé.',
+   astuce:'Les pleurs sont le DERNIER signal de faim. Apprenez à reconnaître les signes précoces pour des tétées plus calmes.'},
+  {id:4,cat:'Faim',icon:'😢',title:'Pleurs de faim',bg:'linear-gradient(135deg,#fce7f3,#fff1f2)',color:'#be185d',
+   signes:['Pleurs rythmiques et réguliers','Lèvres qui cherchent','Corps tendu et rigide','Difficile à consoler autrement'],
+   quoiFaire:'Donnez à manger immédiatement. Après la tétée, attendez un rot avant de recoucher. Un bébé nourri à la demande pleure moins.',
+   astuce:'En cas de doute : proposez à manger. Un bébé ne peut pas "se faire à l\'idée" d\'avoir faim.'},
+  {id:5,cat:'Douleur & inconf',icon:'😣',title:'Douleurs de ventre',bg:'linear-gradient(135deg,#ffedd5,#fef3c7)',color:'#c2410c',
+   signes:['Jambes ramenées sur le ventre','Visage rouge et crispé','Pleurs intenses après les repas','Ventre dur au toucher','Gaz fréquents'],
+   quoiFaire:'Massez le ventre dans le sens des aiguilles d\'une montre. Faites des mouvements de vélo avec ses jambes. Portez-le verticalement.',
+   astuce:'Les coliques du nourrisson surviennent souvent entre 18h et 22h. Elles disparaissent généralement vers 3 mois.'},
+  {id:6,cat:'Douleur & inconf',icon:'🦷',title:'Percée des dents',bg:'linear-gradient(135deg,#fee2e2,#fef2f2)',color:'#b91c1c',
+   signes:['Bave abondamment','Mâche tout ce qu\'il trouve','Gencives rouges et gonflées','Agitation inhabituelle','Légère fièvre possible'],
+   quoiFaire:'Proposez un anneau de dentition réfrigéré (jamais congelé). Un massage doux des gencives peut soulager. Consultez si la fièvre dépasse 38,5°C.',
+   astuce:'La première dent apparaît entre 4 et 12 mois. Chaque bébé est différent !'},
+  {id:7,cat:'Bonheur & éveil',icon:'😊',title:'Signes de bonheur',bg:'linear-gradient(135deg,#d1fae5,#ecfdf5)',color:'#065f46',
+   signes:['Sourire franc avec les yeux','Gazouillis et vocalises','Agite les bras et les jambes','Regard attentif et focalisé','Corps détendu et souple'],
+   quoiFaire:'C\'est le moment idéal pour jouer, parler, chanter ! Imitez ses expressions pour stimuler sa communication. Profitez de ces moments précieux.',
+   astuce:'Le sourire social (non réflexe) apparaît vers 6-8 semaines. C\'est une étape clé du développement !'},
+  {id:8,cat:'Bonheur & éveil',icon:'🎯',title:'Prêt pour jouer',bg:'linear-gradient(135deg,#ccfbf1,#d1fae5)',color:'#0f766e',
+   signes:['Regard alerte et curieux','Mouvements doux et coordonnés','Réagit aux sons et voix','Suit des yeux les objets'],
+   quoiFaire:'Proposez des jeux adaptés à son âge : hochet, tapis d\'éveil, livre cartonné, miroir. Parlez-lui et nommez tout ce que vous faites.',
+   astuce:'Les fenêtres d\'éveil s\'allongent avec l\'âge. Un nouveau-né ne supporte que 45-60 min d\'éveil.'},
+  {id:9,cat:'Santé & maladie',icon:'🌡️',title:'Fièvre',bg:'linear-gradient(135deg,#fef3c7,#fffbeb)',color:'#92400e',
+   signes:['Température > 38°C sous le bras','Peau chaude et rouge','Agitation ou somnolence inhabituelle','Refus de manger','Pleurs inhabituels'],
+   quoiFaire:'Consultez IMMÉDIATEMENT si : moins de 3 mois avec fièvre > 38°C, ou fièvre > 39°C à tout âge. Découvrez bébé, proposez à boire fréquemment.',
+   astuce:'⚠️ Moins de 3 mois avec fièvre = urgences pédiatriques sans attendre.'},
+  {id:10,cat:'Santé & maladie',icon:'🤧',title:'Rhume & nez bouché',bg:'linear-gradient(135deg,#e0f2fe,#f0f9ff)',color:'#0369a1',
+   signes:['Nez qui coule ou bouché','Éternuements fréquents','Difficulté à téter','Respiration bruyante','Yeux larmoyants'],
+   quoiFaire:'Désobstruez le nez avec du sérum physiologique avant chaque tétée. Surélevez légèrement la tête du matelas. Aérez la chambre.',
+   astuce:'Un bébé ne peut pas se moucher seul. La mouche-bébé (aspirateur nasal) est indispensable !'},
+  {id:11,cat:'Développement',icon:'🎉',title:'Premiers sourires',bg:'linear-gradient(135deg,#fce7f3,#fdf4ff)',color:'#86198f',
+   signes:['Sourire en réponse au visage humain','Suit les visages des yeux','Commence à vocaliser','S\'apaise en entendant votre voix'],
+   quoiFaire:'Répondez à chaque sourire et vocalise ! Cette interaction est cruciale pour son développement émotionnel et langagier.',
+   astuce:'Le sourire social vers 6-8 semaines marque le début de la communication intentionnelle.'},
+  {id:12,cat:'Développement',icon:'🤲',title:'Contrôle de la tête',bg:'linear-gradient(135deg,#ede9fe,#fdf4ff)',color:'#6d28d9',
+   signes:['Soulève la tête en tummy time','Tient sa tête quelques secondes','Regarde dans différentes directions','Moins de mouvements réflexes'],
+   quoiFaire:'Pratiquez le tummy time (ventre) quotidiennement dès la naissance, sous surveillance. Commencez par 2-3 min et augmentez progressivement.',
+   astuce:'Tummy time est ESSENTIEL pour développer la force du cou et prévenir la plagiocéphalie.'},
+];
+
+let signesCatActive='tous';
+
+function renderSignes(){
+  const cats=['tous','Fatigue & sommeil','Faim','Douleur & inconf','Bonheur & éveil','Santé & maladie','Développement'];
+  document.getElementById('signes-cats').innerHTML=cats.map(c=>`
+    <button class="signe-cat-btn ${signesCatActive===c?'active':''}" onclick="filtrerSignes('${c}')">${c==='tous'?'🌟 Tous':c}</button>`).join('');
+
+  const filtered=signesCatActive==='tous'?SIGNES_DATA:SIGNES_DATA.filter(s=>s.cat===signesCatActive);
+  const CAT_BADGE={'Fatigue & sommeil':{bg:'#ede9fe',c:'#5b21b6'},'Faim':{bg:'#fce7f3',c:'#9d174d'},'Douleur & inconf':{bg:'#fef3c7',c:'#92400e'},'Bonheur & éveil':{bg:'#d1fae5',c:'#065f46'},'Santé & maladie':{bg:'#dbeafe',c:'#1e40af'},'Développement':{bg:'#fdf4ff',c:'#86198f'}};
+
+  document.getElementById('signes-board').innerHTML=filtered.map(s=>{
+    const badge=CAT_BADGE[s.cat]||{bg:'#f3f4f6',c:'#374151'};
+    return `<div class="signe-card" style="background:${s.bg}" onclick="afficherFiche(${s.id})">
+      <div class="sc-icon">${s.icon}</div>
+      <div class="sc-title" style="color:${s.color}">${s.title}</div>
+      <span class="sc-cat" style="background:${badge.bg};color:${badge.c}">${s.cat}</span>
+    </div>`;
+  }).join('');
+}
+
+function filtrerSignes(cat){
+  signesCatActive=cat;renderSignes();
+}
+
+function afficherFiche(id){
+  const s=SIGNES_DATA.find(x=>x.id===id);if(!s)return;
+  const CAT_BADGE={'Fatigue & sommeil':{bg:'#ede9fe',c:'#5b21b6'},'Faim':{bg:'#fce7f3',c:'#9d174d'},'Douleur & inconf':{bg:'#fef3c7',c:'#92400e'},'Bonheur & éveil':{bg:'#d1fae5',c:'#065f46'},'Santé & maladie':{bg:'#dbeafe',c:'#1e40af'},'Développement':{bg:'#fdf4ff',c:'#86198f'}};
+  const badge=CAT_BADGE[s.cat]||{bg:'#f3f4f6',c:'#374151'};
+  document.getElementById('fiche-content').innerHTML=`
+    <div class="fiche-header">
+      <div class="fiche-icon">${s.icon}</div>
+      <div class="fiche-title-wrap">
+        <div class="fiche-title" style="color:${s.color}">${s.title}</div>
+        <span class="fiche-cat-badge" style="background:${badge.bg};color:${badge.c}">${s.cat}</span>
+      </div>
+      <button class="fiche-close" onclick="document.getElementById('fiche-modal').classList.remove('open')">✕</button>
+    </div>
+    <div class="fiche-section">
+      <h4>Signes à observer</h4>
+      <ul>${s.signes.map(sg=>`<li>${sg}</li>`).join('')}</ul>
+    </div>
+    <div class="fiche-section">
+      <h4>Que faire ?</h4>
+      <p>${s.quoiFaire}</p>
+    </div>
+    <div class="fiche-section">
+      <h4>💡 Astuce</h4>
+      <div class="fiche-tip"><p>${s.astuce}</p></div>
+    </div>`;
+  document.getElementById('fiche-modal').classList.add('open');
+}
+
+// Init
+afficherTodos();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 </body>
 </html>

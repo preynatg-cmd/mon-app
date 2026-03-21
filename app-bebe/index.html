@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Bébé App 👶</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #f8f4ff; color: #1f2937; min-height: 100vh; }
+header { position: relative; overflow: hidden; background: linear-gradient(135deg, #fce7f3 0%, #ede9fe 40%, #d1fae5 100%); padding: 52px 24px 28px; text-align: center; }
+header .hbg { position: absolute; inset: 0; background: url('https://images.unsplash.com/photo-1555252333-9f8e92e65df9?w=800&q=50') center/cover; opacity: 0.08; }
+header .hcontent { position: relative; }
+header .htag { font-size: 11px; color: #9c6ea8; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; margin-bottom: 10px; }
+header h1 { font-size: 28px; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #ec4899, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1.2; margin-bottom: 6px; }
+header .hsub { font-size: 14px; color: #6b7280; margin-bottom: 14px; }
+header .hdate { display: inline-block; background: white; border-radius: 20px; padding: 6px 18px; font-size: 12px; color: #7c3aed; font-weight: 600; box-shadow: 0 4px 12px rgba(124,58,237,0.15); }
+.app-footer { background: white; border-top: 1.5px solid #f3f4f6; padding: 20px; text-align: center; box-shadow: 0 -2px 12px rgba(0,0,0,0.04); }
+.footer-title { font-size: 15px; font-weight: 800; background: linear-gradient(135deg, #7c3aed, #ec4899); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 4px; }
+.footer-copy { font-size: 11px; color: #d1d5db; margin-top: 4px; }
+#cloud-indicator { position: fixed; top: 12px; right: 12px; z-index: 500; background: white; border-radius: 20px; padding: 4px 12px; font-size: 11px; font-weight: 700; color: #9ca3af; box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: all 0.3s; pointer-events: none; }
+#cloud-indicator.saving { color: #7c3aed; }
+#cloud-indicator.saved { color: #10b981; }
+#cloud-indicator.error { color: #ef4444; }
+#accueil { display: block; }
+.acc-wrap { padding: 28px 18px 0; max-width: 600px; margin: 0 auto; }
+.sec-lbl { font-size: 10px; color: #9ca3af; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 14px; }
+.sec-div { height: 1px; background: linear-gradient(90deg, transparent, #e5e7eb, transparent); margin: 22px 0; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gc { border-radius: 20px; padding: 20px 16px 16px; display: flex; flex-direction: column; gap: 7px; cursor: pointer; border: none; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.gc:active { transform: scale(0.97); }
+.gc .gi { font-size: 30px; line-height: 1; }
+.gc .gn { font-size: 14px; font-weight: 800; }
+.gc .gs { font-size: 11px; opacity: 0.6; }
+.gc.wide { grid-column: span 2; flex-direction: row; align-items: center; gap: 16px; }
+.gc.wide .gtxt { display: flex; flex-direction: column; gap: 4px; }
+.c-todo { background: linear-gradient(135deg, #fce7f3, #fdf2f8); } .c-todo .gn { color: #9d174d; }
+.c-mind { background: linear-gradient(135deg, #ede9fe, #f5f3ff); } .c-mind .gn { color: #5b21b6; }
+.c-achat { background: linear-gradient(135deg, #d1fae5, #ecfdf5); } .c-achat .gn { color: #065f46; }
+.c-rdv { background: linear-gradient(135deg, #dbeafe, #eff6ff); } .c-rdv .gn { color: #1e40af; }
+.c-admin { background: linear-gradient(135deg, #fef3c7, #fffbeb); } .c-admin .gn { color: #92400e; }
+.c-signes { background: linear-gradient(135deg, #fce7f3, #fdf4ff); } .c-signes .gn { color: #86198f; }
+.c-budget { background: linear-gradient(135deg, #dcfce7, #d1fae5); } .c-budget .gn { color: #166534; }
+.section { display: none; max-width: 700px; margin: 0 auto; }
+.section.active { display: block; }
+.back-btn { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1.5px solid #e5e7eb; color: #6b7280; border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; margin: 20px 20px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: all 0.15s; }
+.back-btn:hover { background: #f9fafb; border-color: #d1d5db; }
+.sec-inner { padding: 16px 20px 80px; }
+.card { background: white; border: 1.5px solid #f3f4f6; border-radius: 20px; padding: 22px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+.card h2 { font-size: 18px; font-weight: 800; color: #1f2937; margin-bottom: 18px; }
+label { display: block; font-size: 12px; color: #6b7280; margin-bottom: 5px; margin-top: 14px; font-weight: 600; letter-spacing: 0.3px; }
+input, select, textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 14px; background: #fafafa; color: #1f2937; outline: none; transition: border-color 0.2s; font-family: inherit; }
+input:focus, select:focus, textarea:focus { border-color: #7c3aed; background: white; }
+textarea { min-height: 80px; resize: vertical; }
+.btn { display: block; margin-top: 18px; padding: 14px 24px; background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: none; border-radius: 14px; font-size: 15px; cursor: pointer; width: 100%; font-weight: 700; transition: opacity 0.15s; box-shadow: 0 4px 14px rgba(124,58,237,0.3); }
+.btn:active { opacity: 0.85; }
+.entry { background: #fafafa; border: 1.5px solid #f3f4f6; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: flex-start; font-size: 13px; color: #374151; line-height: 1.6; }
+.entry button { background: none; border: none; color: #ef4444; font-size: 20px; cursor: pointer; margin-left: 10px; flex-shrink: 0; opacity: 0.5; }
+.todo-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.todo-tab { flex: 1; padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: white; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; color: #6b7280; transition: all 0.15s; }
+.todo-tab.active { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+.todo-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: white; border: 1.5px solid #f3f4f6; border-radius: 14px; margin-bottom: 10px; }
+.todo-item.done { opacity: 0.5; background: #f9fafb; }
+.todo-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #7c3aed; flex-shrink: 0; cursor: pointer; }
+.todo-item .todo-txt { flex: 1; font-size: 14px; color: #1f2937; }
+.todo-item.done .todo-txt { text-decoration: line-through; color: #9ca3af; }
+.todo-item .todo-cat { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+.todo-item button { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; opacity: 0.4; flex-shrink: 0; }
+.todo-add { display: flex; gap: 8px; margin-bottom: 16px; }
+.todo-add input { flex: 1; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 14px; background: white; color: #1f2937; outline: none; }
+.todo-add input:focus { border-color: #7c3aed; }
+.todo-add button { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: none; border-radius: 12px; padding: 12px 18px; font-size: 18px; font-weight: 700; cursor: pointer; }
+.mm-list { padding: 16px 20px 80px; }
+.mm-hrow { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.mm-hrow h2 { font-size: 18px; font-weight: 800; color: #1f2937; }
+.mm-new-btn { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; border: none; border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 700; cursor: pointer; box-shadow: 0 4px 12px rgba(124,58,237,0.3); }
+.mm-card { background: white; border: 1.5px solid #ede9fe; border-radius: 18px; padding: 18px; margin-bottom: 14px; cursor: pointer; transition: transform 0.15s; box-shadow: 0 2px 8px rgba(124,58,237,0.08); }
+.mm-card:active { transform: scale(0.98); }
+.mm-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
+.mm-card-title { font-size: 16px; font-weight: 800; color: #5b21b6; }
+.mm-card-meta { font-size: 11px; color: #9ca3af; margin-top: 3px; }
+.mm-card-del { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; opacity: 0.4; padding: 0 4px; }
+.mm-bubbles { display: flex; gap: 6px; flex-wrap: wrap; }
+.mm-bubble-pill { background: #ede9fe; color: #5b21b6; border-radius: 20px; padding: 3px 10px; font-size: 11px; font-weight: 700; }
+.mm-empty { text-align: center; padding: 60px 20px; color: #9ca3af; font-size: 14px; }
+.mm-empty-icon { font-size: 48px; margin-bottom: 12px; }
+.mm-editor-header { background: linear-gradient(135deg, #ede9fe, #fce7f3); padding: 14px 16px; border-bottom: 1.5px solid #e5e7eb; display: flex; align-items: center; gap: 10px; }
+.mm-editor-header h3 { font-size: 15px; font-weight: 800; color: #5b21b6; flex: 1; }
+.mm-edit-title-btn { background: white; border: 1.5px solid #e5e7eb; color: #6b7280; border-radius: 10px; padding: 6px 10px; font-size: 12px; font-weight: 600; cursor: pointer; }
+.mm-canvas-wrap { position: relative; background: #f8f4ff; overflow: hidden; touch-action: none; }
+#mm-svg { display: block; cursor: grab; }
+#mm-svg:active { cursor: grabbing; }
+.mm-toolbar { background: white; border-top: 1.5px solid #f3f4f6; border-bottom: 1.5px solid #f3f4f6; padding: 10px 14px; display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.mm-tool-btn { background: #f9fafb; border: 1.5px solid #e5e7eb; color: #374151; border-radius: 10px; padding: 8px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.mm-tool-btn:hover, .mm-tool-btn:active { background: #ede9fe; border-color: #7c3aed; color: #5b21b6; }
+.mm-tool-sep { width: 1px; height: 24px; background: #e5e7eb; flex-shrink: 0; }
+.mm-zoom-label { font-size: 12px; color: #9ca3af; margin-left: auto; }
+.mm-node-panel { background: white; border-bottom: 1.5px solid #f3f4f6; padding: 12px 14px; display: none; flex-wrap: wrap; gap: 6px; align-items: center; }
+.mm-node-panel.open { display: flex; }
+.mm-node-panel-lbl { font-size: 13px; color: #1f2937; font-weight: 700; width: 100%; margin-bottom: 2px; }
+.mm-node-btn { background: #f9fafb; border: 1.5px solid #e5e7eb; color: #374151; border-radius: 10px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
+.mm-node-del-btn { background: #fef2f2; border: 1.5px solid #fecaca; color: #ef4444; border-radius: 10px; padding: 7px 12px; font-size: 12px; font-weight: 700; cursor: pointer; }
+.modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.45); z-index: 400; align-items: center; justify-content: center; padding: 20px; }
+.modal-bg.open { display: flex; }
+.modal-box { background: white; border-radius: 22px; padding: 24px; width: 100%; max-width: 380px; box-shadow: 0 24px 48px rgba(0,0,0,0.18); max-height: 92vh; overflow-y: auto; }
+.modal-box h3 { font-size: 17px; font-weight: 800; color: #1f2937; margin-bottom: 14px; }
+.modal-box label { margin-top: 10px; }
+.modal-box input, .modal-box select, .modal-box textarea { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e7eb; border-radius: 12px; font-size: 14px; background: #fafafa; color: #1f2937; outline: none; margin-top: 4px; font-family: inherit; }
+.modal-box textarea { min-height: 80px; resize: vertical; }
+.modal-box input:focus, .modal-box select:focus, .modal-box textarea:focus { border-color: #7c3aed; background: white; }
+.modal-btns { display: flex; gap: 10px; margin-top: 16px; }
+.modal-btns button { flex: 1; padding: 12px; border: none; border-radius: 12px; font-size: 14px; font-weight: 700; cursor: pointer; }
+.modal-ok { background: linear-gradient(135deg, #7c3aed, #ec4899); color: white; }
+.modal-cancel { background: #f3f4f6; color: #6b7280; }
+.maison-wrap { border-radius: 16px; overflow: hidden; border: 1.5px solid #e5e7eb; background: white; margin-bottom: 16px; }
+.maison-info { background: #f9fafb; border-top: 1.5px solid #f3f4f6; padding: 16px; display: flex; align-items: center; gap: 12px; min-height: 64px; }
+.piece-header { padding: 20px; margin-bottom: 0; }
+.piece-header h2 { font-size: 22px; font-weight: 800; margin-bottom: 4px; }
+.piece-header p { font-size: 13px; color: #6b7280; margin-top: 4px; }
+.budget-tabs-main { display: flex; gap: 8px; margin-bottom: 20px; }
+.budget-tab-main { flex: 1; padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: white; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; color: #6b7280; transition: all 0.15s; }
+.budget-tab-main.active { background: linear-gradient(135deg, #10b981, #059669); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(16,185,129,0.3); }
+.budget-jauge { height: 16px; background: #f3f4f6; border-radius: 8px; overflow: hidden; margin: 10px 0; }
+.budget-jauge-fill { height: 100%; border-radius: 8px; background: linear-gradient(90deg, #7c3aed, #10b981); transition: width 0.6s; }
+.budget-stat { background: #f9fafb; border-radius: 14px; padding: 14px; text-align: center; }
+.budget-stat-val { font-size: 18px; font-weight: 800; }
+.budget-stat-lbl { font-size: 10px; color: #9ca3af; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.budget-filter-tabs { display: flex; gap: 6px; margin-bottom: 16px; flex-wrap: wrap; }
+.budget-filter-tab { padding: 8px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b7280; transition: all 0.15s; }
+.budget-filter-tab.active { background: #d1fae5; border-color: #10b981; color: #065f46; }
+.budget-article { background: white; border: 1.5px solid #f3f4f6; border-radius: 14px; padding: 12px 16px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.budget-article-info { flex: 1; }
+.budget-article-name { font-size: 13px; font-weight: 700; color: #1f2937; }
+.budget-article-meta { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.budget-article-prix { font-size: 14px; font-weight: 800; color: #059669; flex-shrink: 0; }
+.chart-container { position: relative; height: 220px; margin-bottom: 16px; }
+.rdv-view-tabs { display: flex; gap: 8px; margin-bottom: 18px; }
+.rdv-tab { flex: 1; padding: 10px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: white; font-size: 13px; font-weight: 700; cursor: pointer; text-align: center; color: #6b7280; transition: all 0.15s; }
+.rdv-tab.active { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(59,130,246,0.3); }
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; margin-bottom: 12px; }
+.cal-day-hdr { text-align: center; font-size: 10px; font-weight: 700; color: #9ca3af; padding: 4px 0; }
+.cal-day { aspect-ratio: 1; display: flex; align-items: center; justify-content: center; border-radius: 8px; font-size: 12px; font-weight: 600; color: #374151; cursor: pointer; position: relative; transition: all 0.15s; }
+.cal-day:hover { background: #eff6ff; }
+.cal-day.today { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; }
+.cal-day.has-rdv::after { content: ''; position: absolute; bottom: 3px; left: 50%; transform: translateX(-50%); width: 4px; height: 4px; border-radius: 50%; background: #ec4899; }
+.cal-day.today.has-rdv::after { background: white; }
+.cal-day.other-month { color: #d1d5db; }
+.cal-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.cal-nav h3 { font-size: 15px; font-weight: 800; color: #1f2937; }
+.cal-nav button { background: #f3f4f6; border: none; border-radius: 8px; padding: 6px 12px; font-size: 14px; cursor: pointer; font-weight: 700; color: #374151; }
+.rdv-item { background: white; border: 1.5px solid #dbeafe; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 12px; }
+.rdv-date-badge { background: linear-gradient(135deg, #3b82f6, #6366f1); color: white; border-radius: 10px; padding: 6px 12px; text-align: center; flex-shrink: 0; }
+.rdv-day { font-size: 18px; font-weight: 800; line-height: 1; }
+.rdv-month { font-size: 10px; font-weight: 600; opacity: 0.9; }
+.rdv-info { flex: 1; }
+.rdv-title { font-size: 14px; font-weight: 700; color: #1f2937; }
+.rdv-meta { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.rdv-item button { background: none; border: none; color: #ef4444; font-size: 18px; cursor: pointer; opacity: 0.4; flex-shrink: 0; margin-left: auto; }
+.admin-tabs { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+.admin-tab { padding: 8px 14px; border: 1.5px solid #e5e7eb; border-radius: 10px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b7280; transition: all 0.15s; }
+.admin-tab.active { background: #fef3c7; border-color: #f59e0b; color: #92400e; }
+.contact-card { background: white; border: 1.5px solid #f3f4f6; border-radius: 16px; padding: 16px; margin-bottom: 12px; display: flex; gap: 14px; align-items: flex-start; box-shadow: 0 2px 6px rgba(0,0,0,0.04); }
+.contact-avatar { width: 44px; height: 44px; border-radius: 50%; background: linear-gradient(135deg, #fef3c7, #fde68a); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+.contact-info { flex: 1; }
+.contact-name { font-size: 14px; font-weight: 800; color: #1f2937; }
+.contact-role { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.contact-tel { font-size: 13px; color: #2563eb; margin-top: 4px; font-weight: 600; }
+.doc-item { background: white; border: 1.5px solid #f3f4f6; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; cursor: pointer; }
+.doc-icon { font-size: 24px; flex-shrink: 0; }
+.doc-info { flex: 1; }
+.doc-name { font-size: 14px; font-weight: 700; color: #1f2937; }
+.doc-detail { font-size: 12px; color: #6b7280; margin-top: 2px; }
+.doc-status { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; flex-shrink: 0; }
+.checklist-item { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: white; border: 1.5px solid #f3f4f6; border-radius: 14px; margin-bottom: 10px; }
+.checklist-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: #7c3aed; flex-shrink: 0; cursor: pointer; }
+.checklist-item label { flex: 1; font-size: 13px; color: #1f2937; cursor: pointer; }
+.checklist-item.done label { text-decoration: line-through; color: #9ca3af; }
+.checklist-item button { background: none; border: none; color: #ef4444; font-size: 16px; cursor: pointer; opacity: 0.4; }
+.signes-cats { display: flex; gap: 6px; margin-bottom: 18px; flex-wrap: wrap; }
+.signe-cat-btn { padding: 8px 14px; border: 1.5px solid #e5e7eb; border-radius: 20px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b7280; transition: all 0.15s; }
+.signe-cat-btn.active { background: linear-gradient(135deg, #fce7f3, #fdf4ff); border-color: #f0abfc; color: #86198f; }
+.signes-board { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.signe-card { border-radius: 18px; padding: 18px; cursor: pointer; transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 2px 8px rgba(0,0,0,0.06); position: relative; }
+.signe-card:active { transform: scale(0.97); }
+.sc-icon { font-size: 32px; margin-bottom: 10px; }
+.sc-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
+.sc-cat { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+.sc-del { position: absolute; top: 8px; right: 8px; background: rgba(239,68,68,0.15); border: none; border-radius: 8px; padding: 3px 8px; font-size: 11px; cursor: pointer; color: #ef4444; opacity: 0; transition: opacity 0.2s; }
+.signe-card:hover .sc-del, .signe-card:active .sc-del { opacity: 1; }
+.fiche-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 300; align-items: flex-end; justify-content: center; padding: 20px; }
+.fiche-modal.open { display: flex; }
+.fiche-content { background: white; border-radius: 24px 24px 20px 20px; padding: 28px; width: 100%; max-width: 500px; max-height: 85vh; overflow-y: auto; }
+.fiche-header { display: flex; align-items: center; gap: 14px; margin-bottom: 20px; }
+.fiche-icon-big { font-size: 44px; flex-shrink: 0; }
+.fiche-title-wrap { flex: 1; }
+.fiche-title { font-size: 20px; font-weight: 800; color: #1f2937; }
+.fiche-cat-badge { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; display: inline-block; margin-top: 4px; }
+.fiche-close { background: #f3f4f6; border: none; border-radius: 10px; padding: 8px 14px; font-size: 13px; font-weight: 700; cursor: pointer; color: #6b7280; }
+.fiche-section { margin-bottom: 16px; }
+.fiche-section h4 { font-size: 13px; font-weight: 800; color: #374151; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+.fiche-section p, .fiche-section li { font-size: 14px; color: #4b5563; line-height: 1.7; }
+.fiche-section ul { padding-left: 18px; }
+.fiche-tip { background: linear-gradient(135deg, #fce7f3, #fdf4ff); border-radius: 12px; padding: 14px; margin-top: 4px; }
+.fiche-tip p { font-size: 13px; color: #86198f; }
+</style>
+</head>
+<body>
+<div id="cloud-indicator">☁️</div>
+<header>
+  <div class="hbg"></div>
+  <div class="hcontent">
+    <div class="htag">Votre espace famille</div>
+    <h1>Guillaume & Estelle 👶</h1>
+    <div class="hsub">Bébé arrive bientôt !</div>
+    <div class="hdate" id="date-header"></div>
+  </div>
+</header>
+
+<div id="accueil">
+  <div class="acc-wrap">
+    <div class="sec-lbl">Organisation</div>
+    <div class="grid">
+      <div class="gc c-todo" onclick="ouvrirSection('todo')"><span class="gi">✅</span><span class="gn">To do liste</span><span class="gs">Tâches & check</span></div>
+      <div class="gc c-mind" onclick="ouvrirSection('mindmap')"><span class="gi">🧠</span><span class="gn">Cartes mentales</span><span class="gs">Idées & schémas</span></div>
+      <div class="gc c-achat wide" onclick="ouvrirSection('achat')"><span class="gi">🏠</span><div class="gtxt"><span class="gn">Achat bébé</span><span class="gs">Mobilier par pièce de la maison</span></div></div>
+      <div class="gc c-budget wide" onclick="ouvrirSection('budget');setTimeout(majBudget,50)"><span class="gi">💰</span><div class="gtxt"><span class="gn">Budget</span><span class="gs">Suivi des dépenses & graphiques</span></div></div>
+    </div>
+    <div class="sec-div"></div>
+    <div class="sec-lbl">Suivi & santé</div>
+    <div class="grid">
+      <div class="gc c-rdv" onclick="ouvrirSection('rdv')"><span class="gi">📅</span><span class="gn">Rendez-vous</span><span class="gs">Calendrier & liste</span></div>
+      <div class="gc c-admin" onclick="ouvrirSection('admin')"><span class="gi">📋</span><span class="gn">Administration</span><span class="gs">Docs & démarches</span></div>
+      <div class="gc c-signes wide" onclick="ouvrirSection('signes')"><span class="gi">👶</span><div class="gtxt"><span class="gn">Signes du bébé</span><span class="gs">Fiches · fatigue · faim · santé</span></div></div>
+    </div>
+  </div>
+  <footer class="app-footer" style="margin-top:28px">
+    <div class="footer-title">Guillaume & Estelle 👶</div>
+    <div class="footer-copy">Fait avec ❤️ pour votre famille · 2026</div>
+  </footer>
+</div>
+
+<!-- TO DO -->
+<div id="todo" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="card">
+      <h2>✅ To do liste</h2>
+      <div class="todo-tabs">
+        <button class="todo-tab active" onclick="switchTodoTab('en-cours',this)">En cours</button>
+        <button class="todo-tab" onclick="switchTodoTab('termine',this)">Terminées</button>
+      </div>
+      <div class="todo-add">
+        <input type="text" id="todo-input" placeholder="Ajouter une tâche..." onkeydown="if(event.key==='Enter')ajouterTodo()">
+        <button onclick="ajouterTodo()">+</button>
+      </div>
+      <select id="todo-cat" style="width:100%;padding:10px 14px;border:1.5px solid #e5e7eb;border-radius:10px;font-size:13px;background:#fafafa;color:#374151;outline:none;margin-bottom:12px;">
+        <option value="général">Général</option>
+        <option value="maison">Maison</option>
+        <option value="médical">Médical</option>
+        <option value="admin">Administratif</option>
+        <option value="courses">Courses</option>
+        <option value="bébé">Bébé</option>
+      </select>
+      <div id="todo-liste"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CARTES MENTALES -->
+<div id="mindmap" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div id="mm-list-view">
+    <div class="mm-list">
+      <div class="mm-hrow">
+        <h2>🧠 Cartes mentales</h2>
+        <button class="mm-new-btn" onclick="ouvrirModalNouvelleCarte()">+ Nouvelle</button>
+      </div>
+      <div id="mm-cards-list"></div>
+    </div>
+  </div>
+  <div id="mm-editor" style="display:none">
+    <div class="mm-editor-header">
+      <button class="back-btn" style="margin:0;padding:7px 12px;font-size:12px" onclick="retourListeCartes()">← Cartes</button>
+      <h3 id="mm-editor-title">Ma carte</h3>
+      <button class="mm-edit-title-btn" onclick="renommerCarte()">✏️</button>
+    </div>
+    <div class="mm-toolbar">
+      <button class="mm-tool-btn" onclick="ouvrirModalAjoutBulle(null)">＋ Bulle</button>
+      <div class="mm-tool-sep"></div>
+      <button class="mm-tool-btn" onclick="zoomIn()">＋</button>
+      <button class="mm-tool-btn" onclick="zoomOut()">－</button>
+      <button class="mm-tool-btn" onclick="centrerVue()">⊙</button>
+      <span class="mm-zoom-label" id="zoom-label">100%</span>
+    </div>
+    <div class="mm-node-panel" id="mm-node-panel">
+      <div class="mm-node-panel-lbl" id="mm-node-label-display">Sélectionné</div>
+      <button class="mm-node-btn" onclick="ouvrirModalAjoutBulle(selectedNode)">＋ Sous-bulle</button>
+      <button class="mm-node-btn" onclick="renommerNoeud()">✏️ Renommer</button>
+      <button class="mm-node-btn" onclick="changerCouleurNoeud()">🎨 Couleur</button>
+      <button class="mm-node-btn" onclick="agrandirNoeud()">⬆️ Taille</button>
+      <button class="mm-node-del-btn" onclick="supprimerNoeud()">🗑</button>
+    </div>
+    <div class="mm-canvas-wrap" id="mm-canvas-wrap">
+      <svg id="mm-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+    </div>
+  </div>
+</div>
+
+<!-- MODALS CARTES MENTALES -->
+<div class="modal-bg" id="mm-modal">
+  <div class="modal-box">
+    <h3>🧠 Nouvelle carte mentale</h3>
+    <label>Titre de la carte</label>
+    <input type="text" id="mm-modal-title" placeholder="ex : Prénoms bébé">
+    <label>Idée centrale</label>
+    <input type="text" id="mm-modal-center" placeholder="ex : Bébé" onkeydown="if(event.key==='Enter')creerCarte()">
+    <div class="modal-btns">
+      <button class="modal-ok" onclick="creerCarte()">Créer</button>
+      <button class="modal-cancel" onclick="fermerModal('mm-modal')">Annuler</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="mm-add-modal">
+  <div class="modal-box">
+    <h3 id="mm-add-modal-title">➕ Nouvelle bulle</h3>
+    <label>Texte de la bulle</label>
+    <input type="text" id="mm-add-label" placeholder="ex : Chambre bébé" onkeydown="if(event.key==='Enter')confirmerAjoutBulle()">
+    <label>Couleur</label>
+    <select id="mm-add-color">
+      <option value="#7c3aed">🟣 Violet</option>
+      <option value="#ec4899">🩷 Rose</option>
+      <option value="#10b981">🟢 Vert</option>
+      <option value="#3b82f6">🔵 Bleu</option>
+      <option value="#f59e0b">🟡 Ambre</option>
+      <option value="#ef4444">🔴 Rouge</option>
+    </select>
+    <div class="modal-btns">
+      <button class="modal-ok" onclick="confirmerAjoutBulle()">Ajouter</button>
+      <button class="modal-cancel" onclick="fermerModal('mm-add-modal')">Annuler</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="mm-rename-modal">
+  <div class="modal-box">
+    <h3>✏️ Renommer la bulle</h3>
+    <label>Nouveau texte</label>
+    <input type="text" id="mm-rename-input" placeholder="Nouveau texte..." onkeydown="if(event.key==='Enter')confirmerRenommer()">
+    <div class="modal-btns">
+      <button class="modal-ok" onclick="confirmerRenommer()">Renommer</button>
+      <button class="modal-cancel" onclick="fermerModal('mm-rename-modal')">Annuler</button>
+    </div>
+  </div>
+</div>
+<div class="modal-bg" id="mm-color-modal">
+  <div class="modal-box">
+    <h3>🎨 Couleur de la bulle</h3>
+    <label>Choisir une couleur</label>
+    <select id="mm-color-select">
+      <option value="#7c3aed">🟣 Violet</option>
+      <option value="#ec4899">🩷 Rose</option>
+      <option value="#10b981">🟢 Vert</option>
+      <option value="#3b82f6">🔵 Bleu</option>
+      <option value="#f59e0b">🟡 Ambre</option>
+      <option value="#ef4444">🔴 Rouge</option>
+    </select>
+    <div class="modal-btns">
+      <button class="modal-ok" onclick="confirmerCouleur()">Changer</button>
+      <button class="modal-cancel" onclick="fermerModal('mm-color-modal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<!-- ACHAT BEBE - MAISON SVG -->
+<div id="achat" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="maison-wrap">
+      <svg width="100%" viewBox="0 0 500 530" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="sky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e0f2fe"/><stop offset="100%" stop-color="#f0f9ff"/></linearGradient>
+          <linearGradient id="grass2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#bbf7d0"/><stop offset="100%" stop-color="#86efac"/></linearGradient>
+          <linearGradient id="road2" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#e2e8f0"/><stop offset="100%" stop-color="#cbd5e1"/></linearGradient>
+          <linearGradient id="roof2a" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#f87171"/></linearGradient>
+          <linearGradient id="roof2b" x1="1" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fca5a5"/><stop offset="100%" stop-color="#ef4444"/></linearGradient>
+          <linearGradient id="wall2" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#fef9f0"/><stop offset="100%" stop-color="#fef3e2"/></linearGradient>
+        </defs>
+        <!-- Fond ciel -->
+        <rect width="500" height="530" fill="url(#sky2)"/>
+        <!-- Nuages -->
+        <ellipse cx="80" cy="40" rx="35" ry="16" fill="white" opacity="0.7"/>
+        <ellipse cx="110" cy="32" rx="28" ry="14" fill="white" opacity="0.7"/>
+        <ellipse cx="55" cy="35" rx="22" ry="12" fill="white" opacity="0.7"/>
+        <ellipse cx="380" cy="55" rx="40" ry="18" fill="white" opacity="0.6"/>
+        <ellipse cx="415" cy="46" rx="30" ry="14" fill="white" opacity="0.6"/>
+        <ellipse cx="350" cy="50" rx="24" ry="12" fill="white" opacity="0.6"/>
+        <!-- Soleil -->
+        <circle cx="450" cy="35" r="22" fill="#fde68a" opacity="0.9"/>
+        <circle cx="450" cy="35" r="16" fill="#fbbf24"/>
+        <!-- Sol herbe -->
+        <rect x="0" y="360" width="500" height="170" fill="url(#grass2)"/>
+        <!-- Route -->
+        <rect x="200" y="400" width="100" height="130" fill="url(#road2)"/>
+        <rect x="247" y="410" width="6" height="20" fill="white" opacity="0.6" rx="2"/>
+        <rect x="247" y="440" width="6" height="20" fill="white" opacity="0.6" rx="2"/>
+        <rect x="247" y="470" width="6" height="20" fill="white" opacity="0.6" rx="2"/>
+        <!-- Murs maison -->
+        <rect x="88" y="140" width="324" height="220" fill="url(#wall2)" stroke="#e5e7eb" stroke-width="1.5"/>
+        <!-- Toit -->
+        <polygon points="62,145 250,40 438,145" fill="url(#roof2a)" stroke="#f87171" stroke-width="1.5"/>
+        <polygon points="62,145 88,145 88,160 62,160" fill="url(#roof2b)"/>
+        <polygon points="438,145 412,145 412,160 438,160" fill="url(#roof2b)"/>
+        <!-- Cheminée -->
+        <rect x="340" y="60" width="22" height="50" fill="#fca5a5" stroke="#f87171" stroke-width="1"/>
+        <rect x="335" y="57" width="32" height="8" fill="#ef4444" rx="2"/>
+        <!-- Séparation étages -->
+        <line x1="88" y1="240" x2="412" y2="240" stroke="#e5e7eb" stroke-width="1.5"/>
+        <!-- Séparations verticales -->
+        <line x1="186" y1="140" x2="186" y2="240" stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="298" y1="140" x2="298" y2="240" stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="238" y1="240" x2="238" y2="360" stroke="#e5e7eb" stroke-width="1.5"/>
+        <line x1="300" y1="240" x2="300" y2="360" stroke="#e5e7eb" stroke-width="1.5"/>
+        <!-- CH. PARENTS (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('parents')">
+          <rect x="89" y="141" width="96" height="98" fill="#eff6ff" opacity="0.8"/>
+          <rect x="100" y="175" width="72" height="38" fill="#bfdbfe" rx="6"/>
+          <rect x="98" y="173" width="12" height="42" fill="#93c5fd" rx="3"/>
+          <rect x="158" y="173" width="12" height="42" fill="#93c5fd" rx="3"/>
+          <rect x="108" y="155" width="16" height="16" fill="#fde68a" rx="2"/>
+          <rect x="144" y="155" width="16" height="16" fill="#fde68a" rx="2"/>
+        </g>
+        <!-- CH. BEBE (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('bebe')">
+          <rect x="187" y="141" width="110" height="98" fill="#f0fdf4" opacity="0.8"/>
+          <rect x="200" y="175" width="85" height="35" fill="#bbf7d0" rx="6"/>
+          <rect x="198" y="173" width="10" height="39" fill="#86efac" rx="3"/>
+          <rect x="277" y="173" width="10" height="39" fill="#86efac" rx="3"/>
+          <circle cx="248" cy="165" r="10" fill="#fde68a" opacity="0.8"/>
+        </g>
+        <!-- SDB (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('sdb')">
+          <rect x="299" y="141" width="112" height="98" fill="#f0f9ff" opacity="0.8"/>
+          <ellipse cx="355" cy="195" rx="32" ry="22" fill="#bae6fd" stroke="#7dd3fc" stroke-width="1.2"/>
+          <rect x="340" y="155" width="22" height="16" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/>
+          <line x1="351" y1="155" x2="351" y2="171" stroke="#93c5fd" stroke-width="0.6"/>
+          <line x1="340" y1="163" x2="362" y2="163" stroke="#93c5fd" stroke-width="0.6"/>
+        </g>
+        <!-- SALON (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('salon')">
+          <rect x="91" y="241" width="148" height="112" fill="#fdf4ff" opacity="0.8"/>
+          <rect x="98" y="292" width="78" height="24" fill="#e9d5ff" rx="4"/>
+          <rect x="96" y="290" width="10" height="26" fill="#d8b4fe" rx="3"/>
+          <rect x="168" y="290" width="10" height="26" fill="#d8b4fe" rx="3"/>
+          <rect x="98" y="248" width="48" height="26" fill="#1e1b4b" rx="3" opacity="0.8"/>
+        </g>
+        <!-- Porte -->
+        <rect x="238" y="241" width="3" height="112" fill="#e5e7eb"/>
+        <rect x="241" y="241" width="58" height="112" fill="#f8fafc" opacity="0.7"/>
+        <rect x="252" y="294" width="34" height="59" fill="#d4a574" rx="3" stroke="#b8874e" stroke-width="1.2"/>
+        <circle cx="285" cy="323" r="2.5" fill="#fbbf24"/>
+        <rect x="244" y="278" width="21" height="13" fill="#fde68a" rx="2"/>
+        <text x="254" y="289" text-anchor="middle" font-size="9" font-weight="700" fill="#92400e" font-family="-apple-system,sans-serif">17</text>
+        <!-- CUISINE (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('cuisine')">
+          <rect x="301" y="241" width="108" height="112" fill="#fffbeb" opacity="0.8"/>
+          <rect x="303" y="273" width="104" height="31" fill="#fde68a" rx="2" opacity="0.5"/>
+          <circle cx="326" cy="282" r="7" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <circle cx="346" cy="294" r="7" fill="#f59e0b" opacity="0.6" stroke="#d97706" stroke-width="0.8"/>
+          <rect x="363" y="275" width="34" height="22" fill="#e0f2fe" rx="3" stroke="#93c5fd" stroke-width="0.8"/>
+          <rect x="389" y="274" width="16" height="76" fill="#e2e8f0" rx="2" stroke="#cbd5e1" stroke-width="0.8"/>
+        </g>
+        <!-- Fenêtres -->
+        <rect x="154" y="250" width="23" height="17" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/><line x1="165" y1="250" x2="165" y2="267" stroke="#93c5fd" stroke-width="0.6"/><line x1="154" y1="258" x2="177" y2="258" stroke="#93c5fd" stroke-width="0.6"/>
+        <rect x="350" y="250" width="23" height="17" fill="#bfdbfe" rx="2" stroke="#93c5fd" stroke-width="0.8"/><line x1="361" y1="250" x2="361" y2="267" stroke="#93c5fd" stroke-width="0.6"/><line x1="350" y1="258" x2="373" y2="258" stroke="#93c5fd" stroke-width="0.6"/>
+        <!-- JARDIN (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('jardin')">
+          <rect x="0" y="278" width="88" height="82" fill="#d1fae5" rx="6" opacity="0.8"/>
+          <line x1="18" y1="282" x2="18" y2="356" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="52" y1="282" x2="52" y2="356" stroke="#a16207" stroke-width="1.5"/>
+          <line x1="18" y1="283" x2="52" y2="283" stroke="#a16207" stroke-width="2"/>
+          <rect x="21" y="308" width="27" height="8" fill="#92400e" rx="3"/>
+        </g>
+        <!-- VOITURE (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('voiture')">
+          <rect x="412" y="278" width="88" height="82" fill="#fce7f3" rx="6" opacity="0.8"/>
+          <rect x="418" y="301" width="74" height="28" fill="#f9a8d4" rx="6" stroke="#f472b6" stroke-width="1"/>
+          <rect x="424" y="293" width="62" height="17" fill="#fbcfe8" rx="5"/>
+          <circle cx="434" cy="329" r="7" fill="#374151" stroke="#6b7280" stroke-width="1.5"/>
+          <circle cx="474" cy="329" r="7" fill="#374151" stroke="#6b7280" stroke-width="1.5"/>
+        </g>
+        <!-- EXT (cliquable) -->
+        <g style="cursor:pointer" onclick="ouvrirPiece('ext')">
+          <rect x="90" y="418" width="320" height="50" fill="#f0f9ff" rx="4" opacity="0.8"/>
+          <ellipse cx="170" cy="444" rx="6" ry="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+          <ellipse cx="190" cy="444" rx="6" ry="6" fill="none" stroke="#3b82f6" stroke-width="1.5"/>
+          <rect x="172" y="424" width="21" height="18" fill="#dbeafe" rx="3" stroke="#3b82f6" stroke-width="1"/>
+          <ellipse cx="264" cy="436" rx="9" ry="11" fill="#ede9fe" stroke="#7c3aed" stroke-width="1"/>
+        </g>
+        <!-- Labels (toujours au dessus) -->
+        <g onclick="ouvrirPiece('parents')" style="cursor:pointer"><rect x="92" y="150" width="94" height="22" fill="white" rx="6" stroke="#93c5fd" stroke-width="1.5" opacity="0.95"/><text x="139" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#1e40af" font-family="-apple-system,sans-serif">🛏️ Ch. parents</text></g>
+        <g onclick="ouvrirPiece('bebe')" style="cursor:pointer"><rect x="198" y="150" width="100" height="22" fill="white" rx="6" stroke="#86efac" stroke-width="1.5" opacity="0.95"/><text x="248" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#065f46" font-family="-apple-system,sans-serif">🍼 Ch. bébé</text></g>
+        <g onclick="ouvrirPiece('sdb')" style="cursor:pointer"><rect x="308" y="150" width="98" height="22" fill="white" rx="6" stroke="#7dd3fc" stroke-width="1.5" opacity="0.95"/><text x="357" y="165" text-anchor="middle" font-size="10" font-weight="800" fill="#0369a1" font-family="-apple-system,sans-serif">🚿 Salle de bain</text></g>
+        <g onclick="ouvrirPiece('salon')" style="cursor:pointer"><rect x="92" y="246" width="64" height="22" fill="white" rx="6" stroke="#d8b4fe" stroke-width="1.5" opacity="0.95"/><text x="124" y="261" text-anchor="middle" font-size="10" font-weight="800" fill="#6b21a8" font-family="-apple-system,sans-serif">🛋️ Salon</text></g>
+        <g onclick="ouvrirPiece('cuisine')" style="cursor:pointer"><rect x="302" y="246" width="76" height="22" fill="white" rx="6" stroke="#fde68a" stroke-width="1.5" opacity="0.95"/><text x="340" y="261" text-anchor="middle" font-size="10" font-weight="800" fill="#92400e" font-family="-apple-system,sans-serif">🍳 Cuisine</text></g>
+        <g onclick="ouvrirPiece('jardin')" style="cursor:pointer"><rect x="2" y="280" width="84" height="22" fill="white" rx="6" stroke="#86efac" stroke-width="1.5" opacity="0.95"/><text x="44" y="295" text-anchor="middle" font-size="10" font-weight="800" fill="#065f46" font-family="-apple-system,sans-serif">🌿 Jardin</text></g>
+        <g onclick="ouvrirPiece('voiture')" style="cursor:pointer"><rect x="413" y="280" width="84" height="22" fill="white" rx="6" stroke="#f9a8d4" stroke-width="1.5" opacity="0.95"/><text x="455" y="295" text-anchor="middle" font-size="10" font-weight="800" fill="#9d174d" font-family="-apple-system,sans-serif">🚗 Voiture</text></g>
+        <g onclick="ouvrirPiece('ext')" style="cursor:pointer"><rect x="188" y="422" width="124" height="22" fill="white" rx="6" stroke="#93c5fd" stroke-width="1.5" opacity="0.95"/><text x="250" y="437" text-anchor="middle" font-size="10" font-weight="800" fill="#1e40af" font-family="-apple-system,sans-serif">🏙️ Sorties &amp; promenades</text></g>
+      </svg>
+      <div class="maison-info"><span style="font-size:22px">👆</span><span style="font-size:14px;color:#9ca3af;margin-left:8px;font-weight:600">Touchez une pièce pour gérer le mobilier</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- DETAIL PIECE -->
+<div id="piece-detail" class="section">
+  <button class="back-btn" onclick="retourAccueil();ouvrirSection('achat')">← Maison</button>
+  <div class="piece-header" id="piece-detail-header"></div>
+  <div class="sec-inner">
+    <div class="card">
+      <h2 id="piece-detail-title">Ajouter un article</h2>
+      <label>Article</label><input type="text" id="mob-item" placeholder="ex : lit à barreaux, chaise haute...">
+      <label>Marque / Modèle (optionnel)</label><input type="text" id="mob-modele" placeholder="ex : Stokke, IKEA...">
+      <label>Prix estimé (optionnel)</label><input type="text" id="mob-prix" placeholder="ex : 250 €">
+      <label>Statut</label>
+      <select id="mob-statut">
+        <option>À acheter</option>
+        <option>Commandé</option>
+        <option>Reçu ✓</option>
+      </select>
+      <label>Note</label><input type="text" id="mob-note" placeholder="ex : cadeau de grand-mère...">
+      <button class="btn" onclick="ajouterArticlePiece()">Ajouter</button>
+    </div>
+    <div class="card"><h2>Articles</h2><div id="mob-liste"></div></div>
+  </div>
+</div>
+
+<!-- BUDGET -->
+<div id="budget" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="budget-tabs-main">
+      <button class="budget-tab-main active" onclick="switchBudgetTab('resume',this)">📊 Résumé</button>
+      <button class="budget-tab-main" onclick="switchBudgetTab('graphiques',this)">📈 Graphiques</button>
+      <button class="budget-tab-main" onclick="switchBudgetTab('detail',this)">📋 Détail</button>
+    </div>
+    <div id="budget-resume">
+      <div class="card">
+        <h2>💰 Budget total</h2>
+        <label>Mon budget prévu</label>
+        <div style="position:relative;margin-bottom:8px">
+          <span style="position:absolute;left:14px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:16px">€</span>
+          <input type="number" id="budget-total" placeholder="ex : 5000" style="padding-left:36px;font-size:18px;font-weight:700" oninput="majBudget()">
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:#9ca3af;margin-bottom:4px"><span>Dépensé (Reçu ✓)</span><span id="b-pct">0%</span><span>Budget total</span></div>
+        <div class="budget-jauge"><div class="budget-jauge-fill" id="b-fill" style="width:0%"></div></div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px">
+          <div class="budget-stat"><div class="budget-stat-val" id="b-total" style="color:#7c3aed">—</div><div class="budget-stat-lbl">Budget</div></div>
+          <div class="budget-stat"><div class="budget-stat-val" id="b-dep" style="color:#ef4444">0 €</div><div class="budget-stat-lbl">Dépensé</div></div>
+          <div class="budget-stat"><div class="budget-stat-val" id="b-reste" style="color:#10b981">—</div><div class="budget-stat-lbl">Restant</div></div>
+        </div>
+      </div>
+      <div class="card"><h2>📊 Par statut</h2><div id="b-statut-bars"></div></div>
+      <div class="card"><h2>🏠 Par pièce</h2><div id="b-pieces-bars"></div></div>
+    </div>
+    <div id="budget-graphiques" style="display:none">
+      <div class="card"><h2>🍩 Répartition par pièce</h2><div class="chart-container"><canvas id="chart-pie-piece"></canvas></div></div>
+      <div class="card"><h2>🍩 Répartition par statut</h2><div class="chart-container"><canvas id="chart-pie-statut"></canvas></div></div>
+      <div class="card"><h2>📊 Dépenses par pièce</h2><div class="chart-container"><canvas id="chart-bar-piece"></canvas></div></div>
+      <div class="card"><h2>📈 Budget vs Dépensé</h2><div class="chart-container"><canvas id="chart-bar-budget"></canvas></div></div>
+    </div>
+    <div id="budget-detail" style="display:none">
+      <div class="card">
+        <h2>📋 Tous les articles</h2>
+        <div class="budget-filter-tabs">
+          <button class="budget-filter-tab active" onclick="filtrerBudget('tous',this)">Tous</button>
+          <button class="budget-filter-tab" onclick="filtrerBudget('À acheter',this)">À acheter</button>
+          <button class="budget-filter-tab" onclick="filtrerBudget('Commandé',this)">Commandé</button>
+          <button class="budget-filter-tab" onclick="filtrerBudget('Reçu ✓',this)">Reçu ✓</button>
+        </div>
+        <div id="b-articles"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- RDV -->
+<div id="rdv" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="rdv-view-tabs">
+      <button class="rdv-tab active" onclick="switchRdvTab('calendrier',this)">📅 Calendrier</button>
+      <button class="rdv-tab" onclick="switchRdvTab('liste',this)">📋 Liste</button>
+      <button class="rdv-tab" onclick="switchRdvTab('ajouter',this)">＋ Ajouter</button>
+    </div>
+    <div id="rdv-cal-view">
+      <div class="card">
+        <div class="cal-nav"><button onclick="navMois(-1)">‹</button><h3 id="cal-title"></h3><button onclick="navMois(1)">›</button></div>
+        <div class="cal-grid"><div class="cal-day-hdr">Lun</div><div class="cal-day-hdr">Mar</div><div class="cal-day-hdr">Mer</div><div class="cal-day-hdr">Jeu</div><div class="cal-day-hdr">Ven</div><div class="cal-day-hdr">Sam</div><div class="cal-day-hdr">Dim</div></div>
+        <div class="cal-grid" id="cal-days"></div>
+        <div id="cal-rdv-jour" style="margin-top:14px;display:none"><div style="font-size:13px;font-weight:800;color:#1e40af;margin-bottom:10px" id="cal-jour-titre"></div><div id="cal-rdv-liste"></div></div>
+      </div>
+    </div>
+    <div id="rdv-list-view" style="display:none"><div id="rdv-liste-complete"></div></div>
+    <div id="rdv-add-view" style="display:none">
+      <div class="card">
+        <h2>📅 Nouveau rendez-vous</h2>
+        <label>Titre</label><input type="text" id="rdv-titre" placeholder="ex : Pédiatre, Sage-femme...">
+        <label>Date</label><input type="date" id="rdv-date">
+        <label>Heure</label><input type="time" id="rdv-heure">
+        <label>Type</label>
+        <select id="rdv-type"><option>Médical</option><option>Échographie</option><option>Administratif</option><option>Personnel</option><option>Autre</option></select>
+        <label>Lieu (optionnel)</label><input type="text" id="rdv-lieu" placeholder="ex : Cabinet Dr. Martin">
+        <label>Note</label><input type="text" id="rdv-note" placeholder="ex : apporter carnet de santé">
+        <button class="btn" onclick="ajouterRdv()">Ajouter le rendez-vous</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN -->
+<div id="admin" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="admin-tabs">
+      <button class="admin-tab active" onclick="switchAdminTab('checklist',this)">✅ Démarches</button>
+      <button class="admin-tab" onclick="switchAdminTab('contacts',this)">📞 Contacts</button>
+      <button class="admin-tab" onclick="switchAdminTab('documents',this)">📄 Documents</button>
+    </div>
+    <div id="admin-checklist">
+      <div class="card">
+        <h2>✅ Checklist administrative</h2>
+        <div class="todo-add" style="margin-bottom:12px"><input type="text" id="admin-todo-input" placeholder="Ajouter une démarche..." onkeydown="if(event.key==='Enter')ajouterAdminTodo()"><button onclick="ajouterAdminTodo()">+</button></div>
+        <div id="admin-todo-liste"></div>
+      </div>
+    </div>
+    <div id="admin-contacts" style="display:none">
+      <div class="card">
+        <h2>📞 Contacts importants</h2>
+        <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap">
+          <input type="text" id="contact-nom" placeholder="Nom / Rôle" style="flex:1;min-width:120px">
+          <input type="text" id="contact-tel" placeholder="Téléphone" style="flex:1;min-width:120px">
+          <button onclick="ajouterContact()" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;white-space:nowrap">+ Ajouter</button>
+        </div>
+        <div id="contacts-liste"></div>
+      </div>
+    </div>
+    <div id="admin-documents" style="display:none">
+      <div class="card"><h2>📄 Documents à préparer</h2><div id="docs-liste"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SIGNES BEBE -->
+<div id="signes" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+      <span style="font-size:15px;font-weight:800;color:#1f2937">Fiches signes 👶</span>
+      <button onclick="ouvrirModalNouvellesFiche()" style="background:linear-gradient(135deg,#7c3aed,#ec4899);color:white;border:none;border-radius:12px;padding:8px 16px;font-size:13px;font-weight:700;cursor:pointer;">+ Nouvelle fiche</button>
+    </div>
+    <div class="signes-cats" id="signes-cats"></div>
+    <div class="signes-board" id="signes-board"></div>
+  </div>
+</div>
+
+<!-- MODAL NOUVELLE FICHE SIGNE -->
+<div class="modal-bg" id="signe-modal">
+  <div class="modal-box">
+    <h3>🌟 Nouvelle fiche signe</h3>
+    <label>Emoji</label><input type="text" id="signe-icon" placeholder="ex : 😴" maxlength="4">
+    <label>Titre</label><input type="text" id="signe-title" placeholder="ex : Bâille beaucoup">
+    <label>Catégorie</label>
+    <select id="signe-cat">
+      <option>Fatigue &amp; sommeil</option>
+      <option>Faim</option>
+      <option>Douleur &amp; inconf</option>
+      <option>Bonheur &amp; éveil</option>
+      <option>Santé &amp; maladie</option>
+      <option>Développement</option>
+      <option>Autre</option>
+    </select>
+    <label>Signes à observer (un par ligne)</label>
+    <textarea id="signe-signes" placeholder="Se frotte les yeux&#10;Bâille fréquemment"></textarea>
+    <label>Que faire ?</label>
+    <textarea id="signe-quoi" placeholder="Décrivez les actions à prendre..."></textarea>
+    <label>Astuce</label>
+    <textarea id="signe-astuce" placeholder="Conseil pratique..."></textarea>
+    <div class="modal-btns">
+      <button class="modal-ok" onclick="sauvegarderFiche()">Ajouter</button>
+      <button class="modal-cancel" onclick="fermerModal('signe-modal')">Annuler</button>
+    </div>
+  </div>
+</div>
+
+<div class="fiche-modal" id="fiche-modal">
+  <div class="fiche-content" id="fiche-content"></div>
+</div>
+
+<script>
+// ===================== NAVIGATION =====================
+function ouvrirSection(id) {
+  document.getElementById('accueil').style.display = 'none';
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById(id);
+  if (el) { el.classList.add('active'); window.scrollTo(0,0); }
+  if (id === 'todo') afficherTodos();
+  if (id === 'mindmap') afficherListeCartes();
+  if (id === 'rdv') { renderCalendrier(); afficherListeRdv(); }
+  if (id === 'admin') { afficherAdminTodos(); afficherContacts(); afficherDocs(); }
+  if (id === 'signes') afficherSignes();
+}
+
+function retourAccueil() {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.getElementById('accueil').style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function fermerModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+// ===================== DATE HEADER =====================
+(function() {
+  const jours = ['Dimanche','Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi'];
+  const mois = ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'];
+  const d = new Date();
+  document.getElementById('date-header').textContent = jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()] + ' ' + d.getFullYear();
+})();
+
+// ===================== TO DO LISTE =====================
+let todoTab = 'en-cours';
+
+function switchTodoTab(tab, btn) {
+  todoTab = tab;
+  document.querySelectorAll('.todo-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  afficherTodos();
+}
+
+function ajouterTodo() {
+  const input = document.getElementById('todo-input');
+  const cat = document.getElementById('todo-cat').value;
+  const txt = input.value.trim();
+  if (!txt) return;
+  const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+  todos.unshift({ id: Date.now(), txt, cat, done: false });
+  localStorage.setItem('todos', JSON.stringify(todos));
+  input.value = '';
+  afficherTodos();
+  sauvegarderCloud();
+}
+
+function toggleTodo(id) {
+  const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+  const t = todos.find(t => t.id === id);
+  if (t) t.done = !t.done;
+  localStorage.setItem('todos', JSON.stringify(todos));
+  afficherTodos();
+  sauvegarderCloud();
+}
+
+function supprimerTodo(id) {
+  const todos = JSON.parse(localStorage.getItem('todos') || '[]').filter(t => t.id !== id);
+  localStorage.setItem('todos', JSON.stringify(todos));
+  afficherTodos();
+  sauvegarderCloud();
+}
+
+function afficherTodos() {
+  const todos = JSON.parse(localStorage.getItem('todos') || '[]');
+  const liste = document.getElementById('todo-liste');
+  const filtered = todos.filter(t => todoTab === 'en-cours' ? !t.done : t.done);
+  const catColors = { général:'#ede9fe', maison:'#d1fae5', médical:'#fee2e2', admin:'#fef3c7', courses:'#dbeafe', bébé:'#fce7f3' };
+  const catText = { général:'#5b21b6', maison:'#065f46', médical:'#991b1b', admin:'#92400e', courses:'#1e40af', bébé:'#9d174d' };
+  if (!filtered.length) {
+    liste.innerHTML = '<div style="text-align:center;padding:30px;color:#9ca3af;font-size:14px">' + (todoTab === 'en-cours' ? '🎉 Tout est fait !' : 'Aucune tâche terminée') + '</div>';
+    return;
+  }
+  liste.innerHTML = filtered.map(t => `
+    <div class="todo-item${t.done ? ' done' : ''}">
+      <input type="checkbox" ${t.done?'checked':''} onchange="toggleTodo(${t.id})">
+      <span class="todo-txt">${t.txt}</span>
+      <span class="todo-cat" style="background:${catColors[t.cat]||'#f3f4f6'};color:${catText[t.cat]||'#374151'}">${t.cat}</span>
+      <button onclick="supprimerTodo(${t.id})">×</button>
+    </div>`).join('');
+}
+
+// ===================== CARTES MENTALES =====================
+let carteActive = null;
+let noeuds = [];
+let selectedNode = null;
+let mmZoom = 1;
+let mmPan = { x: 0, y: 0 };
+let isDraggingNode = false;
+let isDraggingCanvas = false;
+let dragStart = { x: 0, y: 0 };
+let dragNodeStart = { x: 0, y: 0 };
+let dragNodeId = null;
+let mouseDownPos = { x: 0, y: 0 };
+
+function sauvegarderCartes() {
+  const cartes = JSON.parse(localStorage.getItem('mm_cartes') || '[]');
+  const idx = cartes.findIndex(c => c.id === carteActive.id);
+  if (idx >= 0) cartes[idx] = carteActive;
+  localStorage.setItem('mm_cartes', JSON.stringify(cartes));
+  sauvegarderCloud();
+}
+
+function afficherListeCartes() {
+  const el = document.getElementById('mm-editor');
+  const lv = document.getElementById('mm-list-view');
+  if (el) el.style.display = 'none';
+  if (lv) lv.style.display = 'block';
+  const cartes = JSON.parse(localStorage.getItem('mm_cartes') || '[]');
+  const liste = document.getElementById('mm-cards-list');
+  if (!cartes.length) {
+    liste.innerHTML = '<div class="mm-empty"><div class="mm-empty-icon">🧠</div>Aucune carte mentale.<br>Créez votre première carte !</div>';
+    return;
+  }
+  liste.innerHTML = cartes.map(c => `
+    <div class="mm-card" onclick="ouvrirCarte(${c.id})">
+      <div class="mm-card-top">
+        <div><div class="mm-card-title">${c.titre}</div><div class="mm-card-meta">${c.noeuds.length} bulle(s)</div></div>
+        <button class="mm-card-del" onclick="event.stopPropagation();supprimerCarte(${c.id})">🗑</button>
+      </div>
+      <div class="mm-bubbles">${c.noeuds.slice(0,5).map(n=>`<span class="mm-bubble-pill" style="background:${n.couleur}22;color:${n.couleur}">${n.label}</span>`).join('')}</div>
+    </div>`).join('');
+}
+
+function ouvrirModalNouvelleCarte() {
+  document.getElementById('mm-modal-title').value = '';
+  document.getElementById('mm-modal-center').value = '';
+  document.getElementById('mm-modal').classList.add('open');
+  setTimeout(() => document.getElementById('mm-modal-title').focus(), 100);
+}
+
+function creerCarte() {
+  const titre = document.getElementById('mm-modal-title').value.trim() || 'Nouvelle carte';
+  const centre = document.getElementById('mm-modal-center').value.trim() || 'Centre';
+  const cartes = JSON.parse(localStorage.getItem('mm_cartes') || '[]');
+  const carte = {
+    id: Date.now(),
+    titre,
+    noeuds: [{ id: 1, label: centre, x: 250, y: 200, couleur: '#7c3aed', parentId: null, size: 1 }],
+    nextId: 2
+  };
+  cartes.push(carte);
+  localStorage.setItem('mm_cartes', JSON.stringify(cartes));
+  fermerModal('mm-modal');
+  ouvrirCarte(carte.id);
+  sauvegarderCloud();
+}
+
+function supprimerCarte(id) {
+  if (!confirm('Supprimer cette carte ?')) return;
+  const cartes = JSON.parse(localStorage.getItem('mm_cartes') || '[]').filter(c => c.id !== id);
+  localStorage.setItem('mm_cartes', JSON.stringify(cartes));
+  afficherListeCartes();
+  sauvegarderCloud();
+}
+
+function ouvrirCarte(id) {
+  const cartes = JSON.parse(localStorage.getItem('mm_cartes') || '[]');
+  carteActive = cartes.find(c => c.id === id);
+  if (!carteActive) return;
+  noeuds = carteActive.noeuds;
+  selectedNode = null;
+  mmZoom = 1; mmPan = { x: 0, y: 0 };
+  document.getElementById('mm-list-view').style.display = 'none';
+  document.getElementById('mm-editor').style.display = 'block';
+  document.getElementById('mm-editor-title').textContent = carteActive.titre;
+  document.getElementById('mm-node-panel').classList.remove('open');
+  ajusterCanvasSize();
+  renderMindMap();
+  initMMEvents();
+}
+
+function retourListeCartes() {
+  document.getElementById('mm-editor').style.display = 'none';
+  document.getElementById('mm-list-view').style.display = 'block';
+  afficherListeCartes();
+}
+
+function renommerCarte() {
+  const n = prompt('Nouveau nom de la carte :', carteActive.titre);
+  if (n && n.trim()) {
+    carteActive.titre = n.trim();
+    document.getElementById('mm-editor-title').textContent = carteActive.titre;
+    sauvegarderCartes();
+    afficherListeCartes();
+  }
+}
+
+function ajusterCanvasSize() {
+  const wrap = document.getElementById('mm-canvas-wrap');
+  const svg = document.getElementById('mm-svg');
+  const h = Math.max(window.innerHeight - 260, 300);
+  wrap.style.height = h + 'px';
+  svg.setAttribute('width', wrap.offsetWidth);
+  svg.setAttribute('height', h);
+}
+
+// Coupe un texte en 2 lignes si trop long (max ~16 car par ligne)
+function splitLabel(label, maxChars) {
+  if (label.length <= maxChars) return [label];
+  // Chercher espace le plus proche du milieu
+  const mid = Math.floor(label.length / 2);
+  let best = -1, bestDist = Infinity;
+  for (let i = 0; i < label.length; i++) {
+    if (label[i] === ' ') {
+      const d = Math.abs(i - mid);
+      if (d < bestDist) { bestDist = d; best = i; }
+    }
+  }
+  if (best === -1) return [label]; // Pas d'espace, on garde sur une ligne
+  return [label.slice(0, best), label.slice(best + 1)];
+}
+
+// Calcule la taille de bulle adaptée au texte
+function calcBubbleSize(label, isRoot) {
+  const fs = isRoot ? 14 : 12;
+  const lines = splitLabel(label, isRoot ? 14 : 13);
+  const maxLineLen = Math.max(...lines.map(l => l.length));
+  const charWidth = fs * 0.56; // estimation largeur char
+  const rx = Math.max(isRoot ? 52 : 38, maxLineLen * charWidth / 2 + 18);
+  const ry = lines.length > 1 ? (isRoot ? 30 : 26) : (isRoot ? 22 : 18);
+  return { rx, ry, fs, lines };
+}
+
+function renderMindMap() {
+  const svg = document.getElementById('mm-svg');
+  svg.innerHTML = '';
+
+  const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+  g.setAttribute('transform', `translate(${mmPan.x},${mmPan.y}) scale(${mmZoom})`);
+
+  // Connexions
+  noeuds.forEach(n => {
+    if (n.parentId !== null) {
+      const p = noeuds.find(x => x.id === n.parentId);
+      if (p) {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', p.x); line.setAttribute('y1', p.y);
+        line.setAttribute('x2', n.x); line.setAttribute('y2', n.y);
+        line.setAttribute('stroke', n.couleur || '#7c3aed');
+        line.setAttribute('stroke-width', '2');
+        line.setAttribute('stroke-opacity', '0.4');
+        g.appendChild(line);
+      }
+    }
+  });
+
+  // Noeuds
+  noeuds.forEach(n => {
+    const isSelected = selectedNode && selectedNode.id === n.id;
+    const isRoot = n.parentId === null;
+    const { rx, ry, fs, lines } = calcBubbleSize(n.label, isRoot);
+
+    const grp = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+    grp.style.cursor = 'grab';
+
+    const ellipse = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+    ellipse.setAttribute('cx', n.x); ellipse.setAttribute('cy', n.y);
+    ellipse.setAttribute('rx', rx);
+    ellipse.setAttribute('ry', ry);
+    ellipse.setAttribute('fill', n.couleur + '22');
+    ellipse.setAttribute('stroke', n.couleur);
+    ellipse.setAttribute('stroke-width', isSelected ? '3' : isRoot ? '2.5' : '2');
+    if (isSelected) ellipse.setAttribute('stroke-dasharray', '5,3');
+    grp.appendChild(ellipse);
+
+    // Texte sur 1 ou 2 lignes
+    if (lines.length === 1) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', n.x); text.setAttribute('y', n.y);
+      text.setAttribute('text-anchor', 'middle'); text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('font-size', fs);
+      text.setAttribute('font-weight', isRoot ? '800' : '700');
+      text.setAttribute('fill', n.couleur);
+      text.setAttribute('font-family', '-apple-system,sans-serif');
+      text.style.pointerEvents = 'none';
+      text.textContent = lines[0];
+      grp.appendChild(text);
+    } else {
+      const lineH = fs + 2;
+      lines.forEach((line, i) => {
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const offsetY = (i === 0 ? -lineH / 2 : lineH / 2);
+        text.setAttribute('x', n.x); text.setAttribute('y', n.y + offsetY);
+        text.setAttribute('text-anchor', 'middle'); text.setAttribute('dominant-baseline', 'middle');
+        text.setAttribute('font-size', fs);
+        text.setAttribute('font-weight', isRoot ? '800' : '700');
+        text.setAttribute('fill', n.couleur);
+        text.setAttribute('font-family', '-apple-system,sans-serif');
+        text.style.pointerEvents = 'none';
+        text.textContent = line;
+        grp.appendChild(text);
+      });
+    }
+
+    grp.addEventListener('mousedown', e => startDragNode(e, n));
+    grp.addEventListener('touchstart', e => startDragNode(e, n), { passive: false });
+    g.appendChild(grp);
+  });
+
+  svg.appendChild(g);
+  document.getElementById('zoom-label').textContent = Math.round(mmZoom * 100) + '%';
+}
+
+function startDragNode(e, n) {
+  e.stopPropagation();
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  mouseDownPos = { x: clientX, y: clientY };
+  isDraggingNode = false;
+  dragNodeId = n.id;
+  dragNodeStart = { x: n.x, y: n.y };
+  dragStart = { x: clientX, y: clientY };
+}
+
+function initMMEvents() {
+  const svg = document.getElementById('mm-svg');
+  svg.onmousedown = e => { if (e.target === svg || e.target.tagName === 'g') startPan(e); };
+  svg.ontouchstart = e => { if (e.touches.length === 1 && (e.target === svg)) startPan(e); };
+  window.onmousemove = e => handleMove(e);
+  window.ontouchmove = e => handleMove(e);
+  window.onmouseup = () => endDrag();
+  window.ontouchend = () => endDrag();
+}
+
+function startPan(e) {
+  if (dragNodeId !== null) return;
+  isDraggingCanvas = true;
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+  dragStart = { x: clientX - mmPan.x, y: clientY - mmPan.y };
+}
+
+function handleMove(e) {
+  const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+  const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+  if (dragNodeId !== null) {
+    const dx = clientX - mouseDownPos.x;
+    const dy = clientY - mouseDownPos.y;
+    if (!isDraggingNode && (Math.abs(dx) > 6 || Math.abs(dy) > 6)) {
+      isDraggingNode = true;
+    }
+    if (isDraggingNode) {
+      if (e.cancelable) e.preventDefault();
+      const n = noeuds.find(x => x.id === dragNodeId);
+      if (n) {
+        n.x = dragNodeStart.x + dx / mmZoom;
+        n.y = dragNodeStart.y + dy / mmZoom;
+        renderMindMap();
+      }
+    }
+    return;
+  }
+
+  if (isDraggingCanvas) {
+    mmPan.x = clientX - dragStart.x;
+    mmPan.y = clientY - dragStart.y;
+    renderMindMap();
+  }
+}
+
+function endDrag() {
+  if (isDraggingNode && dragNodeId !== null) {
+    sauvegarderCartes();
+  } else if (dragNodeId !== null && !isDraggingNode) {
+    // Clic simple = sélection
+    const n = noeuds.find(x => x.id === dragNodeId);
+    if (n) selectionnerNoeud(n);
+  }
+  isDraggingNode = false;
+  isDraggingCanvas = false;
+  dragNodeId = null;
+}
+
+function selectionnerNoeud(n) {
+  selectedNode = n;
+  document.getElementById('mm-node-panel').classList.add('open');
+  document.getElementById('mm-node-label-display').textContent = '"' + n.label + '"';
+  renderMindMap();
+}
+
+function zoomIn() { mmZoom = Math.min(2.5, mmZoom + 0.15); renderMindMap(); }
+function zoomOut() { mmZoom = Math.max(0.3, mmZoom - 0.15); renderMindMap(); }
+function centrerVue() { mmZoom = 1; mmPan = { x: 0, y: 0 }; renderMindMap(); }
+
+function ouvrirModalAjoutBulle(parent) {
+  document.getElementById('mm-add-label').value = '';
+  document.getElementById('mm-add-modal-title').textContent = parent ? '➕ Sous-bulle de "' + parent.label + '"' : '➕ Nouvelle bulle';
+  document.getElementById('mm-add-modal').classList.add('open');
+  document.getElementById('mm-add-modal').dataset.parentId = parent ? parent.id : '';
+  setTimeout(() => document.getElementById('mm-add-label').focus(), 100);
+}
+
+function confirmerAjoutBulle() {
+  const label = document.getElementById('mm-add-label').value.trim();
+  if (!label) return;
+  const couleur = document.getElementById('mm-add-color').value;
+  const parentIdStr = document.getElementById('mm-add-modal').dataset.parentId;
+  const parentId = parentIdStr ? parseInt(parentIdStr) : null;
+  const parent = parentId ? noeuds.find(n => n.id === parentId) : null;
+  const x = parent ? parent.x + 120 + Math.random() * 60 - 30 : 150 + Math.random() * 200;
+  const y = parent ? parent.y + 80 + Math.random() * 60 - 30 : 150 + Math.random() * 150;
+  const noeud = { id: carteActive.nextId++, label, x, y, couleur, parentId, size: 1 };
+  noeuds.push(noeud);
+  carteActive.noeuds = noeuds;
+  sauvegarderCartes();
+  fermerModal('mm-add-modal');
+  renderMindMap();
+}
+
+function renommerNoeud() {
+  if (!selectedNode) return;
+  document.getElementById('mm-rename-input').value = selectedNode.label;
+  document.getElementById('mm-rename-modal').classList.add('open');
+  setTimeout(() => document.getElementById('mm-rename-input').focus(), 100);
+}
+
+function confirmerRenommer() {
+  const val = document.getElementById('mm-rename-input').value.trim();
+  if (!val || !selectedNode) return;
+  const n = noeuds.find(x => x.id === selectedNode.id);
+  if (n) { n.label = val; selectedNode.label = val; }
+  document.getElementById('mm-node-label-display').textContent = '"' + val + '"';
+  sauvegarderCartes();
+  fermerModal('mm-rename-modal');
+  renderMindMap();
+}
+
+function changerCouleurNoeud() {
+  if (!selectedNode) return;
+  document.getElementById('mm-color-select').value = selectedNode.couleur || '#7c3aed';
+  document.getElementById('mm-color-modal').classList.add('open');
+}
+
+function confirmerCouleur() {
+  if (!selectedNode) return;
+  const couleur = document.getElementById('mm-color-select').value;
+  const n = noeuds.find(x => x.id === selectedNode.id);
+  if (n) { n.couleur = couleur; selectedNode.couleur = couleur; }
+  sauvegarderCartes();
+  fermerModal('mm-color-modal');
+  renderMindMap();
+}
+
+function agrandirNoeud() {
+  if (!selectedNode) return;
+  const n = noeuds.find(x => x.id === selectedNode.id);
+  if (n) { n.size = ((n.size || 1) % 3) + 1; selectedNode.size = n.size; }
+  sauvegarderCartes();
+  renderMindMap();
+}
+
+function supprimerNoeud() {
+  if (!selectedNode) return;
+  if (!confirm('Supprimer cette bulle ?')) return;
+  const toDelete = new Set([selectedNode.id]);
+  let changed = true;
+  while (changed) {
+    changed = false;
+    noeuds.forEach(n => { if (n.parentId && toDelete.has(n.parentId) && !toDelete.has(n.id)) { toDelete.add(n.id); changed = true; } });
+  }
+  carteActive.noeuds = noeuds.filter(n => !toDelete.has(n.id));
+  noeuds = carteActive.noeuds;
+  selectedNode = null;
+  document.getElementById('mm-node-panel').classList.remove('open');
+  sauvegarderCartes();
+  renderMindMap();
+}
+
+// ===================== ACHAT BEBE =====================
+const PIECES_INFO = {
+  parents: { nom: 'Chambre des parents', emoji: '🛏️', couleur: '#eff6ff' },
+  bebe:    { nom: 'Chambre bébé', emoji: '🍼', couleur: '#f0fdf4' },
+  sdb:     { nom: 'Salle de bain', emoji: '🚿', couleur: '#f0f9ff' },
+  salon:   { nom: 'Salon', emoji: '🛋️', couleur: '#fdf4ff' },
+  cuisine: { nom: 'Cuisine', emoji: '🍳', couleur: '#fffbeb' },
+  jardin:  { nom: 'Jardin', emoji: '🌿', couleur: '#f0fdf4' },
+  voiture: { nom: 'Voiture', emoji: '🚗', couleur: '#fdf2f8' },
+  ext:     { nom: 'Sorties & promenades', emoji: '🏙️', couleur: '#eff6ff' }
+};
+let pieceActive = null;
+
+function ouvrirPiece(id) {
+  pieceActive = id;
+  const info = PIECES_INFO[id];
+  const header = document.getElementById('piece-detail-header');
+  header.style.background = info.couleur;
+  header.innerHTML = `<h2>${info.emoji} ${info.nom}</h2><p>Gérez vos articles pour cette pièce</p>`;
+  document.getElementById('piece-detail-title').textContent = '➕ Ajouter un article';
+  document.getElementById('mob-item').value = '';
+  document.getElementById('mob-modele').value = '';
+  document.getElementById('mob-prix').value = '';
+  document.getElementById('mob-statut').value = 'À acheter';
+  document.getElementById('mob-note').value = '';
+  ouvrirSection('piece-detail');
+  afficherArticlesPiece();
+}
+
+function ajouterArticlePiece() {
+  const item = document.getElementById('mob-item').value.trim();
+  if (!item) { alert('Veuillez saisir un article'); return; }
+  const articles = JSON.parse(localStorage.getItem('mob_' + pieceActive) || '[]');
+  articles.unshift({
+    id: Date.now(),
+    item,
+    modele: document.getElementById('mob-modele').value.trim(),
+    prix: document.getElementById('mob-prix').value.trim(),
+    statut: document.getElementById('mob-statut').value,
+    note: document.getElementById('mob-note').value.trim()
+  });
+  localStorage.setItem('mob_' + pieceActive, JSON.stringify(articles));
+  document.getElementById('mob-item').value = '';
+  document.getElementById('mob-modele').value = '';
+  document.getElementById('mob-prix').value = '';
+  document.getElementById('mob-note').value = '';
+  afficherArticlesPiece();
+  sauvegarderCloud();
+}
+
+function afficherArticlesPiece() {
+  const articles = JSON.parse(localStorage.getItem('mob_' + pieceActive) || '[]');
+  const liste = document.getElementById('mob-liste');
+  const statutColors = { 'À acheter': '#fee2e2', 'Commandé': '#fef3c7', 'Reçu ✓': '#d1fae5' };
+  const statutText = { 'À acheter': '#991b1b', 'Commandé': '#92400e', 'Reçu ✓': '#065f46' };
+  if (!articles.length) { liste.innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;font-size:14px">Aucun article ajouté</div>'; return; }
+  liste.innerHTML = articles.map(a => `
+    <div class="entry">
+      <div>
+        <div style="font-weight:700;font-size:14px">${a.item}</div>
+        ${a.modele ? `<div style="font-size:12px;color:#6b7280">${a.modele}</div>` : ''}
+        ${a.prix ? `<div style="font-size:13px;color:#059669;font-weight:700;margin-top:2px">${a.prix}</div>` : ''}
+        ${a.note ? `<div style="font-size:12px;color:#9ca3af;margin-top:2px">${a.note}</div>` : ''}
+        <span style="display:inline-block;margin-top:6px;font-size:11px;font-weight:700;padding:2px 10px;border-radius:10px;background:${statutColors[a.statut]};color:${statutText[a.statut]}">${a.statut}</span>
+        <select onchange="changerStatutArticle(${a.id},this.value)" style="margin-left:6px;padding:4px 8px;border:1.5px solid #e5e7eb;border-radius:8px;font-size:11px;background:#fafafa;cursor:pointer;color:#374151">
+          <option ${a.statut==='À acheter'?'selected':''}>À acheter</option>
+          <option ${a.statut==='Commandé'?'selected':''}>Commandé</option>
+          <option ${a.statut==='Reçu ✓'?'selected':''}>Reçu ✓</option>
+        </select>
+      </div>
+      <button onclick="supprimerArticle(${a.id})">×</button>
+    </div>`).join('');
+}
+
+function changerStatutArticle(id, statut) {
+  const articles = JSON.parse(localStorage.getItem('mob_' + pieceActive) || '[]');
+  const a = articles.find(x => x.id === id);
+  if (a) a.statut = statut;
+  localStorage.setItem('mob_' + pieceActive, JSON.stringify(articles));
+  afficherArticlesPiece();
+  sauvegarderCloud();
+}
+
+function supprimerArticle(id) {
+  const articles = JSON.parse(localStorage.getItem('mob_' + pieceActive) || '[]').filter(a => a.id !== id);
+  localStorage.setItem('mob_' + pieceActive, JSON.stringify(articles));
+  afficherArticlesPiece();
+  sauvegarderCloud();
+}
+
+// ===================== BUDGET =====================
+const PIECES_BUDGET = {
+  parents: 'Ch. parents', bebe: 'Ch. bébé', sdb: 'Salle de bain',
+  salon: 'Salon', cuisine: 'Cuisine', jardin: 'Jardin', voiture: 'Voiture', ext: 'Sorties'
+};
+let budgetCharts = {};
+let budgetFilter = 'tous';
+
+function switchBudgetTab(tab, btn) {
+  document.querySelectorAll('.budget-tab-main').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('budget-resume').style.display = tab === 'resume' ? 'block' : 'none';
+  document.getElementById('budget-graphiques').style.display = tab === 'graphiques' ? 'block' : 'none';
+  document.getElementById('budget-detail').style.display = tab === 'detail' ? 'block' : 'none';
+  if (tab === 'graphiques') setTimeout(renderBudgetCharts, 50);
+  if (tab === 'detail') afficherArticlesBudget();
+}
+
+function parsePrice(s) {
+  if (!s) return 0;
+  const n = parseFloat(String(s).replace(/[^0-9.,]/g,'').replace(',','.'));
+  return isNaN(n) ? 0 : n;
+}
+
+function getAllArticles() {
+  const all = [];
+  Object.keys(PIECES_BUDGET).forEach(id => {
+    const items = JSON.parse(localStorage.getItem('mob_' + id) || '[]');
+    items.forEach(it => all.push({ ...it, piece: id, prixNum: parsePrice(it.prix) }));
+  });
+  return all;
+}
+
+function majBudget() {
+  const budget = parseFloat(document.getElementById('budget-total').value) || 0;
+  localStorage.setItem('budget_total', budget);
+  const all = getAllArticles();
+  const depense = all.filter(i => i.statut === 'Reçu ✓').reduce((s,i) => s + i.prixNum, 0);
+  const pct = budget > 0 ? Math.min(100, Math.round((depense/budget)*100)) : 0;
+  document.getElementById('b-fill').style.width = pct + '%';
+  document.getElementById('b-pct').textContent = pct + '%';
+  document.getElementById('b-total').textContent = budget ? budget.toLocaleString('fr-FR') + ' €' : '—';
+  document.getElementById('b-dep').textContent = Math.round(depense).toLocaleString('fr-FR') + ' €';
+  const reste = budget - depense;
+  document.getElementById('b-reste').textContent = budget ? Math.round(reste).toLocaleString('fr-FR') + ' €' : '—';
+  document.getElementById('b-reste').style.color = reste < 0 ? '#ef4444' : '#10b981';
+
+  // Barres statut
+  const statutData = [
+    { label: '🛒 À acheter', val: all.filter(i=>i.statut==='À acheter').reduce((s,i)=>s+i.prixNum,0), color: '#ef4444' },
+    { label: '📦 Commandé', val: all.filter(i=>i.statut==='Commandé').reduce((s,i)=>s+i.prixNum,0), color: '#f59e0b' },
+    { label: '✅ Reçu', val: depense, color: '#10b981' }
+  ];
+  const maxS = Math.max(...statutData.map(d=>d.val), 1);
+  document.getElementById('b-statut-bars').innerHTML = statutData.map(d => `
+    <div style="margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>${d.label}</span><span style="font-weight:700;color:${d.color}">${Math.round(d.val).toLocaleString('fr-FR')} €</span></div>
+      <div style="height:8px;background:#f3f4f6;border-radius:4px;overflow:hidden"><div style="height:100%;width:${(d.val/maxS*100).toFixed(1)}%;background:${d.color};border-radius:4px;transition:width 0.5s"></div></div>
+    </div>`).join('');
+
+  // Barres pièce
+  const piecesData = Object.keys(PIECES_BUDGET).map(id => ({
+    label: PIECES_BUDGET[id],
+    val: all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)
+  })).filter(d=>d.val>0);
+  const maxP = Math.max(...piecesData.map(d=>d.val), 1);
+  document.getElementById('b-pieces-bars').innerHTML = piecesData.length ? piecesData.map(d => `
+    <div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span>${d.label}</span><span style="font-weight:700;color:#7c3aed">${Math.round(d.val).toLocaleString('fr-FR')} €</span></div>
+      <div style="height:6px;background:#f3f4f6;border-radius:3px;overflow:hidden"><div style="height:100%;width:${(d.val/maxP*100).toFixed(1)}%;background:linear-gradient(90deg,#7c3aed,#ec4899);border-radius:3px;transition:width 0.5s"></div></div>
+    </div>`).join('') : '<div style="text-align:center;color:#9ca3af;font-size:13px;padding:20px">Aucun article avec prix</div>';
+}
+
+function renderBudgetCharts() {
+  const all = getAllArticles();
+  const budget = parseFloat(localStorage.getItem('budget_total')) || 0;
+  const depense = all.filter(i=>i.statut==='Reçu ✓').reduce((s,i)=>s+i.prixNum,0);
+  const pieceColors = ['#7f91e8','#9ae6b4','#90cdf4','#d6bcfa','#fbd38d','#b7e4b7','#f0b4e8','#f0e68c'];
+  const pieceLabels = Object.values(PIECES_BUDGET);
+  const pieceVals = Object.keys(PIECES_BUDGET).map(id => Math.round(all.filter(i=>i.piece===id).reduce((s,i)=>s+i.prixNum,0)));
+
+  const opts = { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } };
+
+  if (budgetCharts.pp) budgetCharts.pp.destroy();
+  budgetCharts.pp = new Chart(document.getElementById('chart-pie-piece'), {
+    type: 'doughnut',
+    data: { labels: pieceLabels, datasets: [{ data: pieceVals, backgroundColor: pieceColors }] },
+    options: { ...opts, cutout: '60%' }
+  });
+
+  const statVals = [
+    all.filter(i=>i.statut==='À acheter').reduce((s,i)=>s+i.prixNum,0),
+    all.filter(i=>i.statut==='Commandé').reduce((s,i)=>s+i.prixNum,0),
+    depense
+  ];
+  if (budgetCharts.ps) budgetCharts.ps.destroy();
+  budgetCharts.ps = new Chart(document.getElementById('chart-pie-statut'), {
+    type: 'doughnut',
+    data: { labels: ['À acheter','Commandé','Reçu ✓'], datasets: [{ data: statVals, backgroundColor: ['#fca5a5','#fde68a','#86efac'] }] },
+    options: { ...opts, cutout: '60%' }
+  });
+
+  if (budgetCharts.bp) budgetCharts.bp.destroy();
+  budgetCharts.bp = new Chart(document.getElementById('chart-bar-piece'), {
+    type: 'bar',
+    data: { labels: pieceLabels, datasets: [{ data: pieceVals, backgroundColor: pieceColors, borderRadius: 6 }] },
+    options: { ...opts, scales: { y: { beginAtZero: true } } }
+  });
+
+  if (budgetCharts.bb) budgetCharts.bb.destroy();
+  budgetCharts.bb = new Chart(document.getElementById('chart-bar-budget'), {
+    type: 'bar',
+    data: { labels: ['Budget prévu','Dépensé','Restant'], datasets: [{ data: [budget, depense, Math.max(0,budget-depense)], backgroundColor: ['#c4b5fd','#fca5a5','#86efac'], borderRadius: 8 }] },
+    options: { ...opts, scales: { y: { beginAtZero: true } } }
+  });
+}
+
+function filtrerBudget(filtre, btn) {
+  budgetFilter = filtre;
+  document.querySelectorAll('.budget-filter-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  afficherArticlesBudget();
+}
+
+function afficherArticlesBudget() {
+  const all = getAllArticles();
+  const filtered = budgetFilter === 'tous' ? all : all.filter(a => a.statut === budgetFilter);
+  const total = filtered.reduce((s,i) => s + i.prixNum, 0);
+  const statutColors = { 'À acheter': '#fee2e2', 'Commandé': '#fef3c7', 'Reçu ✓': '#d1fae5' };
+  const statutText = { 'À acheter': '#991b1b', 'Commandé': '#92400e', 'Reçu ✓': '#065f46' };
+  const el = document.getElementById('b-articles');
+  if (!filtered.length) { el.innerHTML = '<div style="text-align:center;padding:20px;color:#9ca3af;font-size:13px">Aucun article</div>'; return; }
+  el.innerHTML = `<div style="font-size:13px;font-weight:700;color:#059669;margin-bottom:12px;text-align:right">Total : ${Math.round(total).toLocaleString('fr-FR')} €</div>` +
+    filtered.map(a => `
+    <div class="budget-article">
+      <div class="budget-article-info">
+        <div class="budget-article-name">${a.item}</div>
+        <div class="budget-article-meta">${PIECES_BUDGET[a.piece]} · <span style="background:${statutColors[a.statut]};color:${statutText[a.statut]};padding:1px 7px;border-radius:8px;font-size:10px;font-weight:700">${a.statut}</span></div>
+      </div>
+      <div class="budget-article-prix">${a.prixNum ? Math.round(a.prixNum).toLocaleString('fr-FR') + ' €' : '—'}</div>
+    </div>`).join('');
+}
+
+// ===================== RENDEZ-VOUS =====================
+let calMois = new Date().getMonth();
+let calAnnee = new Date().getFullYear();
+
+function switchRdvTab(tab, btn) {
+  document.querySelectorAll('.rdv-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('rdv-cal-view').style.display = tab === 'calendrier' ? 'block' : 'none';
+  document.getElementById('rdv-list-view').style.display = tab === 'liste' ? 'block' : 'none';
+  document.getElementById('rdv-add-view').style.display = tab === 'ajouter' ? 'block' : 'none';
+  if (tab === 'liste') afficherListeRdv();
+}
+
+function navMois(dir) {
+  calMois += dir;
+  if (calMois > 11) { calMois = 0; calAnnee++; }
+  if (calMois < 0) { calMois = 11; calAnnee--; }
+  renderCalendrier();
+}
+
+function renderCalendrier() {
+  const moisNoms = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('cal-title').textContent = moisNoms[calMois] + ' ' + calAnnee;
+  const rdvs = JSON.parse(localStorage.getItem('rdvs') || '[]');
+  const rdvDates = new Set(rdvs.map(r => r.date));
+  const premier = new Date(calAnnee, calMois, 1);
+  const dernier = new Date(calAnnee, calMois + 1, 0).getDate();
+  let jourDebut = premier.getDay(); // 0=dim
+  jourDebut = jourDebut === 0 ? 6 : jourDebut - 1; // lundi=0
+  const today = new Date();
+  const grid = document.getElementById('cal-days');
+  let html = '';
+  for (let i = 0; i < jourDebut; i++) html += '<div class="cal-day other-month"></div>';
+  for (let j = 1; j <= dernier; j++) {
+    const dateStr = calAnnee + '-' + String(calMois+1).padStart(2,'0') + '-' + String(j).padStart(2,'0');
+    const isToday = j === today.getDate() && calMois === today.getMonth() && calAnnee === today.getFullYear();
+    const hasRdv = rdvDates.has(dateStr);
+    html += `<div class="cal-day${isToday?' today':''}${hasRdv?' has-rdv':''}" onclick="voirJour('${dateStr}',${j})">${j}</div>`;
+  }
+  grid.innerHTML = html;
+  document.getElementById('cal-rdv-jour').style.display = 'none';
+}
+
+function voirJour(dateStr, jour) {
+  const rdvs = JSON.parse(localStorage.getItem('rdvs') || '[]').filter(r => r.date === dateStr);
+  const rdvJour = document.getElementById('cal-rdv-jour');
+  if (!rdvs.length) { rdvJour.style.display = 'none'; return; }
+  document.getElementById('cal-jour-titre').textContent = 'RDV du ' + jour + '/' + (calMois+1) + '/' + calAnnee;
+  document.getElementById('cal-rdv-liste').innerHTML = rdvs.map(r => `
+    <div class="rdv-item">
+      <div class="rdv-info">
+        <div class="rdv-title">${r.titre}</div>
+        <div class="rdv-meta">${r.heure ? r.heure + ' · ' : ''}${r.type}${r.lieu ? ' · ' + r.lieu : ''}</div>
+      </div>
+      <button onclick="supprimerRdv(${r.id})">×</button>
+    </div>`).join('');
+  rdvJour.style.display = 'block';
+}
+
+function ajouterRdv() {
+  const titre = document.getElementById('rdv-titre').value.trim();
+  const date = document.getElementById('rdv-date').value;
+  if (!titre || !date) { alert('Titre et date requis'); return; }
+  const rdvs = JSON.parse(localStorage.getItem('rdvs') || '[]');
+  rdvs.push({
+    id: Date.now(),
+    titre,
+    date,
+    heure: document.getElementById('rdv-heure').value,
+    type: document.getElementById('rdv-type').value,
+    lieu: document.getElementById('rdv-lieu').value.trim(),
+    note: document.getElementById('rdv-note').value.trim()
+  });
+  localStorage.setItem('rdvs', JSON.stringify(rdvs));
+  document.getElementById('rdv-titre').value = '';
+  document.getElementById('rdv-date').value = '';
+  document.getElementById('rdv-heure').value = '';
+  document.getElementById('rdv-lieu').value = '';
+  document.getElementById('rdv-note').value = '';
+  renderCalendrier();
+  alert('✅ Rendez-vous ajouté !');
+  sauvegarderCloud();
+}
+
+function supprimerRdv(id) {
+  const rdvs = JSON.parse(localStorage.getItem('rdvs') || '[]').filter(r => r.id !== id);
+  localStorage.setItem('rdvs', JSON.stringify(rdvs));
+  renderCalendrier();
+  afficherListeRdv();
+  sauvegarderCloud();
+}
+
+function afficherListeRdv() {
+  const rdvs = JSON.parse(localStorage.getItem('rdvs') || '[]').sort((a,b) => a.date.localeCompare(b.date));
+  const el = document.getElementById('rdv-liste-complete');
+  if (!el) return;
+  if (!rdvs.length) { el.innerHTML = '<div style="text-align:center;padding:40px;color:#9ca3af;font-size:14px">📅 Aucun rendez-vous</div>'; return; }
+  const moisNoms = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+  el.innerHTML = rdvs.map(r => {
+    const d = new Date(r.date);
+    return `<div class="rdv-item">
+      <div class="rdv-date-badge"><div class="rdv-day">${d.getDate()}</div><div class="rdv-month">${moisNoms[d.getMonth()]}</div></div>
+      <div class="rdv-info">
+        <div class="rdv-title">${r.titre}</div>
+        <div class="rdv-meta">${r.heure ? r.heure + ' · ' : ''}${r.type}${r.lieu ? ' · ' + r.lieu : ''}${r.note ? '<br>' + r.note : ''}</div>
+      </div>
+      <button onclick="supprimerRdv(${r.id})">×</button>
+    </div>`;
+  }).join('');
+}
+
+// ===================== ADMINISTRATION =====================
+const DEFAULT_ADMIN_TODOS = [
+  'Déclarer la grossesse à la CAF', "Demander congé maternité à l'employeur",
+  'Inscription à la maternité', 'Choix du pédiatre', 'Préparation à la naissance',
+  'Dossier maternité complet', 'Déclaration naissance en mairie (5 jours)',
+  'Demande allocations naissance CAF', "Carte vitale bébé", 'Testament & assurance vie'
+];
+
+const DEFAULT_CONTACTS = [
+  { nom: 'Maternité', role: 'Hôpital / Clinique', tel: '', emoji: '🏥' },
+  { nom: 'Médecin traitant', role: 'Généraliste', tel: '', emoji: '👨‍⚕️' },
+  { nom: 'Sage-femme', role: 'Suivi grossesse', tel: '', emoji: '🤰' },
+  { nom: 'Pédiatre', role: 'Médecin bébé', tel: '', emoji: '👶' },
+  { nom: 'CAF', role: 'Allocations familiales', tel: '32 30', emoji: '🏛️' }
+];
+
+const DEFAULT_DOCS = [
+  { nom: 'Carte Vitale à jour', detail: 'Vérifier les droits ouverts', icon: '💳' },
+  { nom: 'Livret de famille', detail: 'À compléter à la naissance', icon: '📖' },
+  { nom: 'Dossier maternité', detail: 'Remis par la maternité', icon: '🏥' },
+  { nom: 'Déclaration de grossesse', detail: 'Avant 15 SA', icon: '📋' },
+  { nom: 'Congé maternité', detail: "Déclaration à l'employeur", icon: '💼' },
+  { nom: 'Assurance habitation', detail: 'Ajouter bébé au contrat', icon: '🏠' },
+  { nom: 'Mutuelles', detail: 'Couverture bébé', icon: '🩺' }
+];
+
+function switchAdminTab(tab, btn) {
+  document.querySelectorAll('.admin-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('admin-checklist').style.display = tab === 'checklist' ? 'block' : 'none';
+  document.getElementById('admin-contacts').style.display = tab === 'contacts' ? 'block' : 'none';
+  document.getElementById('admin-documents').style.display = tab === 'documents' ? 'block' : 'none';
+}
+
+function ajouterAdminTodo() {
+  const input = document.getElementById('admin-todo-input');
+  const txt = input.value.trim();
+  if (!txt) return;
+  const todos = JSON.parse(localStorage.getItem('admin_todos') || 'null') || DEFAULT_ADMIN_TODOS.map((t,i) => ({ id: i+1, txt: t, done: false }));
+  todos.push({ id: Date.now(), txt, done: false });
+  localStorage.setItem('admin_todos', JSON.stringify(todos));
+  input.value = '';
+  afficherAdminTodos();
+  sauvegarderCloud();
+}
+
+function toggleAdminTodo(id) {
+  const todos = JSON.parse(localStorage.getItem('admin_todos') || 'null') || DEFAULT_ADMIN_TODOS.map((t,i) => ({ id: i+1, txt: t, done: false }));
+  const t = todos.find(t => t.id === id);
+  if (t) t.done = !t.done;
+  localStorage.setItem('admin_todos', JSON.stringify(todos));
+  afficherAdminTodos();
+  sauvegarderCloud();
+}
+
+function supprimerAdminTodo(id) {
+  const todos = JSON.parse(localStorage.getItem('admin_todos') || 'null') || DEFAULT_ADMIN_TODOS.map((t,i) => ({ id: i+1, txt: t, done: false }));
+  localStorage.setItem('admin_todos', JSON.stringify(todos.filter(t => t.id !== id)));
+  afficherAdminTodos();
+  sauvegarderCloud();
+}
+
+function afficherAdminTodos() {
+  let todos = JSON.parse(localStorage.getItem('admin_todos'));
+  if (!todos) todos = DEFAULT_ADMIN_TODOS.map((t,i) => ({ id: i+1, txt: t, done: false }));
+  document.getElementById('admin-todo-liste').innerHTML = todos.map(t => `
+    <div class="checklist-item${t.done?' done':''}">
+      <input type="checkbox" id="adm-${t.id}" ${t.done?'checked':''} onchange="toggleAdminTodo(${t.id})">
+      <label for="adm-${t.id}">${t.txt}</label>
+      <button onclick="supprimerAdminTodo(${t.id})">×</button>
+    </div>`).join('');
+}
+
+function ajouterContact() {
+  const nom = document.getElementById('contact-nom').value.trim();
+  const tel = document.getElementById('contact-tel').value.trim();
+  if (!nom) return;
+  let contacts = JSON.parse(localStorage.getItem('contacts'));
+  if (!contacts) contacts = DEFAULT_CONTACTS.map((c,i) => ({ ...c, id: i+1 }));
+  contacts.push({ id: Date.now(), nom, role: '', tel, emoji: '👤' });
+  localStorage.setItem('contacts', JSON.stringify(contacts));
+  document.getElementById('contact-nom').value = '';
+  document.getElementById('contact-tel').value = '';
+  afficherContacts();
+  sauvegarderCloud();
+}
+
+function supprimerContact(id) {
+  const contacts = JSON.parse(localStorage.getItem('contacts') || '[]').filter(c => c.id !== id);
+  localStorage.setItem('contacts', JSON.stringify(contacts));
+  afficherContacts();
+  sauvegarderCloud();
+}
+
+function afficherContacts() {
+  let contacts = JSON.parse(localStorage.getItem('contacts'));
+  if (!contacts) contacts = DEFAULT_CONTACTS.map((c,i) => ({ ...c, id: i+1 }));
+  document.getElementById('contacts-liste').innerHTML = contacts.map(c => `
+    <div class="contact-card">
+      <div class="contact-avatar">${c.emoji || '👤'}</div>
+      <div class="contact-info">
+        <div class="contact-name">${c.nom}</div>
+        ${c.role ? `<div class="contact-role">${c.role}</div>` : ''}
+        ${c.tel ? `<div class="contact-tel"><a href="tel:${c.tel}" style="color:inherit;text-decoration:none">📞 ${c.tel}</a></div>` : ''}
+      </div>
+      <button onclick="supprimerContact(${c.id})" style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;align-self:flex-start">×</button>
+    </div>`).join('');
+}
+
+function afficherDocs() {
+  const statuts = JSON.parse(localStorage.getItem('docs_status') || '{}');
+  const statutConfig = {
+    'À faire': { bg: '#fee2e2', color: '#991b1b' },
+    'En cours': { bg: '#fef3c7', color: '#92400e' },
+    'Fait ✓': { bg: '#d1fae5', color: '#065f46' }
+  };
+  document.getElementById('docs-liste').innerHTML = DEFAULT_DOCS.map((d,i) => {
+    const s = statuts[i] || 'À faire';
+    const c = statutConfig[s];
+    return `<div class="doc-item" onclick="cycleDocStatut(${i})">
+      <div class="doc-icon">${d.icon}</div>
+      <div class="doc-info"><div class="doc-name">${d.nom}</div><div class="doc-detail">${d.detail}</div></div>
+      <div class="doc-status" style="background:${c.bg};color:${c.color}">${s}</div>
+    </div>`;
+  }).join('');
+}
+
+function cycleDocStatut(idx) {
+  const statuts = JSON.parse(localStorage.getItem('docs_status') || '{}');
+  const cycle = ['À faire', 'En cours', 'Fait ✓'];
+  const curr = statuts[idx] || 'À faire';
+  statuts[idx] = cycle[(cycle.indexOf(curr) + 1) % 3];
+  localStorage.setItem('docs_status', JSON.stringify(statuts));
+  afficherDocs();
+  sauvegarderCloud();
+}
+
+// ===================== SIGNES BEBE =====================
+const SIGNES_DEFAULT = [
+  {
+    id: 1, icon: '😴', titre: 'Fatigue & envie de dormir', cat: 'Fatigue & sommeil',
+    signes: ['Se frotte les yeux', 'Bâillements fréquents', 'Regard dans le vide', 'Irritabilité croissante'],
+    quoi: 'Mettre bébé au lit rapidement, sans trop attendre. Rituel calme : lumière tamisée, bercement doux.',
+    astuce: 'Ne pas attendre que bébé soit épuisé — les signes précoces sont les meilleurs !', custom: false
+  },
+  {
+    id: 2, icon: '🍼', titre: 'Faim', cat: 'Faim',
+    signes: ['Se tourne vers la poitrine', 'Suçote ses mains ou doigts', 'Pleurs courts et rythmés', 'Bouche ouverte, langue'],
+    quoi: 'Proposer le sein ou le biberon dès les premiers signes. Ne pas attendre les pleurs intenses.',
+    astuce: 'Les pleurs sont un signe tardif de faim. Mieux vaut agir aux premiers signaux.', custom: false
+  },
+  {
+    id: 3, icon: '😣', titre: 'Douleur / Inconfort', cat: 'Douleur & inconf',
+    signes: ['Pleurs aigus et intenses', 'Jambes repliées sur le ventre', 'Ventre gonflé', 'Dos arqué'],
+    quoi: 'Vérifier couche, température, coliques. Masser doucement le ventre dans le sens des aiguilles d\'une montre.',
+    astuce: 'Les coliques sont fréquentes 0-3 mois. Position verticale après les repas aide beaucoup.', custom: false
+  },
+  {
+    id: 4, icon: '😊', titre: 'Bonheur & éveil', cat: 'Bonheur & éveil',
+    signes: ['Sourires spontanés', 'Gazouillis et vocalises', 'Regard fixe et attentif', 'Mouvements de bras excités'],
+    quoi: 'Profiter de ces moments pour jouer, parler, chanter. C\'est le meilleur moment pour les interactions.',
+    astuce: 'Parler à bébé même tout-petit stimule le langage. Décrivez ce que vous faites !', custom: false
+  },
+  {
+    id: 5, icon: '🤒', titre: 'Maladie / Fièvre', cat: 'Santé & maladie',
+    signes: ['Peau chaude au toucher', 'Moins actif que d\'habitude', 'Refuse de manger', 'Pleurs inhabituels'],
+    quoi: 'Prendre la température. Si > 38°C avant 3 mois : consulter en urgence. Entre 3-6 mois selon l\'état général.',
+    astuce: 'Avant 3 mois toute fièvre est une urgence. Toujours avoir un thermomètre à portée.', custom: false
+  },
+  {
+    id: 6, icon: '🌱', titre: 'Poussée de croissance', cat: 'Développement',
+    signes: ['Demande plus de tétées/biberons', 'Irritabilité passagère', 'Dort plus que d\'habitude', 'Semaines 3, 6, 12...'],
+    quoi: 'Augmenter temporairement les tétées ou la quantité de lait. C\'est normal et passager (2-3 jours).',
+    astuce: 'Poussées fréquentes : 3 sem, 6 sem, 3 mois, 6 mois, 9 mois. Patience !', custom: false
+  },
+  {
+    id: 7, icon: '💧', titre: 'Déshydratation', cat: 'Santé & maladie',
+    signes: ['Fontanelle creuse', 'Peu de larmes', 'Couches moins mouillées', 'Lèvres et bouche sèches'],
+    quoi: 'Proposer du lait plus souvent. Si doute ou symptômes persistants, consulter rapidement le pédiatre.',
+    astuce: 'Attention en période de chaleur. Un bébé allaité n\'a pas besoin d\'eau avant 6 mois.', custom: false
+  }
+];
+
+const CAT_COLORS = {
+  'Fatigue & sommeil': { bg: '#ede9fe', text: '#5b21b6', card: '#f5f3ff' },
+  'Faim': { bg: '#d1fae5', text: '#065f46', card: '#ecfdf5' },
+  'Douleur & inconf': { bg: '#fee2e2', text: '#991b1b', card: '#fef2f2' },
+  'Bonheur & éveil': { bg: '#fef3c7', text: '#92400e', card: '#fffbeb' },
+  'Santé & maladie': { bg: '#dbeafe', text: '#1e40af', card: '#eff6ff' },
+  'Développement': { bg: '#d1fae5', text: '#065f46', card: '#ecfdf5' },
+  'Autre': { bg: '#f3f4f6', text: '#374151', card: '#f9fafb' }
+};
+
+let signesCatActive = 'Tous';
+
+function ouvrirModalNouvellesFiche() {
+  document.getElementById('signe-icon').value = '';
+  document.getElementById('signe-title').value = '';
+  document.getElementById('signe-signes').value = '';
+  document.getElementById('signe-quoi').value = '';
+  document.getElementById('signe-astuce').value = '';
+  document.getElementById('signe-modal').classList.add('open');
+}
+
+function sauvegarderFiche() {
+  const icon = document.getElementById('signe-icon').value.trim() || '🌟';
+  const titre = document.getElementById('signe-title').value.trim();
+  if (!titre) { alert('Veuillez saisir un titre'); return; }
+  const cat = document.getElementById('signe-cat').value;
+  const signesRaw = document.getElementById('signe-signes').value.trim();
+  const signes = signesRaw ? signesRaw.split('\n').map(s => s.trim()).filter(Boolean) : [];
+  const quoi = document.getElementById('signe-quoi').value.trim();
+  const astuce = document.getElementById('signe-astuce').value.trim();
+  const customs = JSON.parse(localStorage.getItem('signes_custom') || '[]');
+  customs.push({ id: Date.now(), icon, titre, cat, signes, quoi, astuce, custom: true });
+  localStorage.setItem('signes_custom', JSON.stringify(customs));
+  fermerModal('signe-modal');
+  afficherSignes();
+  sauvegarderCloud();
+}
+
+function supprimerFicheCustom(id, e) {
+  e.stopPropagation();
+  if (!confirm('Supprimer cette fiche ?')) return;
+  const customs = JSON.parse(localStorage.getItem('signes_custom') || '[]').filter(c => c.id !== id);
+  localStorage.setItem('signes_custom', JSON.stringify(customs));
+  afficherSignes();
+  sauvegarderCloud();
+}
+
+function afficherSignes() {
+  const customs = JSON.parse(localStorage.getItem('signes_custom') || '[]');
+  const all = [...SIGNES_DEFAULT, ...customs];
+  const cats = ['Tous', ...new Set(all.map(s => s.cat))];
+
+  // Catégories
+  document.getElementById('signes-cats').innerHTML = cats.map(c => `
+    <button class="signe-cat-btn${signesCatActive===c?' active':''}" onclick="filtrerSignes('${c}')">${c}</button>`).join('');
+
+  // Fiches
+  const filtered = signesCatActive === 'Tous' ? all : all.filter(s => s.cat === signesCatActive);
+  document.getElementById('signes-board').innerHTML = filtered.map(s => {
+    const colors = CAT_COLORS[s.cat] || CAT_COLORS['Autre'];
+    return `<div class="signe-card" style="background:${colors.card}" onclick="ouvrirFiche(${s.id},${s.custom?'true':'false'})">
+      ${s.custom ? `<button class="sc-del" onclick="supprimerFicheCustom(${s.id},event)">🗑</button>` : ''}
+      <div class="sc-icon">${s.icon}</div>
+      <div class="sc-title">${s.titre}</div>
+      <span class="sc-cat" style="background:${colors.bg};color:${colors.text}">${s.cat}</span>
+    </div>`;
+  }).join('');
+}
+
+function filtrerSignes(cat) {
+  signesCatActive = cat;
+  afficherSignes();
+}
+
+function ouvrirFiche(id, isCustom) {
+  const customs = JSON.parse(localStorage.getItem('signes_custom') || '[]');
+  const all = [...SIGNES_DEFAULT, ...customs];
+  const fiche = all.find(s => s.id === id && s.custom === isCustom);
+  if (!fiche) return;
+  const colors = CAT_COLORS[fiche.cat] || CAT_COLORS['Autre'];
+  document.getElementById('fiche-content').innerHTML = `
+    <div class="fiche-header">
+      <div class="fiche-icon-big">${fiche.icon}</div>
+      <div class="fiche-title-wrap">
+        <div class="fiche-title">${fiche.titre}</div>
+        <span class="fiche-cat-badge" style="background:${colors.bg};color:${colors.text}">${fiche.cat}</span>
+      </div>
+      <button class="fiche-close" onclick="document.getElementById('fiche-modal').classList.remove('open')">✕</button>
+    </div>
+    ${fiche.signes && fiche.signes.length ? `<div class="fiche-section"><h4>🔍 Signes à observer</h4><ul>${fiche.signes.map(s=>`<li>${s}</li>`).join('')}</ul></div>` : ''}
+    ${fiche.quoi ? `<div class="fiche-section"><h4>✋ Que faire ?</h4><p>${fiche.quoi}</p></div>` : ''}
+    ${fiche.astuce ? `<div class="fiche-section"><h4>💡 Astuce</h4><div class="fiche-tip"><p>${fiche.astuce}</p></div></div>` : ''}`;
+  document.getElementById('fiche-modal').classList.add('open');
+}
+
+// ===================== FIREBASE SYNC =====================
+const FAMILLE_ID = 'guillaume-estelle';
+let _fbDb = null;
+let _fbSave = null;
+let _fbGet = null;
+let _fbDoc = null;
+let _fbSetDoc = null;
+let _fbGetDoc = null;
+let saveTimer = null;
+let autoSaveInterval = null;
+
+async function initFirebase() {
+  try {
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js');
+    const { getFirestore, doc, setDoc, getDoc } = await import('https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js');
+    const firebaseConfig = {
+      apiKey: "AIzaSyCiUyLFngnxI6swkYQwmiAriXMPz9OYtYc",
+      authDomain: "application-guillaume.firebaseapp.com",
+      projectId: "application-guillaume",
+      storageBucket: "application-guillaume.firebasestorage.app",
+      messagingSenderId: "684613909160",
+      appId: "1:684613909160:web:78aa8900d679df5ad6209d"
+    };
+    const app = initializeApp(firebaseConfig);
+    _fbDb = getFirestore(app);
+    _fbDoc = doc;
+    _fbSetDoc = setDoc;
+    _fbGetDoc = getDoc;
+    await chargerCloudSansReload();
+    autoSaveInterval = setInterval(() => sauvegarderCloud(), 120000);
+  } catch(e) {
+    console.warn('Firebase non disponible:', e);
+    setCloudIndicator('error', '⚠️');
+  }
+}
+
+function getLocalData() {
+  const keys = ['todos','mm_cartes','rdvs','admin_todos','contacts','docs_status','budget_total','signes_custom'];
+  const obj = {};
+  keys.forEach(k => { const v = localStorage.getItem(k); if (v) obj[k] = v; });
+  ['parents','bebe','sdb','salon','cuisine','jardin','voiture','ext'].forEach(p => {
+    const v = localStorage.getItem('mob_' + p); if (v) obj['mob_' + p] = v;
+  });
+  return obj;
+}
+
+function setLocalData(data) {
+  if (!data) return;
+  Object.keys(data).forEach(k => { if (data[k]) localStorage.setItem(k, data[k]); });
+}
+
+async function chargerCloudSansReload() {
+  if (!_fbDb) return;
+  try {
+    const docRef = _fbDoc(_fbDb, 'familles', FAMILLE_ID);
+    const snap = await _fbGetDoc(docRef);
+    if (snap.exists()) {
+      const cloudData = snap.data();
+      if (cloudData.timestamp) delete cloudData.timestamp;
+      setLocalData(cloudData);
+    }
+    setCloudIndicator('saved', '✅');
+    setTimeout(() => setCloudIndicator('', '☁️'), 3000);
+  } catch(e) {
+    console.warn('Erreur chargement cloud:', e);
+    setCloudIndicator('error', '⚠️');
+  }
+}
+
+async function sauvegarderCloud() {
+  if (!_fbDb) return;
+  if (saveTimer) clearTimeout(saveTimer);
+  saveTimer = setTimeout(async () => {
+    try {
+      setCloudIndicator('saving', '💾');
+      const data = getLocalData();
+      data.timestamp = new Date().toISOString();
+      const docRef = _fbDoc(_fbDb, 'familles', FAMILLE_ID);
+      await _fbSetDoc(docRef, data);
+      setCloudIndicator('saved', '✅');
+      setTimeout(() => setCloudIndicator('', '☁️'), 3000);
+    } catch(e) {
+      console.warn('Erreur sauvegarde cloud:', e);
+      setCloudIndicator('error', '⚠️');
+    }
+  }, 2000);
+}
+
+function setCloudIndicator(cls, icon) {
+  const el = document.getElementById('cloud-indicator');
+  el.className = cls;
+  el.textContent = icon;
+}
+
+// ===================== INIT =====================
+window.addEventListener('load', () => {
+  initFirebase();
+  const saved = localStorage.getItem('budget_total');
+  if (saved) document.getElementById('budget-total').value = saved;
+});
+
+window.addEventListener('resize', () => {
+  if (carteActive) { ajusterCanvasSize(); renderMindMap(); }
+});
+</script>
+</body>
+</html>

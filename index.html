@@ -41,6 +41,8 @@ header .hdate { display: inline-block; background: white; border-radius: 20px; p
 .c-admin { background: linear-gradient(135deg, #fef3c7, #fffbeb); } .c-admin .gn { color: #92400e; }
 .c-signes { background: linear-gradient(135deg, #fce7f3, #fdf4ff); } .c-signes .gn { color: #86198f; }
 .c-budget { background: linear-gradient(135deg, #dcfce7, #d1fae5); } .c-budget .gn { color: #166534; }
+.c-sommeil { background: linear-gradient(135deg, #e0e7ff, #eef2ff); } .c-sommeil .gn { color: #3730a3; }
+.c-alim { background: linear-gradient(135deg, #fef9c3, #fefce8); } .c-alim .gn { color: #713f12; }
 .section { display: none; max-width: 700px; margin: 0 auto; }
 .section.active { display: block; }
 .back-btn { display: inline-flex; align-items: center; gap: 6px; background: white; border: 1.5px solid #e5e7eb; color: #6b7280; border-radius: 12px; padding: 10px 18px; font-size: 13px; font-weight: 600; cursor: pointer; margin: 20px 20px 0; box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: all 0.15s; }
@@ -202,6 +204,64 @@ textarea { min-height: 80px; resize: vertical; }
 .fiche-section ul { padding-left: 18px; }
 .fiche-tip { background: linear-gradient(135deg, #fce7f3, #fdf4ff); border-radius: 12px; padding: 14px; margin-top: 4px; }
 .fiche-tip p { font-size: 13px; color: #86198f; }
+
+/* ===== SOMMEIL ===== */
+.sommeil-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.sommeil-tab { flex: 1; min-width: 80px; padding: 10px 8px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; color: #6b7280; transition: all 0.15s; }
+.sommeil-tab.active { background: linear-gradient(135deg, #6366f1, #818cf8); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(99,102,241,0.3); }
+.sleep-log-item { background: white; border: 1.5px solid #e0e7ff; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+.sleep-badge { background: linear-gradient(135deg, #6366f1, #818cf8); color: white; border-radius: 10px; padding: 8px 12px; text-align: center; flex-shrink: 0; min-width: 52px; }
+.sleep-badge-emoji { font-size: 18px; line-height: 1; }
+.sleep-badge-dur { font-size: 11px; font-weight: 800; margin-top: 2px; }
+.sleep-info { flex: 1; }
+.sleep-title { font-size: 13px; font-weight: 700; color: #1f2937; }
+.sleep-meta { font-size: 11px; color: #9ca3af; margin-top: 2px; }
+.sleep-type-badge { font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 10px; flex-shrink: 0; }
+.oms-card { background: white; border-left: 4px solid #6366f1; border-radius: 0 16px 16px 0; padding: 16px 18px; margin-bottom: 12px; box-shadow: 0 2px 8px rgba(99,102,241,0.08); }
+.oms-card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.oms-card-icon { font-size: 24px; flex-shrink: 0; }
+.oms-card-title { font-size: 14px; font-weight: 800; color: #3730a3; }
+.oms-card-age { font-size: 10px; font-weight: 700; background: #e0e7ff; color: #3730a3; padding: 2px 8px; border-radius: 10px; margin-left: auto; flex-shrink: 0; }
+.oms-card-body { font-size: 13px; color: #374151; line-height: 1.7; }
+.oms-card-body li { margin-bottom: 4px; }
+.oms-card-body ul { padding-left: 16px; }
+.oms-tip { background: linear-gradient(135deg, #e0e7ff, #eef2ff); border-radius: 10px; padding: 10px 14px; margin-top: 8px; font-size: 12px; color: #3730a3; font-weight: 600; }
+.securite-card { background: linear-gradient(135deg, #fef2f2, #fff1f2); border: 1.5px solid #fecaca; border-radius: 16px; padding: 16px 18px; margin-bottom: 12px; }
+.securite-card-title { font-size: 14px; font-weight: 800; color: #dc2626; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+.securite-card-body { font-size: 13px; color: #374151; line-height: 1.7; }
+.securite-card-body li { margin-bottom: 4px; }
+.securite-card-body ul { padding-left: 16px; }
+.stats-sommeil { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 20px; }
+.stat-som { background: white; border: 1.5px solid #e0e7ff; border-radius: 14px; padding: 14px; text-align: center; }
+.stat-som-val { font-size: 20px; font-weight: 800; color: #6366f1; }
+.stat-som-lbl { font-size: 10px; color: #9ca3af; margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.age-selector { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+.age-btn { padding: 7px 14px; border: 1.5px solid #e5e7eb; border-radius: 20px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; color: #6b7280; transition: all 0.15s; }
+.age-btn.active { background: linear-gradient(135deg, #6366f1, #818cf8); color: white; border-color: transparent; }
+
+/* ===== ALIMENTATION ===== */
+.alim-tabs { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.alim-tab { flex: 1; min-width: 80px; padding: 10px 8px; border: 1.5px solid #e5e7eb; border-radius: 12px; background: white; font-size: 12px; font-weight: 700; cursor: pointer; text-align: center; color: #6b7280; transition: all 0.15s; }
+.alim-tab.active { background: linear-gradient(135deg, #d97706, #f59e0b); color: white; border-color: transparent; box-shadow: 0 4px 12px rgba(217,119,6,0.3); }
+.alim-phase { background: white; border-left: 4px solid #f59e0b; border-radius: 0 16px 16px 0; padding: 16px 18px; margin-bottom: 14px; box-shadow: 0 2px 8px rgba(245,158,11,0.08); }
+.alim-phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+.alim-phase-icon { font-size: 26px; flex-shrink: 0; }
+.alim-phase-title { font-size: 14px; font-weight: 800; color: #92400e; flex: 1; }
+.alim-phase-age { font-size: 10px; font-weight: 700; background: #fef3c7; color: #92400e; padding: 3px 10px; border-radius: 10px; flex-shrink: 0; }
+.alim-phase-body { font-size: 13px; color: #374151; line-height: 1.7; }
+.alim-phase-body li { margin-bottom: 4px; }
+.alim-phase-body ul { padding-left: 16px; margin-bottom: 8px; }
+.alim-tip { background: linear-gradient(135deg, #fef9c3, #fefce8); border-radius: 10px; padding: 10px 14px; margin-top: 8px; font-size: 12px; color: #713f12; font-weight: 600; }
+.alim-alerte { background: linear-gradient(135deg, #fef2f2, #fff1f2); border: 1.5px solid #fecaca; border-radius: 12px; padding: 12px 16px; margin-top: 8px; font-size: 12px; color: #dc2626; font-weight: 600; }
+.aliment-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 8px; }
+.aliment-card { border-radius: 14px; padding: 14px; }
+.aliment-card-title { font-size: 12px; font-weight: 800; margin-bottom: 6px; }
+.aliment-card-list { font-size: 11px; line-height: 1.8; }
+.meal-log-item { background: white; border: 1.5px solid #fef3c7; border-radius: 14px; padding: 14px 16px; margin-bottom: 10px; display: flex; align-items: center; gap: 12px; }
+.meal-badge { background: linear-gradient(135deg, #d97706, #f59e0b); color: white; border-radius: 10px; padding: 8px 12px; text-align: center; flex-shrink: 0; font-size: 20px; line-height: 1; }
+.meal-info { flex: 1; }
+.meal-title { font-size: 13px; font-weight: 700; color: #1f2937; }
+.meal-meta { font-size: 11px; color: #9ca3af; margin-top: 2px; }
 </style>
 </head>
 <body>
@@ -231,6 +291,12 @@ textarea { min-height: 80px; resize: vertical; }
       <div class="gc c-rdv" onclick="ouvrirSection('rdv')"><span class="gi">📅</span><span class="gn">Rendez-vous</span><span class="gs">Calendrier & liste</span></div>
       <div class="gc c-admin" onclick="ouvrirSection('admin')"><span class="gi">📋</span><span class="gn">Administration</span><span class="gs">Docs & démarches</span></div>
       <div class="gc c-signes wide" onclick="ouvrirSection('signes')"><span class="gi">👶</span><div class="gtxt"><span class="gn">Signes du bébé</span><span class="gs">Fiches · fatigue · faim · santé</span></div></div>
+    </div>
+    <div class="sec-div"></div>
+    <div class="sec-lbl">Bien-être & développement</div>
+    <div class="grid">
+      <div class="gc c-sommeil wide" onclick="ouvrirSection('sommeil')"><span class="gi">🌙</span><div class="gtxt"><span class="gn">Sommeil</span><span class="gs">Suivi, conseils OMS & sécurité</span></div></div>
+      <div class="gc c-alim wide" onclick="ouvrirSection('alim')"><span class="gi">🥣</span><div class="gtxt"><span class="gn">Alimentation</span><span class="gs">Évolution & recommandations OMS</span></div></div>
     </div>
   </div>
   <footer class="app-footer" style="margin-top:28px">
@@ -695,6 +761,574 @@ textarea { min-height: 80px; resize: vertical; }
   <div class="fiche-content" id="fiche-content"></div>
 </div>
 
+<!-- ===== SOMMEIL ===== -->
+<div id="sommeil" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="sommeil-tabs">
+      <button class="sommeil-tab active" onclick="switchSommeilTab('suivi',this)">📊 Suivi</button>
+      <button class="sommeil-tab" onclick="switchSommeilTab('conseils',this)">🌙 Conseils OMS</button>
+      <button class="sommeil-tab" onclick="switchSommeilTab('securite',this)">🛡️ Sécurité</button>
+      <button class="sommeil-tab" onclick="switchSommeilTab('rythmes',this)">⏰ Rythmes</button>
+    </div>
+
+    <!-- SUIVI -->
+    <div id="sommeil-suivi">
+
+      <!-- Âge bébé pour calibrer les recommandations -->
+      <div class="card" style="padding:16px 18px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap">
+          <span style="font-size:13px;font-weight:700;color:#374151;white-space:nowrap">🍼 Âge de bébé :</span>
+          <select id="sleep-age-bebe" onchange="majToutSommeil()" style="flex:1;min-width:140px;padding:8px 12px;border:1.5px solid #e0e7ff;border-radius:10px;font-size:13px;font-weight:700;color:#3730a3;background:#f5f3ff">
+            <option value="0">0-1 mois</option>
+            <option value="1">1-2 mois</option>
+            <option value="2">2-3 mois</option>
+            <option value="3">3-4 mois</option>
+            <option value="4">4-6 mois</option>
+            <option value="6">6-9 mois</option>
+            <option value="9">9-12 mois</option>
+            <option value="12">12-18 mois</option>
+            <option value="18">18-24 mois</option>
+            <option value="24">2-3 ans</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Score global -->
+      <div id="sleep-score-card" style="border-radius:20px;padding:20px;margin-bottom:16px;background:linear-gradient(135deg,#6366f1,#818cf8);color:white;text-align:center">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;opacity:0.8;text-transform:uppercase;margin-bottom:6px">Bilan du sommeil — 7 derniers jours</div>
+        <div id="sleep-score-emoji" style="font-size:52px;margin-bottom:8px">💤</div>
+        <div id="sleep-score-label" style="font-size:20px;font-weight:800;margin-bottom:4px">Enregistrez des sommeils</div>
+        <div id="sleep-score-sub" style="font-size:12px;opacity:0.85">pour voir l'analyse</div>
+      </div>
+
+      <!-- Stats rapides -->
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px" id="sleep-stats-grid"></div>
+
+      <!-- Alertes & conseils personnalisés -->
+      <div id="sleep-alertes"></div>
+
+      <!-- Graphique heures de sommeil 7j -->
+      <div class="card">
+        <h2 style="font-size:15px;margin-bottom:14px">📊 Heures de sommeil — 7 derniers jours</h2>
+        <div style="position:relative;height:180px"><canvas id="chart-sleep-bar"></canvas></div>
+        <div id="chart-sleep-legend" style="display:flex;gap:12px;margin-top:10px;flex-wrap:wrap;font-size:11px;color:#6b7280"></div>
+      </div>
+
+      <!-- Graphique cycle jour/nuit -->
+      <div class="card">
+        <h2 style="font-size:15px;margin-bottom:6px">🌓 Cycles jour / nuit — aujourd'hui</h2>
+        <div style="font-size:11px;color:#9ca3af;margin-bottom:12px">Visualisation sur 24h</div>
+        <div id="sleep-timeline" style="position:relative;background:#f8f4ff;border-radius:12px;height:64px;overflow:hidden"></div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#9ca3af;margin-top:4px;padding:0 2px">
+          <span>0h</span><span>4h</span><span>8h</span><span>12h</span><span>16h</span><span>20h</span><span>24h</span>
+        </div>
+        <div style="display:flex;gap:12px;margin-top:8px;font-size:11px;color:#6b7280;flex-wrap:wrap">
+          <span>🌙 Nuit</span><span>😴 Sieste</span><span>☀️ Éveil</span>
+        </div>
+      </div>
+
+      <!-- Enregistrer -->
+      <div class="card">
+        <h2>➕ Enregistrer un sommeil</h2>
+        <label>Type</label>
+        <select id="sleep-type" style="color:#3730a3;font-weight:700">
+          <option value="nuit">🌙 Nuit</option>
+          <option value="sieste">😴 Sieste</option>
+        </select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+          <div><label>Début</label><input type="datetime-local" id="sleep-debut"></div>
+          <div><label>Fin</label><input type="datetime-local" id="sleep-fin"></div>
+        </div>
+        <label>Qualité</label>
+        <select id="sleep-qualite">
+          <option value="bien">😊 Bien dormi</option>
+          <option value="moyen">😐 Moyen</option>
+          <option value="agite">😣 Agité / réveils fréquents</option>
+          <option value="court">⚡ Trop court</option>
+        </select>
+        <label>Note (optionnel)</label>
+        <input type="text" id="sleep-note" placeholder="ex : dents, maladie, réveil à 3h...">
+        <button class="btn" style="background:linear-gradient(135deg,#6366f1,#818cf8);box-shadow:0 4px 14px rgba(99,102,241,0.3)" onclick="ajouterSommeil()">Enregistrer</button>
+      </div>
+
+      <!-- Historique -->
+      <div class="card">
+        <h2>📋 Historique récent</h2>
+        <div id="sleep-liste"></div>
+      </div>
+    </div>
+
+    <!-- CONSEILS OMS -->
+    <div id="sommeil-conseils" style="display:none">
+      <div class="card" style="border:none;padding:0;background:transparent;box-shadow:none">
+        <div style="background:linear-gradient(135deg,#6366f1,#818cf8);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">🌙</div>
+          <div style="font-size:16px;font-weight:800;margin-bottom:4px">Recommandations OMS</div>
+          <div style="font-size:12px;opacity:0.85">Durées de sommeil recommandées par l'Organisation Mondiale de la Santé</div>
+        </div>
+
+        <div style="margin-bottom:6px;font-size:10px;color:#9ca3af;font-weight:700;letter-spacing:1.5px;text-transform:uppercase">Par tranche d'âge</div>
+        <div class="age-selector" id="conseils-age-selector">
+          <button class="age-btn active" onclick="filtrerConseilsAge('0-3',this)">0-3 mois</button>
+          <button class="age-btn" onclick="filtrerConseilsAge('4-11',this)">4-11 mois</button>
+          <button class="age-btn" onclick="filtrerConseilsAge('1-2',this)">1-2 ans</button>
+          <button class="age-btn" onclick="filtrerConseilsAge('3-5',this)">3-5 ans</button>
+        </div>
+        <div id="conseils-contenu"></div>
+      </div>
+    </div>
+
+    <!-- SECURITE -->
+    <div id="sommeil-securite" style="display:none">
+      <div class="card" style="border:none;padding:0;background:transparent;box-shadow:none">
+        <div style="background:linear-gradient(135deg,#dc2626,#ef4444);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">🛡️</div>
+          <div style="font-size:16px;font-weight:800;margin-bottom:4px">Sécurité du sommeil</div>
+          <div style="font-size:12px;opacity:0.85">Recommandations pour réduire le risque de mort subite du nourrisson (MSN)</div>
+        </div>
+
+        <div class="securite-card">
+          <div class="securite-card-title">🚫 Les 5 NON absolus</div>
+          <div class="securite-card-body">
+            <ul>
+              <li><strong>Ne jamais coucher sur le ventre</strong> ou sur le côté avant 1 an</li>
+              <li><strong>Pas d'oreiller, ni couette, ni tour de lit</strong> dans le berceau</li>
+              <li><strong>Pas de partage du lit</strong> avec les parents (risque d'écrasement)</li>
+              <li><strong>Pas de tabac</strong> dans l'environnement du bébé</li>
+              <li><strong>Pas de surchauffe</strong> : ni trop chaud, ni trop froid</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="securite-card" style="border-color:#fed7aa;background:linear-gradient(135deg,#fff7ed,#ffedd5)">
+          <div class="securite-card-title" style="color:#c2410c">✅ Les bonnes pratiques</div>
+          <div class="securite-card-body">
+            <ul>
+              <li><strong>Toujours sur le dos</strong> : position la plus sûre prouvée scientifiquement</li>
+              <li><strong>Surface ferme et plate</strong> : matelas adapté bébé (pas de canapé, fauteuil)</li>
+              <li><strong>Turbulette / gigoteuse</strong> à la place de la couverture</li>
+              <li><strong>Chambre à 18-20°C</strong> : température idéale recommandée par la HAS</li>
+              <li><strong>Tétine</strong> : son usage est associé à une réduction du risque de MSN</li>
+              <li><strong>Allaitement</strong> : réduit le risque de MSN de 50% selon les études</li>
+              <li><strong>Dans la chambre des parents</strong> les 6 premiers mois, sans partager le lit</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="securite-card" style="border-color:#bbf7d0;background:linear-gradient(135deg,#f0fdf4,#dcfce7)">
+          <div class="securite-card-title" style="color:#166534">💡 Signes que bébé a trop chaud</div>
+          <div class="securite-card-body">
+            <ul>
+              <li>Nuque moite et chaude au toucher</li>
+              <li>Joues très rouges</li>
+              <li>Transpiration visible</li>
+              <li>Agitation inhabituelle</li>
+            </ul>
+            <div style="margin-top:8px;font-size:12px;color:#166534;font-weight:600">👉 Règle simple : bébé porte autant de couches que vous + 1</div>
+          </div>
+        </div>
+
+        <div class="securite-card" style="border-color:#c4b5fd;background:linear-gradient(135deg,#f5f3ff,#ede9fe)">
+          <div class="securite-card-title" style="color:#5b21b6">🌙 Le cododo sécurisé</div>
+          <div class="securite-card-body">
+            <div style="margin-bottom:8px">Si vous souhaitez garder bébé proche la nuit, le lit cododo attaché au lit parental est une alternative plus sûre au partage de lit.</div>
+            <ul>
+              <li>Le cododo strict (même lit) est <strong>déconseillé</strong> si : alcool, médicaments, tabac, obésité</li>
+              <li>La <strong>surface ferme séparée</strong> dans la chambre reste la recommandation officielle OMS/HAS</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RYTHMES PAR AGE -->
+    <div id="sommeil-rythmes" style="display:none">
+      <div class="card" style="border:none;padding:0;background:transparent;box-shadow:none">
+        <div style="background:linear-gradient(135deg,#0ea5e9,#38bdf8);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">⏰</div>
+          <div style="font-size:16px;font-weight:800;margin-bottom:4px">Rythmes & cycles</div>
+          <div style="font-size:12px;opacity:0.85">Comprendre le sommeil de bébé pour mieux l'accompagner</div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#0ea5e9">
+          <div class="oms-card-header">
+            <span class="oms-card-icon">🔄</span>
+            <span class="oms-card-title" style="color:#0369a1">Le cycle de sommeil de bébé</span>
+          </div>
+          <div class="oms-card-body">
+            Le cycle de sommeil d'un nouveau-né dure <strong>50-60 minutes</strong> (vs 90 min pour l'adulte). Il alterne entre :
+            <ul style="margin-top:6px">
+              <li><strong>Sommeil agité (paradoxal)</strong> : bébé bouge, grimace, peut pleurer — c'est normal !</li>
+              <li><strong>Sommeil calme (profond)</strong> : bébé est immobile, respiration régulière</li>
+            </ul>
+            <div class="oms-tip">💡 Entre deux cycles, bébé peut se réveiller brièvement. Si vous attendez quelques secondes, il se rendort souvent seul.</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#0ea5e9">
+          <div class="oms-card-header">
+            <span class="oms-card-icon">📅</span>
+            <span class="oms-card-title" style="color:#0369a1">Évolution semaine par semaine</span>
+          </div>
+          <div class="oms-card-body">
+            <ul>
+              <li><strong>0-6 semaines</strong> : pas de différence jour/nuit, 16-18h de sommeil total</li>
+              <li><strong>6-12 semaines</strong> : début de synchronisation jour/nuit</li>
+              <li><strong>3-4 mois</strong> : nuits qui s'allongent, 3-4 siestes par jour</li>
+              <li><strong>6 mois</strong> : beaucoup de bébés font leurs nuits (5-6h continues)</li>
+              <li><strong>9-12 mois</strong> : passage à 2 siestes, nuits de 10-12h</li>
+              <li><strong>15-18 mois</strong> : passage à 1 sieste après le déjeuner</li>
+            </ul>
+            <div class="oms-tip">💡 Ces étapes sont des moyennes. Chaque bébé est différent, ne vous comparez pas !</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#0ea5e9">
+          <div class="oms-card-header">
+            <span class="oms-card-icon">😴</span>
+            <span class="oms-card-title" style="color:#0369a1">Signes de fatigue à ne pas manquer</span>
+          </div>
+          <div class="oms-card-body">
+            Agir aux <strong>premiers signes</strong> est crucial pour éviter la sur-fatigue :
+            <ul style="margin-top:6px">
+              <li>Se frotte les yeux ou les oreilles</li>
+              <li>Bâillements répétés</li>
+              <li>Regard dans le vide, moins réactif</li>
+              <li>Irritabilité croissante</li>
+              <li>Mouvements saccadés des membres</li>
+            </ul>
+            <div class="oms-tip">⚠️ Un bébé sur-fatigué a plus de mal à s'endormir — paradoxal mais réel !</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#0ea5e9">
+          <div class="oms-card-header">
+            <span class="oms-card-icon">🌅</span>
+            <span class="oms-card-title" style="color:#0369a1">Rituels du coucher</span>
+          </div>
+          <div class="oms-card-body">
+            Un rituel régulier aide bébé à <strong>anticiper le sommeil</strong> et s'endormir plus facilement :
+            <ul style="margin-top:6px">
+              <li>Bain tiède (pas obligatoire chaque soir)</li>
+              <li>Massage doux</li>
+              <li>Tétée ou biberon</li>
+              <li>Lumière tamisée</li>
+              <li>Chanson, berceuse ou voix calme</li>
+              <li>Coucher avant le pic de fatigue</li>
+            </ul>
+            <div class="oms-tip">💡 La constance est plus importante que le rituel lui-même. La même séquence chaque soir crée un signal pavlovien puissant.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ALIMENTATION ===== -->
+<div id="alim" class="section">
+  <button class="back-btn" onclick="retourAccueil()">← Retour</button>
+  <div class="sec-inner">
+    <div class="alim-tabs">
+      <button class="alim-tab active" onclick="switchAlimTab('evolution',this)">📈 Évolution</button>
+      <button class="alim-tab" onclick="switchAlimTab('aliments',this)">🥦 Aliments</button>
+      <button class="alim-tab" onclick="switchAlimTab('suivi',this)">📋 Suivi repas</button>
+      <button class="alim-tab" onclick="switchAlimTab('conseils',this)">💡 Conseils</button>
+    </div>
+
+    <!-- EVOLUTION -->
+    <div id="alim-evolution">
+      <div style="background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+        <div style="font-size:36px;margin-bottom:8px">🥣</div>
+        <div style="font-size:16px;font-weight:800;margin-bottom:4px">Évolution alimentaire</div>
+        <div style="font-size:12px;opacity:0.85">Guide OMS & pédiatrique complet de 0 à 3 ans</div>
+      </div>
+
+      <div class="alim-phase">
+        <div class="alim-phase-header">
+          <span class="alim-phase-icon">🍼</span>
+          <span class="alim-phase-title">Lait exclusif</span>
+          <span class="alim-phase-age">0-6 mois</span>
+        </div>
+        <div class="alim-phase-body">
+          L'OMS recommande l'<strong>allaitement maternel exclusif pendant 6 mois</strong>. Si impossible, le lait infantile 1er âge est l'unique alternative.
+          <ul>
+            <li>À la demande : 8 à 12 tétées/biberons par 24h au début</li>
+            <li>Biberon : environ 150-180 ml par prise à 1 mois, 180-210 ml à 3-4 mois</li>
+            <li><strong>Aucun autre aliment ni eau</strong> avant 6 mois (sauf avis médical)</li>
+            <li>Les selles peuvent être très espacées (jusqu'à 10 jours) chez les allaités — c'est normal</li>
+          </ul>
+          <div class="alim-tip">💡 Le lait maternel contient tout ce dont bébé a besoin : anticorps, vitamines, minéraux, graisses essentielles.</div>
+        </div>
+      </div>
+
+      <div class="alim-phase">
+        <div class="alim-phase-header">
+          <span class="alim-phase-icon">🥕</span>
+          <span class="alim-phase-title">Diversification alimentaire</span>
+          <span class="alim-phase-age">4-6 mois</span>
+        </div>
+        <div class="alim-phase-body">
+          <strong>Jamais avant 4 mois révolus</strong> (risque allergique et digestif). L'OMS conseille d'attendre 6 mois, certains pédiatres français recommandent entre 4 et 6 mois.
+          <ul>
+            <li>Introduire <strong>un aliment à la fois</strong>, attendre 3-5 jours avant le suivant</li>
+            <li>Commencer par les légumes en purée lisse (carotte, courgette, haricots verts)</li>
+            <li>Puis les fruits (pomme, poire, banane, abricot)</li>
+            <li>Texture : purée très lisse au début, progressivement moins fine</li>
+            <li>Quantités : commencer par 1-2 cuillères à café, augmenter progressivement</li>
+          </ul>
+          <div class="alim-tip">💡 Le lait reste l'aliment principal jusqu'à 1 an. La diversification est un apprentissage, pas une nutrition.</div>
+          <div class="alim-alerte">⚠️ Allergènes à introduire progressivement dès la diversification : arachides, œufs, gluten, poisson, fruits à coque (jamais entiers avant 5 ans).</div>
+        </div>
+      </div>
+
+      <div class="alim-phase">
+        <div class="alim-phase-header">
+          <span class="alim-phase-icon">🍲</span>
+          <span class="alim-phase-title">Alimentation mixte</span>
+          <span class="alim-phase-age">6-12 mois</span>
+        </div>
+        <div class="alim-phase-body">
+          Bébé mange de plus en plus varié tout en gardant le lait comme base :
+          <ul>
+            <li><strong>Protéines animales</strong> : viande/poisson/œuf dès 6 mois — max 10g/j à 6m, 20g/j à 8m</li>
+            <li><strong>Féculents</strong> : riz, semoule, pomme de terre, pain</li>
+            <li><strong>Matières grasses</strong> : 1 cuillère d'huile végétale (colza/olive) par repas</li>
+            <li><strong>Eau seule</strong> à proposer dès le début de la diversification</li>
+            <li>Progression des textures : lisse → mouliné → écrasé → morceaux mous</li>
+            <li>Vers 9-12 mois : possible passage au lait de croissance (2e âge)</li>
+          </ul>
+          <div class="alim-tip">💡 La DME (Diversification Menée par l'Enfant) est une approche validée : bébé mange des morceaux adaptés et gère sa quantité seul.</div>
+        </div>
+      </div>
+
+      <div class="alim-phase">
+        <div class="alim-phase-header">
+          <span class="alim-phase-icon">🍽️</span>
+          <span class="alim-phase-title">Alimentation familiale adaptée</span>
+          <span class="alim-phase-age">12-24 mois</span>
+        </div>
+        <div class="alim-phase-body">
+          Bébé rejoint progressivement les repas de famille :
+          <ul>
+            <li>Lait de croissance (3e âge) recommandé jusqu'à 3 ans : apporte fer et DHA</li>
+            <li>Structure 4 repas : petit-déjeuner, déjeuner, goûter, dîner</li>
+            <li>Pas de sel ajouté avant 1 an, peu de sel jusqu'à 3 ans</li>
+            <li>Pas de miel avant 1 an (risque botulisme)</li>
+            <li>Pas de lait de vache en boisson principale avant 1 an</li>
+            <li>Limiter sucre ajouté et jus de fruits</li>
+          </ul>
+          <div class="alim-tip">💡 Le néophobie alimentaire (refus des nouveaux aliments) est normale vers 18 mois — continuer à proposer sans forcer.</div>
+        </div>
+      </div>
+
+      <div class="alim-phase" style="border-left-color:#10b981">
+        <div class="alim-phase-header">
+          <span class="alim-phase-icon">🌿</span>
+          <span class="alim-phase-title">Alimentation équilibrée</span>
+          <span class="alim-phase-age">2-3 ans</span>
+        </div>
+        <div class="alim-phase-body">
+          Vers 2-3 ans, l'enfant mange comme la famille avec quelques adaptations :
+          <ul>
+            <li>5 portions de fruits et légumes par jour (adaptées en taille)</li>
+            <li>Féculents à chaque repas selon appétit</li>
+            <li>Produits laitiers 3-4 par jour (lait, yaourt, fromage)</li>
+            <li>Viande/poisson/œuf 1-2 fois par jour en petites portions</li>
+          </ul>
+          <div class="alim-tip">💡 À cet âge, l'enfant autorégugle sa faim naturellement. Ne le forcez jamais à finir son assiette.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALIMENTS -->
+    <div id="alim-aliments" style="display:none">
+      <div class="card" style="border:none;padding:0;background:transparent;box-shadow:none">
+        <div style="background:linear-gradient(135deg,#16a34a,#22c55e);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">🥦</div>
+          <div style="font-size:16px;font-weight:800;margin-bottom:4px">Guide des aliments</div>
+          <div style="font-size:12px;opacity:0.85">À introduire · à éviter · âges recommandés</div>
+        </div>
+
+        <div class="alim-phase" style="border-left-color:#16a34a">
+          <div class="alim-phase-header"><span class="alim-phase-icon">✅</span><span class="alim-phase-title" style="color:#166534">Légumes recommandés (dès 4-6 mois)</span></div>
+          <div class="alim-phase-body">
+            <div class="aliment-grid">
+              <div class="aliment-card" style="background:#f0fdf4">
+                <div class="aliment-card-title" style="color:#166534">🥕 Premiers légumes</div>
+                <div class="aliment-card-list">Carotte · Courgette · Haricots verts · Panais · Patate douce · Poireau · Brocoli · Potiron</div>
+              </div>
+              <div class="aliment-card" style="background:#f0fdf4">
+                <div class="aliment-card-title" style="color:#166534">🍅 À partir de 8 mois</div>
+                <div class="aliment-card-list">Tomate (pelée) · Poivron (cuit) · Épinards · Betterave · Fenouil · Aubergine</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alim-phase" style="border-left-color:#f59e0b">
+          <div class="alim-phase-header"><span class="alim-phase-icon">🍎</span><span class="alim-phase-title" style="color:#92400e">Fruits recommandés</span></div>
+          <div class="alim-phase-body">
+            <div class="aliment-grid">
+              <div class="aliment-card" style="background:#fffbeb">
+                <div class="aliment-card-title" style="color:#92400e">🍌 Dès 4-6 mois</div>
+                <div class="aliment-card-list">Pomme · Poire · Banane · Abricot · Pêche · Melon · Mangue</div>
+              </div>
+              <div class="aliment-card" style="background:#fffbeb">
+                <div class="aliment-card-title" style="color:#92400e">🍓 Avec précaution</div>
+                <div class="aliment-card-list">Fraise (dès 6m, allergène) · Kiwi (dès 6m) · Fruits rouges · Agrumes (dès 6m)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="alim-phase" style="border-left-color:#6366f1">
+          <div class="alim-phase-header"><span class="alim-phase-icon">🥩</span><span class="alim-phase-title" style="color:#3730a3">Protéines animales (dès 6 mois)</span></div>
+          <div class="alim-phase-body">
+            <ul>
+              <li><strong>Viandes</strong> : poulet, dinde, veau, bœuf — bien cuit, mixé</li>
+              <li><strong>Poissons</strong> : sole, cabillaud, saumon — max 2x/semaine, sans arête</li>
+              <li><strong>Œuf entier</strong> : bien cuit (blanc et jaune), dès 6 mois</li>
+              <li><strong>Légumineuses</strong> : lentilles, pois chiches — dès 6-8 mois, bien cuites</li>
+            </ul>
+            <div class="alim-alerte">⚠️ Éviter : charcuterie, viandes fumées, saucisses avant 1 an. Thon et espadon max 1x/semaine (mercure).</div>
+          </div>
+        </div>
+
+        <div class="securite-card">
+          <div class="securite-card-title">🚫 Aliments interdits avant 1 an</div>
+          <div class="securite-card-body">
+            <div class="aliment-grid">
+              <div>
+                <ul>
+                  <li>Miel (botulisme)</li>
+                  <li>Sel ajouté</li>
+                  <li>Sucre ajouté</li>
+                  <li>Lait de vache (boisson)</li>
+                </ul>
+              </div>
+              <div>
+                <ul>
+                  <li>Œuf cru ou peu cuit</li>
+                  <li>Poisson cru (sushis)</li>
+                  <li>Fruits à coque entiers</li>
+                  <li>Alcool (évidemment)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="securite-card" style="border-color:#fed7aa;background:linear-gradient(135deg,#fff7ed,#ffedd5)">
+          <div class="securite-card-title" style="color:#c2410c">⚠️ Risques d'étouffement (avant 4-5 ans)</div>
+          <div class="securite-card-body">
+            <ul>
+              <li>Fruits à coque entiers · Raisins entiers · Cerises avec noyau</li>
+              <li>Carottes crues · Pommes crues en morceaux ronds</li>
+              <li>Bonbons durs · Chewing-gum · Popcorn</li>
+              <li>Viandes en gros morceaux · Hot-dogs entiers</li>
+            </ul>
+            <div style="margin-top:8px;font-size:12px;font-weight:600;color:#c2410c">→ Toujours couper en petits morceaux, écraser ou râper.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUIVI REPAS -->
+    <div id="alim-suivi" style="display:none">
+      <div class="card">
+        <h2>🍽️ Enregistrer un repas</h2>
+        <label>Type de repas</label>
+        <select id="meal-type">
+          <option value="sein">🤱 Tétée (sein)</option>
+          <option value="biberon">🍼 Biberon</option>
+          <option value="purée">🥕 Purée / solide</option>
+          <option value="gouter">🍌 Goûter</option>
+          <option value="eau">💧 Eau</option>
+        </select>
+        <label>Heure</label>
+        <input type="datetime-local" id="meal-heure">
+        <label>Quantité / durée (optionnel)</label>
+        <input type="text" id="meal-qte" placeholder="ex : 180ml, 10 min, 3 cuillères...">
+        <label>Aliments / note</label>
+        <input type="text" id="meal-note" placeholder="ex : purée carotte-courgette, a bien mangé...">
+        <button class="btn" style="background:linear-gradient(135deg,#d97706,#f59e0b);box-shadow:0 4px 14px rgba(217,119,6,0.3)" onclick="ajouterRepas()">Enregistrer</button>
+      </div>
+      <div class="card">
+        <h2>📋 Historique des repas</h2>
+        <div id="meal-liste"></div>
+      </div>
+    </div>
+
+    <!-- CONSEILS ALIMENTATION -->
+    <div id="alim-conseils" style="display:none">
+      <div class="card" style="border:none;padding:0;background:transparent;box-shadow:none">
+        <div style="background:linear-gradient(135deg,#7c3aed,#a78bfa);border-radius:18px;padding:20px;margin-bottom:18px;color:white;text-align:center">
+          <div style="font-size:36px;margin-bottom:8px">💡</div>
+          <div style="font-size:16px;font-weight:800;margin-bottom:4px">Conseils pratiques</div>
+          <div style="font-size:12px;opacity:0.85">Pédiatres, OMS & sage-femmes</div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#7c3aed">
+          <div class="oms-card-header"><span class="oms-card-icon">🤱</span><span class="oms-card-title" style="color:#5b21b6">Allaitement : les clés du succès</span></div>
+          <div class="oms-card-body">
+            <ul>
+              <li>Mise au sein dans la <strong>première heure</strong> après la naissance</li>
+              <li>Allaitement <strong>à la demande</strong> : ne pas regarder l'horloge</li>
+              <li>Une tétée complète vide un sein, puis l'autre</li>
+              <li>Le lait se fabrique selon la demande : plus bébé tète, plus il y en a</li>
+              <li>Boire suffisamment d'eau (1,5-2L/jour) aide la production</li>
+            </ul>
+            <div class="oms-tip">💡 Une consultante en lactation (IBCLC) peut aider en cas de difficultés — n'attendez pas !</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#7c3aed">
+          <div class="oms-card-header"><span class="oms-card-icon">🍼</span><span class="oms-card-title" style="color:#5b21b6">Biberon : bien le préparer</span></div>
+          <div class="oms-card-body">
+            <ul>
+              <li>Eau du robinet ou eau minérale faiblement minéralisée (résidu sec &lt;500mg/L)</li>
+              <li>Toujours <strong>eau d'abord</strong>, puis poudre (1 mesure pour 30ml)</li>
+              <li>Température : tiède ou température ambiante (pas obligatoirement chaud)</li>
+              <li>Lait préparé à consommer dans l'heure, ou conserver 24h au frigo</li>
+              <li>Stériliser les biberons jusqu'à 6 mois</li>
+            </ul>
+            <div class="oms-tip">💡 Le lait infantile est encadré par des normes strictes en Europe — tous les laits 1er âge sont équivalents nutritionnellement.</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#7c3aed">
+          <div class="oms-card-header"><span class="oms-card-icon">🥣</span><span class="oms-card-title" style="color:#5b21b6">Diversification réussie</span></div>
+          <div class="oms-card-body">
+            <ul>
+              <li>Choisir un moment où bébé est <strong>calme et éveillé</strong>, pas affamé</li>
+              <li>Proposer les légumes en premier (avant les fruits, plus sucrés)</li>
+              <li>Ne jamais forcer : un refus peut prendre 10-15 présentations</li>
+              <li>Les grimaces ne signifient pas qu'il n'aime pas — c'est juste nouveau !</li>
+              <li>Manger en famille dès que possible : l'imitation accélère l'apprentissage</li>
+              <li>Textures progressives : lisse → grumeleux → morceaux écrasés → morceaux</li>
+            </ul>
+            <div class="oms-tip">💡 L'objectif de la diversification est d'apprendre à manger, pas de nourrir. Le lait reste la base jusqu'à 1 an.</div>
+          </div>
+        </div>
+
+        <div class="oms-card" style="border-left-color:#7c3aed">
+          <div class="oms-card-header"><span class="oms-card-icon">💊</span><span class="oms-card-title" style="color:#5b21b6">Compléments recommandés</span></div>
+          <div class="oms-card-body">
+            <ul>
+              <li><strong>Vitamine D</strong> : 1000-1200 UI/jour dès la naissance jusqu'à 18 mois minimum (recommandation Société Française de Pédiatrie)</li>
+              <li><strong>Vitamine K</strong> : donnée à la maternité à la naissance</li>
+              <li><strong>Fer</strong> : si allaitement exclusif après 6 mois, discuter avec le pédiatre</li>
+              <li><strong>Fluorure</strong> : selon recommandation du pédiatre et eau du robinet locale</li>
+            </ul>
+            <div class="alim-alerte">⚠️ Ne jamais donner de compléments sans avis médical. La vitamine D reste le seul complément systématique.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 // ===================== NAVIGATION =====================
 function ouvrirSection(id) {
@@ -707,6 +1341,8 @@ function ouvrirSection(id) {
   if (id === 'rdv') { renderCalendrier(); afficherListeRdv(); }
   if (id === 'admin') { afficherAdminTodos(); afficherContacts(); afficherDocs(); }
   if (id === 'signes') afficherSignes();
+  if (id === 'sommeil') { majToutSommeil(); filtrerConseilsAge('0-3', null); }
+  if (id === 'alim') afficherRepas();
 }
 
 function retourAccueil() {
@@ -1795,6 +2431,397 @@ function ouvrirFiche(id, isCustom) {
   document.getElementById('fiche-modal').classList.add('open');
 }
 
+// ===================== SOMMEIL — TABLEAU DE BORD COMPLET =====================
+
+const SLEEP_NORMS = {
+  0:  { totalMin:14*60, totalMax:17*60, nuitMin:8*60,  nuitMax:10*60, nbSiestes:[4,6], label:'0-1 mois'  },
+  1:  { totalMin:14*60, totalMax:17*60, nuitMin:8*60,  nuitMax:10*60, nbSiestes:[3,5], label:'1-2 mois'  },
+  2:  { totalMin:13*60, totalMax:16*60, nuitMin:9*60,  nuitMax:11*60, nbSiestes:[3,4], label:'2-3 mois'  },
+  3:  { totalMin:13*60, totalMax:16*60, nuitMin:9*60,  nuitMax:11*60, nbSiestes:[3,4], label:'3-4 mois'  },
+  4:  { totalMin:12*60, totalMax:16*60, nuitMin:10*60, nuitMax:12*60, nbSiestes:[3,3], label:'4-6 mois'  },
+  6:  { totalMin:12*60, totalMax:15*60, nuitMin:10*60, nuitMax:12*60, nbSiestes:[2,3], label:'6-9 mois'  },
+  9:  { totalMin:12*60, totalMax:15*60, nuitMin:10*60, nuitMax:12*60, nbSiestes:[2,2], label:'9-12 mois' },
+  12: { totalMin:11*60, totalMax:14*60, nuitMin:10*60, nuitMax:12*60, nbSiestes:[1,2], label:'12-18 mois'},
+  18: { totalMin:11*60, totalMax:14*60, nuitMin:10*60, nuitMax:12*60, nbSiestes:[1,1], label:'18-24 mois'},
+  24: { totalMin:10*60, totalMax:13*60, nuitMin:10*60, nuitMax:11*60, nbSiestes:[0,1], label:'2-3 ans'   }
+};
+let sleepChartBar = null;
+
+function getAgeKey() { const s=document.getElementById('sleep-age-bebe'); return s?parseInt(s.value):4; }
+function getNorm()   { return SLEEP_NORMS[getAgeKey()]||SLEEP_NORMS[4]; }
+
+function switchSommeilTab(tab, btn) {
+  document.querySelectorAll('.sommeil-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('sommeil-suivi').style.display    = tab==='suivi'    ?'block':'none';
+  document.getElementById('sommeil-conseils').style.display = tab==='conseils' ?'block':'none';
+  document.getElementById('sommeil-securite').style.display = tab==='securite' ?'block':'none';
+  document.getElementById('sommeil-rythmes').style.display  = tab==='rythmes'  ?'block':'none';
+  if (tab==='suivi')    majToutSommeil();
+  if (tab==='conseils') filtrerConseilsAge('0-3', document.querySelector('.age-btn'));
+}
+
+function majToutSommeil() {
+  afficherSommeils(); majScoreSommeil(); majStatsRapides(); majAlertesConseils(); renderSleepChart(); renderTimeline();
+}
+
+function ajouterSommeil() {
+  const debut=document.getElementById('sleep-debut').value, fin=document.getElementById('sleep-fin').value;
+  if(!debut||!fin){alert('Veuillez indiquer début et fin');return;}
+  const d=new Date(debut),f=new Date(fin);
+  if(f<=d){alert('La fin doit être après le début');return;}
+  const dureeMin=Math.round((f-d)/60000);
+  const sommeils=JSON.parse(localStorage.getItem('sommeils')||'[]');
+  sommeils.unshift({id:Date.now(),type:document.getElementById('sleep-type').value,
+    qualite:document.getElementById('sleep-qualite').value,debut,fin,dureeMin,
+    note:document.getElementById('sleep-note').value.trim()});
+  localStorage.setItem('sommeils',JSON.stringify(sommeils));
+  document.getElementById('sleep-fin').value='';
+  document.getElementById('sleep-note').value='';
+  majToutSommeil(); sauvegarderCloud();
+}
+
+function supprimerSommeil(id) {
+  localStorage.setItem('sommeils',JSON.stringify(JSON.parse(localStorage.getItem('sommeils')||'[]').filter(s=>s.id!==id)));
+  majToutSommeil(); sauvegarderCloud();
+}
+
+function formatDuree(min) {
+  if(!min||min<=0)return'—';
+  if(min<60)return min+'min';
+  const h=Math.floor(min/60),m=min%60;
+  return h+'h'+(m>0?String(m).padStart(2,'0'):'');
+}
+
+function getSommeils7j() {
+  return JSON.parse(localStorage.getItem('sommeils')||'[]').filter(s=>new Date(s.debut).getTime()>Date.now()-7*24*3600000);
+}
+function getSommeils24h() {
+  return JSON.parse(localStorage.getItem('sommeils')||'[]').filter(s=>new Date(s.debut).getTime()>Date.now()-24*3600000);
+}
+
+function majScoreSommeil() {
+  const norm=getNorm(), s7j=getSommeils7j(), s24h=getSommeils24h();
+  if(!s7j.length)return;
+  let score=100;
+  const total24=s24h.reduce((a,x)=>a+x.dureeMin,0);
+  const nuits=s7j.filter(x=>x.type==='nuit');
+  const siestes=s7j.filter(x=>x.type==='sieste');
+  const moyNuit=nuits.length?nuits.reduce((a,x)=>a+x.dureeMin,0)/nuits.length:0;
+  const nbSiestesJ=siestes.length/7;
+  const agites=s7j.filter(x=>x.qualite==='agite'||x.qualite==='court').length;
+  if(total24<norm.totalMin*0.8)score-=30; else if(total24<norm.totalMin)score-=15; else if(total24>norm.totalMax*1.2)score-=10;
+  if(moyNuit<norm.nuitMin*0.8)score-=20; else if(moyNuit<norm.nuitMin)score-=10;
+  if(nbSiestesJ<norm.nbSiestes[0]-0.5)score-=15; else if(nbSiestesJ>norm.nbSiestes[1]+0.5)score-=5;
+  score-=Math.min(25,agites*5); score=Math.max(0,Math.min(100,score));
+  let emoji,label,sub,bg;
+  if(score>=80){emoji='🌟';label='Excellent !';sub='Le sommeil de bébé est très bon.';bg='linear-gradient(135deg,#10b981,#059669)';}
+  else if(score>=60){emoji='😊';label="Bien dans l'ensemble";sub='Quelques ajustements possibles.';bg='linear-gradient(135deg,#6366f1,#818cf8)';}
+  else if(score>=40){emoji='😐';label='Peut mieux faire';sub='Des améliorations sont nécessaires.';bg='linear-gradient(135deg,#f59e0b,#d97706)';}
+  else if(score>=20){emoji='😟';label='Sommeil insuffisant';sub='Bébé manque de sommeil — lisez les conseils ci-dessous.';bg='linear-gradient(135deg,#ef4444,#dc2626)';}
+  else{emoji='🚨';label='Attention !';sub='Consultez votre pédiatre si cela dure.';bg='linear-gradient(135deg,#7f1d1d,#dc2626)';}
+  const card=document.getElementById('sleep-score-card');
+  if(card)card.style.background=bg;
+  const setTxt=(id,v)=>{const el=document.getElementById(id);if(el)el.textContent=v;};
+  setTxt('sleep-score-emoji',emoji); setTxt('sleep-score-label',label+' '+score+'/100'); setTxt('sleep-score-sub',sub);
+}
+
+function majStatsRapides() {
+  const norm=getNorm(),s24h=getSommeils24h(),s7j=getSommeils7j();
+  const nuits=s7j.filter(x=>x.type==='nuit'), siestes=s7j.filter(x=>x.type==='sieste');
+  const total24=s24h.reduce((a,x)=>a+x.dureeMin,0);
+  const moyNuit=nuits.length?Math.round(nuits.reduce((a,x)=>a+x.dureeMin,0)/nuits.length):0;
+  const nbSiestesJ=Math.round(siestes.length/7*10)/10;
+  const agites=s7j.filter(x=>x.qualite==='agite'||x.qualite==='court').length;
+  const ok='#10b981',warn='#f59e0b',bad='#ef4444';
+  const cT=total24>=norm.totalMin&&total24<=norm.totalMax?ok:total24<norm.totalMin*0.85||total24>norm.totalMax*1.15?bad:warn;
+  const cN=moyNuit>=norm.nuitMin&&moyNuit<=norm.nuitMax?ok:moyNuit<norm.nuitMin*0.8?bad:warn;
+  const cS=nbSiestesJ>=norm.nbSiestes[0]&&nbSiestesJ<=norm.nbSiestes[1]?ok:warn;
+  const cA=agites>3?bad:agites>1?warn:ok;
+  const el=document.getElementById('sleep-stats-grid'); if(!el)return;
+  el.innerHTML=
+    statCard('⏱️ Total 24h',formatDuree(total24),cT,'OMS: '+formatDuree(norm.totalMin)+'–'+formatDuree(norm.totalMax))+
+    statCard('🌙 Moy. nuit',formatDuree(moyNuit),cN,'OMS: '+formatDuree(norm.nuitMin)+'–'+formatDuree(norm.nuitMax))+
+    statCard('😴 Siestes/j',nbSiestesJ||'—',cS,'OMS: '+norm.nbSiestes[0]+'–'+norm.nbSiestes[1]+'/j')+
+    statCard('😣 Agitées',agites+'/7j',cA,'Sur 7 jours');
+}
+
+function statCard(label,val,color,sub){
+  const icon=color==='#10b981'?'✅':color==='#f59e0b'?'⚠️':'❌';
+  return `<div style="background:white;border:1.5px solid #e0e7ff;border-radius:16px;padding:14px;text-align:center">
+    <div style="font-size:10px;color:#9ca3af;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px">${label}</div>
+    <div style="font-size:20px;font-weight:800;color:${color}">${val}</div>
+    <div style="font-size:10px;color:#9ca3af;margin-top:4px">${sub}</div>
+    <div style="font-size:14px;margin-top:4px">${icon}</div></div>`;
+}
+
+function fenetreEveil(age){
+  if(age<=1)return'45-60 min entre chaque sieste';
+  if(age<=3)return'1h-1h30 entre chaque sieste';
+  if(age<=5)return'1h30-2h entre chaque sieste';
+  if(age<=9)return'2h-2h30 entre chaque sieste';
+  return'3h-4h entre chaque sieste';
+}
+
+function majAlertesConseils() {
+  const norm=getNorm(),s24h=getSommeils24h(),s7j=getSommeils7j();
+  const el=document.getElementById('sleep-alertes'); if(!el)return;
+  if(!s7j.length){el.innerHTML='';return;}
+  const total24=s24h.reduce((a,x)=>a+x.dureeMin,0);
+  const nuits=s7j.filter(x=>x.type==='nuit'), siestes=s7j.filter(x=>x.type==='sieste');
+  const moyNuit=nuits.length?nuits.reduce((a,x)=>a+x.dureeMin,0)/nuits.length:0;
+  const nbSiestesJ=siestes.length/7;
+  const agites=s7j.filter(x=>x.qualite==='agite'||x.qualite==='court').length;
+  const alertes=[];
+  if(total24<norm.totalMin*0.8){
+    alertes.push({type:'danger',titre:"🚨 Sommeil très insuffisant aujourd'hui",
+      corps:`Bébé a dormi ${formatDuree(total24)} sur 24h. OMS recommande ${formatDuree(norm.totalMin)}–${formatDuree(norm.totalMax)}.`,
+      conseils:["Proposer une sieste supplémentaire dans l'après-midi","Avancer le coucher de 30 à 45 min","Guetter les signes de fatigue (frottement des yeux, bâillements)","Éviter toute stimulation intense 1h avant le coucher"]});
+  } else if(total24<norm.totalMin){
+    alertes.push({type:'warn',titre:"⚠️ Un peu court aujourd'hui",
+      corps:`${formatDuree(total24)} dormis. Il manque environ ${formatDuree(norm.totalMin-total24)} pour atteindre le minimum recommandé.`,
+      conseils:['Proposer une sieste de rattrapage si bébé montre des signes de fatigue','Coucher légèrement plus tôt ce soir']});
+  } else {
+    alertes.push({type:'ok',titre:'✅ Total journalier excellent',
+      corps:`${formatDuree(total24)} — exactement dans la fourchette OMS pour ${norm.label}. Continuez !`,conseils:[]});
+  }
+  if(moyNuit>0&&moyNuit<norm.nuitMin*0.8){
+    alertes.push({type:'danger',titre:'🌙 Nuits trop courtes',
+      corps:`Moyenne de ${formatDuree(Math.round(moyNuit))} par nuit. OMS recommande ${formatDuree(norm.nuitMin)}–${formatDuree(norm.nuitMax)}.`,
+      conseils:['Viser un coucher entre 19h et 20h30','Mettre en place un rituel fixe : bain → massage → biberon → berceuse','Obscurcir totalement la chambre (stores occultants)','Maintenir 18-20°C dans la chambre',"Si bébé se réveille, attendre 2-3 min avant d'intervenir"]});
+  }
+  if(norm.nbSiestes[0]>0&&nbSiestesJ<norm.nbSiestes[0]-0.3){
+    alertes.push({type:'warn',titre:'😴 Pas assez de siestes',
+      corps:`${Math.round(nbSiestesJ*10)/10} sieste(s)/j en moyenne. Idéal pour ${norm.label} : ${norm.nbSiestes[0]}–${norm.nbSiestes[1]}/j.`,
+      conseils:['Guetter les signes de fatigue toutes les 1h30–2h','Proposer la sieste sans attendre les pleurs',"Fenêtre d'éveil recommandée : "+fenetreEveil(getAgeKey())]});
+  } else if(nbSiestesJ>norm.nbSiestes[1]+0.5){
+    alertes.push({type:'warn',titre:'😴 Trop de siestes',
+      corps:`Trop de siestes peut perturber le sommeil nocturne. Essayez de limiter à ${norm.nbSiestes[1]}/j.`,
+      conseils:['Raccourcir progressivement la dernière sieste','Ne pas laisser dormir après 17h']});
+  }
+  if(agites>=4){
+    alertes.push({type:'warn',titre:'😣 Beaucoup de nuits agitées',
+      corps:`${agites} nuits/siestes agitées sur 7 jours. Cela peut indiquer un inconfort ou une régression.`,
+      conseils:['Vérifier les poussées dentaires (gencives rouges)',"Vérifier si ce n'est pas une régression du sommeil (fréquente à 4 mois, 8-10 mois, 18 mois)",'Assurer un environnement optimal : obscurité, silence relatif, 18-20°C','En cas de doute, consulter le pédiatre']});
+  }
+  el.innerHTML=alertes.map(function(a){
+    var bg=a.type==='ok'?'linear-gradient(135deg,#f0fdf4,#dcfce7)':a.type==='warn'?'linear-gradient(135deg,#fffbeb,#fef3c7)':'linear-gradient(135deg,#fef2f2,#fee2e2)';
+    var border=a.type==='ok'?'#86efac':a.type==='warn'?'#fde68a':'#fecaca';
+    var tc=a.type==='ok'?'#166534':a.type==='warn'?'#92400e':'#991b1b';
+    var conseilsHtml=a.conseils.length?('<div style="font-size:12px;color:'+tc+';font-weight:700;margin-bottom:6px">→ Que faire :</div><ul style="padding-left:16px;font-size:12px;color:#374151;line-height:1.9">'+a.conseils.map(function(c){return '<li>'+c+'</li>';}).join('')+'</ul>'):'';
+    return '<div style="background:'+bg+';border:1.5px solid '+border+';border-radius:16px;padding:16px 18px;margin-bottom:12px">'
+      +'<div style="font-size:14px;font-weight:800;color:'+tc+';margin-bottom:6px">'+a.titre+'</div>'
+      +'<div style="font-size:13px;color:#374151;margin-bottom:'+(a.conseils.length?'10px':'0')+'">'+a.corps+'</div>'
+      +conseilsHtml+'</div>';
+  }).join('');
+}
+
+function renderSleepChart() {
+  const canvas=document.getElementById('chart-sleep-bar'); if(!canvas)return;
+  const norm=getNorm(),all=JSON.parse(localStorage.getItem('sommeils')||'[]');
+  const labels=[],nuitData=[],siesteData=[];
+  for(let i=6;i>=0;i--){
+    const d=new Date(); d.setDate(d.getDate()-i);
+    labels.push(d.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit'}));
+    const jour=all.filter(s=>{const sd=new Date(s.debut);return sd.getDate()===d.getDate()&&sd.getMonth()===d.getMonth()&&sd.getFullYear()===d.getFullYear();});
+    nuitData.push(+(jour.filter(s=>s.type==='nuit').reduce((a,x)=>a+x.dureeMin,0)/60).toFixed(1));
+    siesteData.push(+(jour.filter(s=>s.type==='sieste').reduce((a,x)=>a+x.dureeMin,0)/60).toFixed(1));
+  }
+  if(sleepChartBar)sleepChartBar.destroy();
+  sleepChartBar=new Chart(canvas,{type:'bar',data:{labels,datasets:[
+    {label:'🌙 Nuit',data:nuitData,backgroundColor:'#818cf8',borderRadius:6,stack:'sleep'},
+    {label:'😴 Sieste',data:siesteData,backgroundColor:'#a5f3fc',borderRadius:6,stack:'sleep'}
+  ]},options:{responsive:true,maintainAspectRatio:false,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>ctx.dataset.label+' : '+ctx.raw+'h'}}},
+    scales:{x:{stacked:true,ticks:{color:'#9ca3af',font:{size:10}},grid:{display:false}},
+      y:{stacked:true,beginAtZero:true,max:20,ticks:{color:'#9ca3af',font:{size:10},callback:v=>v+'h'},grid:{color:'rgba(0,0,0,0.05)'}}}}});
+  const leg=document.getElementById('chart-sleep-legend');
+  if(leg)leg.innerHTML=`<span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:12px;background:#818cf8;border-radius:3px"></span>Nuit</span>
+    <span style="display:flex;align-items:center;gap:4px"><span style="display:inline-block;width:12px;height:12px;background:#a5f3fc;border-radius:3px"></span>Sieste</span>
+    <span style="color:#10b981;font-weight:700">OMS min: ${formatDuree(getNorm().totalMin)}</span>`;
+}
+
+function renderTimeline() {
+  const el=document.getElementById('sleep-timeline'); if(!el)return;
+  const now=new Date(),start=new Date(now); start.setHours(0,0,0,0);
+  const all=JSON.parse(localStorage.getItem('sommeils')||'[]');
+  const today=all.filter(s=>{const d=new Date(s.debut);return d.getDate()===now.getDate()&&d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();});
+  const minOfDay=t=>(new Date(t).getTime()-start.getTime())/60000;
+  const totalMins=24*60;
+  el.style.background='linear-gradient(90deg,#fef3c7,#fefce8)';
+  el.innerHTML='';
+  // Ligne heure actuelle
+  const nowPct=(minOfDay(now)/totalMins)*100;
+  const nowLine=document.createElement('div');
+  nowLine.style.cssText=`position:absolute;left:${nowPct}%;top:0;width:2px;height:100%;background:#ef4444;z-index:10`;
+  el.appendChild(nowLine);
+  // Blocs sommeil
+  today.forEach(s=>{
+    const dMin=Math.max(0,minOfDay(s.debut)),fMin=Math.min(totalMins,minOfDay(s.fin));
+    if(fMin<=dMin)return;
+    const left=(dMin/totalMins)*100,width=((fMin-dMin)/totalMins)*100;
+    const isNuit=s.type==='nuit';
+    const block=document.createElement('div');
+    block.style.cssText=`position:absolute;left:${left}%;width:${width}%;height:100%;background:${isNuit?'linear-gradient(135deg,#6366f1,#818cf8)':'linear-gradient(135deg,#38bdf8,#7dd3fc)'};border-radius:6px;opacity:0.9;display:flex;align-items:center;justify-content:center;overflow:hidden`;
+    block.title=`${isNuit?'🌙 Nuit':'😴 Sieste'} — ${formatDuree(s.dureeMin)}`;
+    if(width>4)block.innerHTML=`<span style="font-size:${width>8?16:11}px">${isNuit?'🌙':'😴'}</span>`;
+    el.appendChild(block);
+  });
+  // Lignes heures
+  [0,4,8,12,16,20].forEach(h=>{
+    const line=document.createElement('div');
+    line.style.cssText=`position:absolute;left:${(h/24)*100}%;top:0;width:1px;height:100%;background:rgba(0,0,0,0.08)`;
+    el.appendChild(line);
+  });
+}
+
+function afficherSommeils() {
+  const sommeils=JSON.parse(localStorage.getItem('sommeils')||'[]');
+  const liste=document.getElementById('sleep-liste'); if(!liste)return;
+  if(!sommeils.length){liste.innerHTML='<div style="text-align:center;padding:30px;color:#9ca3af;font-size:14px">Aucun sommeil enregistré<br><span style="font-size:12px">Commencez à enregistrer pour voir l\'analyse !</span></div>';return;}
+  const tc={nuit:{emoji:'🌙',label:'Nuit',bg:'#e0e7ff',color:'#3730a3'},sieste:{emoji:'😴',label:'Sieste',bg:'#dbeafe',color:'#1e40af'}};
+  const qc={bien:'😊',moyen:'😐',agite:'😣',court:'⚡'};
+  liste.innerHTML=sommeils.slice(0,20).map(s=>{
+    const t=tc[s.type]||tc.sieste,d=new Date(s.debut);
+    const ds=d.toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="sleep-log-item">
+      <div class="sleep-badge"><div class="sleep-badge-emoji">${t.emoji}</div><div class="sleep-badge-dur">${formatDuree(s.dureeMin)}</div></div>
+      <div class="sleep-info"><div class="sleep-title">${t.label} ${qc[s.qualite]||''}</div><div class="sleep-meta">${ds}${s.note?' · '+s.note:''}</div></div>
+      <button onclick="supprimerSommeil(${s.id})" style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;margin-left:auto;flex-shrink:0">×</button>
+    </div>`;
+  }).join('');
+}
+
+function majStatsSommeil(){majToutSommeil();}
+
+const CONSEILS_AGE = {
+  '0-3': {
+    duree: '14 à 17 heures par 24h',
+    details: [
+      { icon: '🌙', titre: 'Nuits courtes et fréquentes', texte: 'Les nouveau-nés dorment en cycles de 2-4h. Se lever 2 à 4 fois par nuit est tout à fait normal et nécessaire pour l\'alimentation.', tip: 'Dormez quand bébé dort ! La dette de sommeil des parents est réelle.' },
+      { icon: '☀️', titre: 'Pas de différence jour/nuit', texte: 'Le rythme circadien n\'est pas encore développé. La mélatonine maternelle via l\'allaitement aide à distinguer jour et nuit.', tip: 'Exposer bébé à la lumière naturelle le jour et obscurité totale la nuit accélère la synchronisation.' },
+      { icon: '🔄', titre: 'Cycles courts de 50-60 min', texte: 'Bébé passe plus de temps en sommeil paradoxal (agité) que l\'adulte. Les grimaces, sourires et petits cris pendant le sommeil sont normaux.', tip: 'Ne vous précipitez pas au moindre bruit — attendez quelques secondes, bébé peut se rendormir seul.' }
+    ]
+  },
+  '4-11': {
+    duree: '12 à 16 heures par 24h',
+    details: [
+      { icon: '🌙', titre: 'Nuits qui s\'allongent', texte: 'Vers 4-6 mois, beaucoup de bébés font des séquences de 5-6h continues. La régression du sommeil à 4 mois est normale (maturation cérébrale).', tip: 'La régression à 4 mois peut durer 2-6 semaines. Tenez bon !' },
+      { icon: '😴', titre: '3 siestes → 2 siestes', texte: 'Vers 6-8 mois, passage de 3 à 2 siestes. La sieste du matin disparaît en dernier. Sieste du matin (9h), sieste de l\'après-midi (13h-14h).', tip: 'Respecter la fenêtre d\'éveil : 2h entre réveil et sieste avant 6 mois, 2-3h après.' },
+      { icon: '🏠', titre: 'Apprendre à s\'endormir seul', texte: 'C\'est l\'âge idéal pour apprendre à bébé à s\'endormir sans aide. Méthode douce : poser bébé somnolent mais éveillé dans son lit.', tip: 'Cohérence et constance sont les maîtres-mots. Il peut pleurer quelques minutes — c\'est normal.' }
+    ]
+  },
+  '1-2': {
+    duree: '11 à 14 heures par 24h',
+    details: [
+      { icon: '😴', titre: '2 siestes → 1 sieste', texte: 'Vers 15-18 mois, passage à une sieste après le déjeuner (13h-15h). Ce passage peut être difficile temporairement.', tip: 'Même si l\'enfant ne dort pas, le temps calme allongé reste bénéfique.' },
+      { icon: '🌙', titre: 'Nuits de 10-12h', texte: 'La plupart des enfants font des nuits complètes. Les réveils nocturnes peuvent reprendre lors de poussées dentaires, maladies ou stress.', tip: 'Les cauchemars commencent vers 18 mois avec le développement de l\'imagination.' },
+      { icon: '📚', titre: 'Rituel essentiel', texte: 'À cet âge, le rituel du coucher est crucial : bain, histoire, câlin, lumière éteinte. La constance du rituel réduit les difficultés d\'endormissement.', tip: 'L\'heure du coucher idéale est entre 19h et 20h30 pour cet âge.' }
+    ]
+  },
+  '3-5': {
+    duree: '10 à 13 heures par 24h',
+    details: [
+      { icon: '😴', titre: 'Fin des siestes', texte: 'La sieste disparaît progressivement entre 3 et 5 ans. Maintenir un temps calme même sans dormir aide à récupérer.', tip: 'Si l\'enfant a besoin de la sieste, ne la supprimez pas — il dira lui-même quand il n\'en a plus besoin.' },
+      { icon: '👻', titre: 'Peurs nocturnes', texte: 'Les terreurs nocturnes et cauchemars sont fréquents entre 3 et 5 ans. Les terreurs nocturnes surviennent en première partie de nuit, l\'enfant ne s\'en souvient pas.', tip: 'Pas d\'écran au moins 1h avant le coucher — la lumière bleue perturbe la mélatonine.' },
+      { icon: '🌙', titre: 'Heure du coucher fixe', texte: 'Un coucher entre 19h30 et 20h30 permet une nuit suffisamment longue avant l\'école. La régularité est plus importante que l\'heure exacte.', tip: 'La lecture d\'une histoire reste le rituel le plus efficace à cet âge.' }
+    ]
+  }
+};
+
+let conseilsAgeActif = '0-3';
+
+function filtrerConseilsAge(age, btn) {
+  conseilsAgeActif = age;
+  document.querySelectorAll('.age-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const data = CONSEILS_AGE[age];
+  if (!data) return;
+  const el = document.getElementById('conseils-contenu');
+  if (!el) return;
+  el.innerHTML = `
+    <div style="background:linear-gradient(135deg,#e0e7ff,#eef2ff);border-radius:14px;padding:16px;margin-bottom:16px;text-align:center">
+      <div style="font-size:13px;color:#6b7280;margin-bottom:4px">Durée recommandée par l'OMS</div>
+      <div style="font-size:22px;font-weight:800;color:#3730a3">${data.duree}</div>
+      <div style="font-size:11px;color:#9ca3af;margin-top:2px">incluant siestes</div>
+    </div>
+    ${data.details.map(d => `
+      <div class="oms-card">
+        <div class="oms-card-header">
+          <span class="oms-card-icon">${d.icon}</span>
+          <span class="oms-card-title">${d.titre}</span>
+        </div>
+        <div class="oms-card-body">
+          <p>${d.texte}</p>
+          <div class="oms-tip">💡 ${d.tip}</div>
+        </div>
+      </div>`).join('')}`;
+}
+
+// ===================== ALIMENTATION =====================
+function switchAlimTab(tab, btn) {
+  document.querySelectorAll('.alim-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('alim-evolution').style.display = tab === 'evolution' ? 'block' : 'none';
+  document.getElementById('alim-aliments').style.display = tab === 'aliments' ? 'block' : 'none';
+  document.getElementById('alim-suivi').style.display = tab === 'suivi' ? 'block' : 'none';
+  document.getElementById('alim-conseils').style.display = tab === 'conseils' ? 'block' : 'none';
+  if (tab === 'suivi') afficherRepas();
+}
+
+function ajouterRepas() {
+  const heure = document.getElementById('meal-heure').value;
+  if (!heure) { alert('Veuillez indiquer l\'heure'); return; }
+  const repas = JSON.parse(localStorage.getItem('repas') || '[]');
+  repas.unshift({
+    id: Date.now(),
+    type: document.getElementById('meal-type').value,
+    heure,
+    qte: document.getElementById('meal-qte').value.trim(),
+    note: document.getElementById('meal-note').value.trim()
+  });
+  localStorage.setItem('repas', JSON.stringify(repas));
+  document.getElementById('meal-heure').value = '';
+  document.getElementById('meal-qte').value = '';
+  document.getElementById('meal-note').value = '';
+  afficherRepas();
+  sauvegarderCloud();
+}
+
+function afficherRepas() {
+  const repas = JSON.parse(localStorage.getItem('repas') || '[]');
+  const liste = document.getElementById('meal-liste');
+  if (!liste) return;
+  if (!repas.length) { liste.innerHTML = '<div style="text-align:center;padding:30px;color:#9ca3af;font-size:14px">Aucun repas enregistré</div>'; return; }
+  const typeConfig = {
+    sein: { emoji: '🤱', label: 'Tétée' },
+    biberon: { emoji: '🍼', label: 'Biberon' },
+    purée: { emoji: '🥕', label: 'Purée' },
+    gouter: { emoji: '🍌', label: 'Goûter' },
+    eau: { emoji: '💧', label: 'Eau' }
+  };
+  liste.innerHTML = repas.slice(0, 30).map(r => {
+    const t = typeConfig[r.type] || { emoji: '🍽️', label: r.type };
+    const d = new Date(r.heure);
+    const dateStr = d.toLocaleDateString('fr-FR', { day:'2-digit', month:'2-digit' }) + ' ' + d.toLocaleTimeString('fr-FR', { hour:'2-digit', minute:'2-digit' });
+    return `<div class="meal-log-item">
+      <div class="meal-badge">${t.emoji}</div>
+      <div class="meal-info">
+        <div class="meal-title">${t.label}${r.qte ? ' · ' + r.qte : ''}</div>
+        <div class="meal-meta">${dateStr}${r.note ? ' · ' + r.note : ''}</div>
+      </div>
+      <button onclick="supprimerRepas(${r.id})" style="background:none;border:none;color:#ef4444;font-size:18px;cursor:pointer;opacity:0.4;margin-left:auto">×</button>
+    </div>`;
+  }).join('');
+}
+
+function supprimerRepas(id) {
+  const repas = JSON.parse(localStorage.getItem('repas') || '[]').filter(r => r.id !== id);
+  localStorage.setItem('repas', JSON.stringify(repas));
+  afficherRepas();
+  sauvegarderCloud();
+}
+
 // ===================== FIREBASE SYNC =====================
 const FAMILLE_ID = 'guillaume-estelle';
 let _fbDb = null;
@@ -1832,7 +2859,7 @@ async function initFirebase() {
 }
 
 function getLocalData() {
-  const keys = ['todos','mm_cartes','rdvs','admin_todos','contacts','docs_status','budget_total','signes_custom'];
+  const keys = ['todos','mm_cartes','rdvs','admin_todos','contacts','docs_status','budget_total','signes_custom','sommeils','repas'];
   const obj = {};
   keys.forEach(k => { const v = localStorage.getItem(k); if (v) obj[k] = v; });
   ['parents','bebe','sdb','salon','cuisine','jardin','voiture','ext'].forEach(p => {
@@ -1894,6 +2921,13 @@ window.addEventListener('load', () => {
   initFirebase();
   const saved = localStorage.getItem('budget_total');
   if (saved) document.getElementById('budget-total').value = saved;
+  // Init datetime-local au moment actuel
+  const now = new Date();
+  const localIso = new Date(now.getTime() - now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+  const sleepDebut = document.getElementById('sleep-debut');
+  const mealHeure = document.getElementById('meal-heure');
+  if (sleepDebut) sleepDebut.value = localIso;
+  if (mealHeure) mealHeure.value = localIso;
 });
 
 window.addEventListener('resize', () => {
